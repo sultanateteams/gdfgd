@@ -1,52 +1,67 @@
 <template>
-  <div class="layout" :class="{ 'sidebar-collapsed': isCollapsed, 'dark-mode': isDarkMode }">
-    
+  <div
+    class="layout"
+    :class="{ 'sidebar-collapsed': isCollapsed, 'dark-mode': isDarkMode }"
+  >
     <!-- Sidebar Overlay (mobile) -->
-    <div 
-      v-if="isMobileOpen" 
-      class="sidebar-overlay" 
+    <div
+      v-if="isMobileOpen"
+      class="sidebar-overlay"
       @click="closeMobileSidebar"
     />
 
     <!-- ═══════════════════════════════ SIDEBAR ═══════════════════════════════ -->
     <aside class="sidebar" :class="{ 'mobile-open': isMobileOpen }">
-      
       <!-- Logo Area -->
       <div class="sidebar-logo">
-        <div class="logo-icon">
+        <div class="logo-icon" v-if="!isCollapsed">
           <svg viewBox="0 0 32 32" fill="none">
-            <rect width="32" height="32" rx="8" fill="#4F46E5"/>
-            <path d="M8 22L16 10L24 22" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="16" cy="10" r="2" fill="#06B6D4"/>
+            <rect width="32" height="32" rx="8" fill="#4F46E5" />
+            <path
+              d="M8 22L16 10L24 22"
+              stroke="white"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <circle cx="16" cy="10" r="2" fill="#06B6D4" />
           </svg>
         </div>
-        <div class="logo-text">
+        <div class="logo-text" v-if="!isCollapsed">
           <span class="logo-name">HRM System</span>
           <span class="logo-version">v2.0</span>
         </div>
-        <button class="sidebar-close-btn" @click="closeMobileSidebar">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 6L6 18M6 6l12 12"/>
+        <button
+          class="hamburger-btn"
+          @click="toggleSidebar"
+          aria-label="Toggle sidebar"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M3 12h18M3 6h18M3 18h18" />
           </svg>
         </button>
       </div>
 
       <!-- Navigation -->
       <nav class="sidebar-nav">
-
         <!-- Main Menu -->
         <div class="nav-group">
           <span class="nav-group-label">Main Menu</span>
-          <RouterLink 
-            v-for="item in mainMenuItems" 
+          <RouterLink
+            v-for="item in mainMenuItems"
             :key="item.name"
-            :to="item.to" 
+            :to="item.to"
             class="nav-item"
             :class="{ active: isActive(item.to) }"
             :title="isCollapsed ? item.label : ''"
           >
             <span class="nav-icon" v-html="item.icon" />
-            <span class="nav-label">{{ item.label }}</span>
+            <span class="nav-label" v-if="!isCollapsed">{{ item.label }}</span>
             <span v-if="item.badge" class="nav-badge">{{ item.badge }}</span>
           </RouterLink>
         </div>
@@ -54,33 +69,33 @@
         <!-- Workforce -->
         <div class="nav-group">
           <span class="nav-group-label">Workforce</span>
-          <RouterLink 
-            v-for="item in workforceItems" 
+          <RouterLink
+            v-for="item in workforceItems"
             :key="item.name"
-            :to="item.to" 
+            :to="item.to"
             class="nav-item"
             :class="{ active: isActive(item.to) }"
             :title="isCollapsed ? item.label : ''"
           >
             <span class="nav-icon" v-html="item.icon" />
-            <span class="nav-label">{{ item.label }}</span>
-            <span v-if="item.badge" class="nav-badge">{{ item.badge }}</span>
+            <span class="nav-label" v-if="!isCollapsed">{{ item.label }}</span>
+            <span v-if="item.badge && !isCollapsed" class="nav-badge">{{ item.badge }}</span>
           </RouterLink>
         </div>
 
         <!-- Finance -->
         <div class="nav-group">
           <span class="nav-group-label">Finance</span>
-          <RouterLink 
-            v-for="item in financeItems" 
+          <RouterLink
+            v-for="item in financeItems"
             :key="item.name"
-            :to="item.to" 
+            :to="item.to"
             class="nav-item"
             :class="{ active: isActive(item.to) }"
             :title="isCollapsed ? item.label : ''"
           >
             <span class="nav-icon" v-html="item.icon" />
-            <span class="nav-label">{{ item.label }}</span>
+            <span class="nav-label" v-if="!isCollapsed">{{ item.label }}</span>
             <span v-if="item.badge" class="nav-badge">{{ item.badge }}</span>
           </RouterLink>
         </div>
@@ -88,54 +103,39 @@
         <!-- System -->
         <div class="nav-group">
           <span class="nav-group-label">System</span>
-          <RouterLink 
-            v-for="item in systemItems" 
+          <RouterLink
+            v-for="item in systemItems"
             :key="item.name"
-            :to="item.to" 
+            :to="item.to"
             class="nav-item"
             :class="{ active: isActive(item.to) }"
             :title="isCollapsed ? item.label : ''"
           >
             <span class="nav-icon" v-html="item.icon" />
-            <span class="nav-label">{{ item.label }}</span>
+            <span class="nav-label" v-if="!isCollapsed">{{ item.label }}</span>
             <span v-if="item.badge" class="nav-badge">{{ item.badge }}</span>
           </RouterLink>
         </div>
-
       </nav>
-
-      <!-- Bottom User Card -->
-      <div class="sidebar-user">
-        <div class="user-avatar-sm">JD</div>
-        <div class="user-info">
-          <span class="user-name-sm">John Doe</span>
-          <span class="user-status">
-            <span class="status-dot"></span>
-            Online
-          </span>
-        </div>
-      </div>
-
     </aside>
 
     <!-- ═══════════════════════════════ MAIN AREA ═══════════════════════════════ -->
     <div class="main-area">
-
       <!-- ─────────── HEADER ─────────── -->
       <header class="header">
-        
-        <!-- Left: Hamburger + Breadcrumb -->
+        <!-- Left: Breadcrumb -->
         <div class="header-left">
-          <button class="hamburger-btn" @click="toggleSidebar" aria-label="Toggle sidebar">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 12h18M3 6h18M3 18h18"/>
-            </svg>
-          </button>
-
           <nav class="breadcrumb" aria-label="Breadcrumb">
             <span class="breadcrumb-home">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
-                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                width="14"
+                height="14"
+              >
+                <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
               </svg>
             </span>
             <span class="breadcrumb-sep">›</span>
@@ -146,13 +146,19 @@
         <!-- Center: Search -->
         <div class="header-search">
           <div class="search-wrapper">
-            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="11" cy="11" r="8"/>
-              <path d="M21 21l-4.35-4.35"/>
+            <svg
+              class="search-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="M21 21l-4.35-4.35" />
             </svg>
-            <input 
-              type="text" 
-              class="search-input" 
+            <input
+              type="text"
+              class="search-input"
               placeholder="Search employees, reports..."
               v-model="searchQuery"
             />
@@ -162,29 +168,57 @@
 
         <!-- Right: Actions + User -->
         <div class="header-right">
-
           <!-- Theme Toggle -->
-          <button class="icon-btn" @click="toggleDarkMode" :title="isDarkMode ? 'Light mode' : 'Dark mode'">
-            <svg v-if="isDarkMode" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="5"/>
-              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          <button
+            class="icon-btn"
+            @click="toggleDarkMode"
+            :title="isDarkMode ? 'Light mode' : 'Dark mode'"
+          >
+            <svg
+              v-if="isDarkMode"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="5" />
+              <path
+                d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+              />
             </svg>
-            <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+            <svg
+              v-else
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
             </svg>
           </button>
 
           <!-- Notifications -->
           <div class="notif-wrapper" @click="toggleNotifDropdown">
             <button class="icon-btn notif-btn" aria-label="Notifications">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"
+                />
               </svg>
               <span class="notif-badge pulse">5</span>
             </button>
 
             <!-- Notif Dropdown -->
-            <div class="dropdown notif-dropdown" v-if="showNotifDropdown" @click.stop>
+            <div
+              class="dropdown notif-dropdown"
+              v-if="showNotifDropdown"
+              @click.stop
+            >
               <div class="dropdown-header">
                 <span>Notifications</span>
                 <button class="mark-read-btn">Mark all read</button>
@@ -213,7 +247,9 @@
                 </div>
               </div>
               <div class="dropdown-footer">
-                <RouterLink to="/notifications">View all notifications →</RouterLink>
+                <RouterLink to="/notifications"
+                  >View all notifications →</RouterLink
+                >
               </div>
             </div>
           </div>
@@ -228,37 +264,66 @@
                 <span class="user-name">John Doe</span>
                 <span class="user-role">Administrator</span>
               </div>
-              <svg class="chevron" :class="{ rotated: showUserDropdown }" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M6 9l6 6 6-6"/>
+              <svg
+                class="chevron"
+                :class="{ rotated: showUserDropdown }"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path d="M6 9l6 6 6-6" />
               </svg>
             </div>
 
             <!-- User Dropdown -->
-            <div class="dropdown user-dropdown" v-if="showUserDropdown" @click.stop>
+            <div
+              class="dropdown user-dropdown"
+              v-if="showUserDropdown"
+              @click.stop
+            >
               <RouterLink to="/profile" class="dropdown-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/>
-                  <circle cx="12" cy="7" r="4"/>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
                 </svg>
                 Profile
               </RouterLink>
               <RouterLink to="/settings" class="dropdown-item">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <circle cx="12" cy="12" r="3"/>
-                  <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="3" />
+                  <path
+                    d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"
+                  />
                 </svg>
                 Settings
               </RouterLink>
               <div class="dropdown-sep"></div>
               <button class="dropdown-item danger" @click="handleLogout">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"
+                  />
                 </svg>
                 Logout
               </button>
             </div>
           </div>
-
         </div>
       </header>
 
@@ -266,169 +331,179 @@
       <main class="page-content">
         <RouterView />
       </main>
-
     </div>
 
     <!-- Click outside to close dropdowns -->
-    <div v-if="showUserDropdown || showNotifDropdown" class="click-outside" @click="closeAllDropdowns" />
-
+    <div
+      v-if="showUserDropdown || showNotifDropdown"
+      class="click-outside"
+      @click="closeAllDropdowns"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { useRoute, RouterLink, RouterView } from 'vue-router'
+import { ref, computed, onMounted, onUnmounted } from "vue";
+import { useRoute, RouterLink, RouterView } from "vue-router";
 
 const emit = defineEmits<{
-  'sidebar-toggle': [collapsed: boolean]
-}>()
+  "sidebar-toggle": [collapsed: boolean];
+}>();
 
-const route = useRoute()
+const route = useRoute();
 
 // State
-const isCollapsed = ref(false)
-const isMobileOpen = ref(false)
-const isDarkMode = ref(false)
-const showUserDropdown = ref(false)
-const showNotifDropdown = ref(false)
-const searchQuery = ref('')
+const isCollapsed = ref(false);
+const isMobileOpen = ref(false);
+const isDarkMode = ref(false);
+const showUserDropdown = ref(false);
+const showNotifDropdown = ref(false);
+const searchQuery = ref("");
+
 
 // Navigation Items
 const mainMenuItems = [
   {
-    name: 'dashboard',
-    label: 'Dashboard',
-    to: '/',
+    name: "dashboard",
+    label: "Dashboard",
+    to: "/",
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>`,
-    badge: null
+    badge: null,
   },
   {
-    name: 'analytics',
-    label: 'Analytics',
-    to: '/analytics',
+    name: "analytics",
+    label: "Analytics",
+    to: "/analytics",
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
-    badge: null
-  }
-]
+    badge: null,
+  },
+];
 
 const workforceItems = [
   {
-    name: 'employees',
-    label: 'Employees',
-    to: '/employees',
+    name: "employees",
+    label: "Employees",
+    to: "/employees",
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`,
-    badge: null
+    badge: null,
   },
   {
-    name: 'attendance',
-    label: 'Attendance',
-    to: '/attendance',
+    name: "attendance",
+    label: "Attendance",
+    to: "/attendance",
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
-    badge: '3'
+    badge: "3",
   },
   {
-    name: 'leave',
-    label: 'Leave Management',
-    to: '/leave',
+    name: "leave",
+    label: "Leave Management",
+    to: "/leave",
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
-    badge: '12'
-  }
-]
+    badge: "12",
+  },
+];
 
 const financeItems = [
   {
-    name: 'payroll',
-    label: 'Payroll',
-    to: '/payroll',
+    name: "payroll",
+    label: "Payroll",
+    to: "/payroll",
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>`,
-    badge: null
+    badge: null,
   },
   {
-    name: 'benefits',
-    label: 'Benefits',
-    to: '/benefits',
+    name: "benefits",
+    label: "Benefits",
+    to: "/benefits",
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>`,
-    badge: null
-  }
-]
+    badge: null,
+  },
+];
 
 const systemItems = [
   {
-    name: 'reports',
-    label: 'Reports',
-    to: '/reports',
+    name: "reports",
+    label: "Reports",
+    to: "/reports",
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
-    badge: null
+    badge: null,
   },
   {
-    name: 'settings',
-    label: 'Settings',
-    to: '/settings',
+    name: "settings",
+    label: "Settings",
+    to: "/settings",
     icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>`,
-    badge: null
-  }
-]
+    badge: null,
+  },
+];
 
 // Computed
 const currentPageName = computed(() => {
-  const allItems = [...mainMenuItems, ...workforceItems, ...financeItems, ...systemItems]
-  const current = allItems.find(item => route.path === item.to || route.path.startsWith(item.to + '/'))
-  return current?.label ?? 'Dashboard'
-})
+  const allItems = [
+    ...mainMenuItems,
+    ...workforceItems,
+    ...financeItems,
+    ...systemItems,
+  ];
+  const current = allItems.find(
+    (item) => route.path === item.to || route.path.startsWith(item.to + "/"),
+  );
+  return current?.label ?? "Dashboard";
+});
 
 // Methods
 function isActive(path: string): boolean {
-  if (path === '/') return route.path === '/'
-  return route.path.startsWith(path)
+  if (path === "/") return route.path === "/";
+  return route.path.startsWith(path);
 }
 
 function toggleSidebar() {
-  const width = window.innerWidth
+  const width = window.innerWidth;
   if (width < 768) {
-    isMobileOpen.value = !isMobileOpen.value
+    isMobileOpen.value = !isMobileOpen.value;
   } else {
-    isCollapsed.value = !isCollapsed.value
-    emit('sidebar-toggle', isCollapsed.value)
+    isCollapsed.value = !isCollapsed.value;
+    emit("sidebar-toggle", isCollapsed.value);
   }
 }
 
 function closeMobileSidebar() {
-  isMobileOpen.value = false
+  isMobileOpen.value = false;
 }
 
 function toggleDarkMode() {
-  isDarkMode.value = !isDarkMode.value
+  isDarkMode.value = !isDarkMode.value;
 }
 
 function toggleUserDropdown() {
-  showUserDropdown.value = !showUserDropdown.value
-  if (showUserDropdown.value) showNotifDropdown.value = false
+  showUserDropdown.value = !showUserDropdown.value;
+  if (showUserDropdown.value) showNotifDropdown.value = false;
 }
 
 function toggleNotifDropdown() {
-  showNotifDropdown.value = !showNotifDropdown.value
-  if (showNotifDropdown.value) showUserDropdown.value = false
+  showNotifDropdown.value = !showNotifDropdown.value;
+  if (showNotifDropdown.value) showUserDropdown.value = false;
 }
 
 function closeAllDropdowns() {
-  showUserDropdown.value = false
-  showNotifDropdown.value = false
+  showUserDropdown.value = false;
+  showNotifDropdown.value = false;
 }
 
 function handleLogout() {
-  closeAllDropdowns()
+  closeAllDropdowns();
   // Add logout logic here
 }
 
 // Handle resize
 function handleResize() {
   if (window.innerWidth >= 768) {
-    isMobileOpen.value = false
+    isMobileOpen.value = false;
   }
 }
 
-onMounted(() => window.addEventListener('resize', handleResize))
-onUnmounted(() => window.removeEventListener('resize', handleResize))
+onMounted(() => window.addEventListener("resize", handleResize));
+onUnmounted(() => window.removeEventListener("resize", handleResize));
 </script>
 
 <style scoped>
@@ -436,35 +511,37 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
    CSS CUSTOM PROPERTIES
 ═══════════════════════════════════════════ */
 .layout {
-  --primary: #4F46E5;
-  --primary-dark: #3730A3;
-  --primary-light: #EEF2FF;
-  --accent: #06B6D4;
-  --success: #10B981;
-  --warning: #F59E0B;
-  --danger: #EF4444;
+  --primary: #4f46e5;
+  --primary-dark: #3730a3;
+  --primary-light: #eef2ff;
+  --accent: #06b6d4;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
 
-  --sidebar-bg: #0F172A;
-  --sidebar-text: #94A3B8;
-  --sidebar-text-hover: #CBD5E1;
+  --sidebar-bg: #0f172a;
+  --sidebar-text: #94a3b8;
+  --sidebar-text-hover: #cbd5e1;
   --sidebar-active-bg: rgba(79, 70, 229, 0.15);
   --sidebar-hover-bg: rgba(255, 255, 255, 0.05);
   --sidebar-group-label: #475569;
   --sidebar-width: 260px;
   --sidebar-collapsed-width: 72px;
 
-  --header-bg: #FFFFFF;
-  --header-border: #E2E8F0;
+  --header-bg: #ffffff;
+  --header-border: #e2e8f0;
   --header-height: 64px;
 
-  --body-bg: #F8FAFC;
-  --text-primary: #0F172A;
-  --text-secondary: #64748B;
-  --border-color: #E2E8F0;
-  --card-bg: #FFFFFF;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+  --body-bg: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --card-bg: #ffffff;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --radius: 10px;
   --transition: cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -472,19 +549,25 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
   height: 100vh;
   overflow: hidden;
   background: var(--body-bg);
-  font-family: 'DM Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family:
+    "DM Sans",
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 /* Dark Mode */
 .layout.dark-mode {
-  --header-bg: #1E293B;
+  --header-bg: #1e293b;
   --header-border: #334155;
-  --body-bg: #0F172A;
-  --text-primary: #F1F5F9;
-  --text-secondary: #94A3B8;
+  --body-bg: #0f172a;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
   --border-color: #334155;
-  --card-bg: #1E293B;
+  --card-bg: #1e293b;
   --sidebar-bg: #020617;
+  --sidebar-group-label: #334155;
 }
 
 /* ═══════════════════════════════════════════
@@ -501,7 +584,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
   transition: width 300ms var(--transition);
   position: relative;
   z-index: 100;
-  border-right: 1px solid rgba(255,255,255,0.04);
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
 }
 
 .sidebar-collapsed .sidebar {
@@ -514,7 +597,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
   align-items: center;
   gap: 12px;
   padding: 20px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   flex-shrink: 0;
 }
 
@@ -541,12 +624,19 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
 .sidebar-collapsed .logo-text {
   opacity: 0;
   width: 0;
+  overflow: hidden;
+}
+
+.sidebar-collapsed .logo-icon {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
 }
 
 .logo-name {
   font-size: 15px;
   font-weight: 700;
-  color: #F1F5F9;
+  color: #f1f5f9;
   letter-spacing: -0.3px;
   line-height: 1.2;
 }
@@ -564,21 +654,6 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
   margin-top: 3px;
 }
 
-.sidebar-close-btn {
-  display: none;
-  margin-left: auto;
-  background: none;
-  border: none;
-  color: var(--sidebar-text);
-  cursor: pointer;
-  padding: 4px;
-}
-
-.sidebar-close-btn svg {
-  width: 18px;
-  height: 18px;
-}
-
 /* ─── Navigation ─── */
 .sidebar-nav {
   flex: 1;
@@ -588,7 +663,9 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
   scrollbar-width: none;
 }
 
-.sidebar-nav::-webkit-scrollbar { display: none; }
+.sidebar-nav::-webkit-scrollbar {
+  display: none;
+}
 
 .nav-group {
   margin-bottom: 4px;
@@ -605,7 +682,10 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
   padding: 8px 8px 4px;
   white-space: nowrap;
   overflow: hidden;
-  transition: opacity 200ms var(--transition), height 200ms, padding 200ms;
+  transition:
+    opacity 200ms var(--transition),
+    height 200ms,
+    padding 200ms;
 }
 
 .sidebar-collapsed .nav-group-label {
@@ -639,7 +719,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
 
 .nav-item.active {
   background: var(--sidebar-active-bg);
-  color: #818CF8;
+  color: #818cf8;
   border-left-color: var(--primary);
 }
 
@@ -659,7 +739,7 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
 }
 
 .nav-item.active .nav-icon :deep(svg) {
-  stroke: #818CF8;
+  stroke: #818cf8;
 }
 
 .nav-label {
@@ -697,8 +777,16 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
   border-radius: 8px;
 }
 
+.sidebar-collapsed .sidebar-logo {
+  justify-content: center;
+}
+
+.sidebar-collapsed .hamburger-btn {
+  margin-left: 0;
+}
+
 .sidebar-collapsed .nav-item.active::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 50%;
@@ -707,68 +795,6 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
   height: 24px;
   background: var(--primary);
   border-radius: 0 2px 2px 0;
-}
-
-/* ─── Bottom User Card ─── */
-.sidebar-user {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 14px 16px;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.02);
-  flex-shrink: 0;
-  overflow: hidden;
-}
-
-.user-avatar-sm {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  color: white;
-  font-size: 12px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.user-info {
-  overflow: hidden;
-  white-space: nowrap;
-  opacity: 1;
-  transition: opacity 200ms;
-}
-
-.sidebar-collapsed .user-info {
-  opacity: 0;
-  width: 0;
-}
-
-.user-name-sm {
-  display: block;
-  font-size: 13px;
-  font-weight: 600;
-  color: #CBD5E1;
-  line-height: 1.2;
-}
-
-.user-status {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 11px;
-  color: var(--sidebar-text);
-  margin-top: 2px;
-}
-
-.status-dot {
-  width: 7px;
-  height: 7px;
-  background: var(--success);
-  border-radius: 50%;
 }
 
 /* ═══════════════════════════════════════════
@@ -806,27 +832,31 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
 }
 
 .hamburger-btn {
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   border: none;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.07);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  color: var(--text-secondary);
-  transition: background 150ms, color 150ms;
+  border-radius: 7px;
+  color: #94a3b8;
+  transition:
+    background 150ms,
+    color 150ms;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 .hamburger-btn:hover {
-  background: var(--primary-light);
-  color: var(--primary);
+  background: rgba(255, 255, 255, 0.12);
+  color: #f1f5f9;
 }
 
 .hamburger-btn svg {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
 }
 
 .breadcrumb {
@@ -883,7 +913,9 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
   font-size: 13.5px;
   color: var(--text-primary);
   outline: none;
-  transition: border-color 150ms, box-shadow 150ms;
+  transition:
+    border-color 150ms,
+    box-shadow 150ms;
   font-family: inherit;
 }
 
@@ -928,7 +960,9 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
   justify-content: center;
   border-radius: 8px;
   color: var(--text-secondary);
-  transition: background 150ms, color 150ms;
+  transition:
+    background 150ms,
+    color 150ms;
 }
 
 .icon-btn:hover {
@@ -969,8 +1003,13 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
 }
 
 @keyframes pulse-badge {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.2); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
 }
 
 .notif-badge.pulse {
@@ -1062,8 +1101,14 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
 }
 
 @keyframes dropdownFade {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .notif-dropdown {
@@ -1090,7 +1135,9 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
   font-family: inherit;
 }
 
-.mark-read-btn:hover { text-decoration: underline; }
+.mark-read-btn:hover {
+  text-decoration: underline;
+}
 
 .notif-list {
   max-height: 280px;
@@ -1106,9 +1153,15 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
   transition: background 150ms;
 }
 
-.notif-item:last-child { border-bottom: none; }
-.notif-item:hover { background: var(--body-bg); }
-.notif-item.unread { background: rgba(79, 70, 229, 0.03); }
+.notif-item:last-child {
+  border-bottom: none;
+}
+.notif-item:hover {
+  background: var(--body-bg);
+}
+.notif-item.unread {
+  background: rgba(79, 70, 229, 0.03);
+}
 
 .notif-dot {
   width: 8px;
@@ -1225,7 +1278,9 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
    RESPONSIVE
 ═══════════════════════════════════════════ */
 @media (max-width: 1024px) {
-  .user-meta { display: none; }
+  .user-meta {
+    display: none;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1242,10 +1297,6 @@ onUnmounted(() => window.removeEventListener('resize', handleResize))
 
   .sidebar.mobile-open {
     transform: translateX(0);
-  }
-
-  .sidebar-close-btn {
-    display: flex;
   }
 
   .main-area {
