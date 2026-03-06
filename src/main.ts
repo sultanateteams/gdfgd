@@ -1,32 +1,36 @@
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import { useThemeStore } from "./stores/themeStore";
 
-import App from './App.vue'
-import router from './router'
-import Antd from 'ant-design-vue'
+import App from "./App.vue";
+import router from "./router";
+import Antd from "ant-design-vue";
 
 // Import global styles
-import './style.css'
-import 'ant-design-vue/dist/reset.css'
+import "./assets/themes.css"; // ← shu birinchi bo'lishi kerak
+import "./style.css";
+import "ant-design-vue/dist/reset.css";
 
 // Create app instance
-const app = createApp(App)
+const app = createApp(App);
+const themeStore = useThemeStore();
 
 // Setup Pinia
-const pinia = createPinia()
+const pinia = createPinia();
 
 // Install plugins
-app.use(Antd)
-app.use(pinia)
-app.use(router)
+app.use(Antd);
+app.use(pinia);
+app.use(router);
 
 // Mount app
-app.mount('#app')
-
+app.mount("#app");
+  
+themeStore.applyTheme(); // data-theme va data-mode ni DOM ga qo'yadi
 // Enable hot module replacement in development
 if (import.meta.hot) {
-  import.meta.hot.accept()
+  import.meta.hot.accept();
   import.meta.hot.dispose(() => {
-    app.unmount()
-  })
+    app.unmount();
+  });
 }

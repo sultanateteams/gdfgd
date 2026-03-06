@@ -1,0 +1,117 @@
+/* src/assets/themes.css */
+
+/* ═══════════════════════════════════════
+   OCEAN theme (default)
+═══════════════════════════════════════ */
+[data-theme="ocean"][data-mode="dark"] {
+  --primary:        #4f46e5;
+  --primary-light:  rgba(79,70,229,0.15);
+  --accent:         #06b6d4;
+  --sidebar-bg:     #0f172a;
+  --header-bg:      #1e293b;
+  --body-bg:        #0f172a;
+  --card-bg:        #1e293b;
+  --text-primary:   #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border-color:   #334155;
+}
+
+[data-theme="ocean"][data-mode="light"] {
+  --primary:        #4f46e5;
+  --primary-light:  #eef2ff;
+  --accent:         #06b6d4;
+  --sidebar-bg:     #0f172a;   /* sidebar doim dark */
+  --header-bg:      #ffffff;
+  --body-bg:        #f8fafc;
+  --card-bg:        #ffffff;
+  --text-primary:   #0f172a;
+  --text-secondary: #64748b;
+  --border-color:   #e2e8f0;
+}
+
+/* ═══════════════════════════════════════
+   FOREST theme
+═══════════════════════════════════════ */
+[data-theme="forest"][data-mode="dark"] {
+  --primary:        #16a34a;
+  --primary-light:  rgba(22,163,74,0.15);
+  --accent:         #86efac;
+  --sidebar-bg:     #052e16;
+  --header-bg:      #14532d;
+  --body-bg:        #052e16;
+  --card-bg:        #14532d;
+  --text-primary:   #f0fdf4;
+  --text-secondary: #86efac;
+  --border-color:   #166534;
+}
+
+[data-theme="forest"][data-mode="light"] {
+  --primary:        #16a34a;
+  --primary-light:  #dcfce7;
+  --accent:         #16a34a;
+  --sidebar-bg:     #052e16;
+  --header-bg:      #ffffff;
+  --body-bg:        #f0fdf4;
+  --card-bg:        #ffffff;
+  --text-primary:   #052e16;
+  --text-secondary: #166534;
+  --border-color:   #bbf7d0;
+}
+
+/* ═══════════════════════════════════════
+   SUNSET theme
+═══════════════════════════════════════ */
+[data-theme="sunset"][data-mode="dark"] {
+  --primary:        #f97316;
+  --primary-light:  rgba(249,115,22,0.15);
+  --accent:         #fbbf24;
+  --sidebar-bg:     #1c0a00;
+  --header-bg:      #431407;
+  --body-bg:        #1c0a00;
+  --card-bg:        #431407;
+  --text-primary:   #fff7ed;
+  --text-secondary: #fed7aa;
+  --border-color:   #7c2d12;
+}
+
+[data-theme="sunset"][data-mode="light"] {
+  --primary:        #f97316;
+  --primary-light:  #fff7ed;
+  --accent:         #f59e0b;
+  --sidebar-bg:     #1c0a00;
+  --header-bg:      #ffffff;
+  --body-bg:        #fffbeb;
+  --card-bg:        #ffffff;
+  --text-primary:   #1c0a00;
+  --text-secondary: #9a3412;
+  --border-color:   #fed7aa;
+}
+
+/* ═══════════════════════════════════════
+   SLATE theme
+═══════════════════════════════════════ */
+[data-theme="slate"][data-mode="dark"] {
+  --primary:        #8b5cf6;
+  --primary-light:  rgba(139,92,246,0.15);
+  --accent:         #a78bfa;
+  --sidebar-bg:     #0f0f23;
+  --header-bg:      #1a1a3e;
+  --body-bg:        #0f0f23;
+  --card-bg:        #1a1a3e;
+  --text-primary:   #ede9fe;
+  --text-secondary: #a78bfa;
+  --border-color:   #312e81;
+}
+
+[data-theme="slate"][data-mode="light"] {
+  --primary:        #7c3aed;
+  --primary-light:  #f5f3ff;
+  --accent:         #8b5cf6;
+  --sidebar-bg:     #0f0f23;
+  --header-bg:      #ffffff;
+  --body-bg:        #faf5ff;
+  --card-bg:        #ffffff;
+  --text-primary:   #1e1b4b;
+  --text-secondary: #6d28d9;
+  --border-color:   #ddd6fe;
+}

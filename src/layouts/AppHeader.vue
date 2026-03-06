@@ -14,10 +14,11 @@
     </div>
 
     <!-- O'rta: Search -->
-    <HeaderSearch v-model="searchQuery" />
+    <!-- <HeaderSearch v-model="searchQuery" /> -->
 
     <!-- O'ng: Amallar -->
     <div class="header-right">
+      <ThemeSwitcher />
       <!-- Dark mode toggle -->
       <button class="icon-btn" @click="toggleDarkMode" :title="isDarkMode ? 'Light mode' : 'Dark mode'">
         <svg v-if="isDarkMode" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -45,6 +46,7 @@ import HeaderSearch from './header/HeaderSearch.vue'
 import HeaderNotifications from './header/HeaderNotifications.vue'
 import HeaderUser from './header/HeaderUser.vue'
 import { useLayout } from '@/composables/useLayout'
+import ThemeSwitcher from './header/ThemeSwitcher.vue'
 
 const { searchQuery, currentPageName, isDarkMode, toggleDarkMode } = useLayout()
 </script>

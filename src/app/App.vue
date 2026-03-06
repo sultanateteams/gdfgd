@@ -1,20 +1,39 @@
+<!-- App.vue -->
 <template>
   <div id="app">
-    <!-- <MainLayout>
-      <router-view />
-    </MainLayout> -->
-    <AppLayout>
-      <router-view />
-    </AppLayout>
+    <a-config-provider :theme="antTheme">
+      <AppLayout>
+        <router-view />
+      </AppLayout>
+    </a-config-provider>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
+import { theme as antdTheme } from "ant-design-vue";
+import { useThemeStore } from "@/stores/themeStore";
 import AppLayout from "@/layouts/AppLayout.vue";
 
-// import MainLayout from '@/layouts/MainLayout.vue'
-</script>
+const themeStore = useThemeStore();
 
+const primaryColors: Record<string, string> = {
+  ocean: "#4f46e5",
+  forest: "#16a34a",
+  sunset: "#f97316",
+  slate: "#8b5cf6",
+};
+
+const antTheme = computed(() => ({
+  algorithm:
+    themeStore.mode === "dark"
+      ? antdTheme.darkAlgorithm
+      : antdTheme.defaultAlgorithm,
+  token: {
+    colorPrimary: primaryColors[themeStore.currentTheme],
+  },
+}));
+</script>
 <style>
 /* Import global styles */
 @import "../shared/styles/global.css";
