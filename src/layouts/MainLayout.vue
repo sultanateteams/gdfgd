@@ -49,72 +49,68 @@
 
       <!-- Navigation -->
       <nav class="sidebar-nav">
-        <!-- Main Menu -->
-        <div class="nav-group">
-          <span class="nav-group-label">Main Menu</span>
-          <RouterLink
-            v-for="item in mainMenuItems"
-            :key="item.name"
-            :to="item.to"
-            class="nav-item"
-            :class="{ active: isActive(item.to) }"
-            :title="isCollapsed ? item.label : ''"
-          >
-            <span class="nav-icon" v-html="item.icon" />
-            <span class="nav-label" v-if="!isCollapsed">{{ item.label }}</span>
-            <span v-if="item.badge" class="nav-badge">{{ item.badge }}</span>
-          </RouterLink>
-        </div>
+        <!-- Main Menu Items (no accordion) -->
+        <div class="nav-group" v-for="group in menuConfig" :key="group.id">
+          <span v-if="group.label" class="nav-group-label">{{ group.label }}</span>
+          
+          <!-- Regular menu items -->
+          <template v-if="group.type === 'regular'">
+            <RouterLink
+              v-for="item in group.items"
+              :key="item.id"
+              :to="item.to"
+              class="nav-item"
+              :class="{ active: isActive(item.to) }"
+              :title="isCollapsed ? item.label : ''"
+            >
+              <span class="nav-icon" v-html="item.icon" />
+              <span class="nav-label" v-if="!isCollapsed">{{ item.label }}</span>
+              <span v-if="item.badge" class="nav-badge">{{ item.badge }}</span>
+            </RouterLink>
+          </template>
 
-        <!-- Workforce -->
-        <div class="nav-group">
-          <span class="nav-group-label">Workforce</span>
-          <RouterLink
-            v-for="item in workforceItems"
-            :key="item.name"
-            :to="item.to"
-            class="nav-item"
-            :class="{ active: isActive(item.to) }"
-            :title="isCollapsed ? item.label : ''"
-          >
-            <span class="nav-icon" v-html="item.icon" />
-            <span class="nav-label" v-if="!isCollapsed">{{ item.label }}</span>
-            <span v-if="item.badge && !isCollapsed" class="nav-badge">{{ item.badge }}</span>
-          </RouterLink>
-        </div>
-
-        <!-- Finance -->
-        <div class="nav-group">
-          <span class="nav-group-label">Finance</span>
-          <RouterLink
-            v-for="item in financeItems"
-            :key="item.name"
-            :to="item.to"
-            class="nav-item"
-            :class="{ active: isActive(item.to) }"
-            :title="isCollapsed ? item.label : ''"
-          >
-            <span class="nav-icon" v-html="item.icon" />
-            <span class="nav-label" v-if="!isCollapsed">{{ item.label }}</span>
-            <span v-if="item.badge" class="nav-badge">{{ item.badge }}</span>
-          </RouterLink>
-        </div>
-
-        <!-- System -->
-        <div class="nav-group">
-          <span class="nav-group-label">System</span>
-          <RouterLink
-            v-for="item in systemItems"
-            :key="item.name"
-            :to="item.to"
-            class="nav-item"
-            :class="{ active: isActive(item.to) }"
-            :title="isCollapsed ? item.label : ''"
-          >
-            <span class="nav-icon" v-html="item.icon" />
-            <span class="nav-label" v-if="!isCollapsed">{{ item.label }}</span>
-            <span v-if="item.badge" class="nav-badge">{{ item.badge }}</span>
-          </RouterLink>
+          <!-- Accordion group -->
+          <template v-else-if="group.type === 'accordion'">
+            <div
+              v-for="accordion in group.items"
+              :key="accordion.id"
+              class="accordion-group"
+            >
+              <button
+                class="accordion-header"
+                @click="toggleAccordion(accordion.id)"
+                :class="{ active: activeGroup === accordion.id }"
+                :title="isCollapsed ? accordion.label : ''"
+              >
+                <span class="accordion-icon" v-html="accordion.icon" />
+                <span class="accordion-label" v-if="!isCollapsed">{{ accordion.label }}</span>
+                <span v-if="accordion.badge && !isCollapsed" class="accordion-badge">{{ accordion.badge }}</span>
+                <span class="accordion-chevron" :class="{ rotated: activeGroup === accordion.id }">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </span>
+              </button>
+              <div
+                class="accordion-content"
+                :class="{ expanded: activeGroup === accordion.id }"
+                v-show="!isCollapsed || activeGroup === accordion.id"
+              >
+                <RouterLink
+                  v-for="item in accordion.children"
+                  :key="item.id"
+                  :to="item.to"
+                  class="nav-item child-item"
+                  :class="{ active: isActive(item.to) }"
+                  :title="isCollapsed ? item.label : ''"
+                >
+                  <span class="nav-icon" v-html="item.icon" />
+                  <span class="nav-label" v-if="!isCollapsed">{{ item.label }}</span>
+                  <span v-if="item.badge && !isCollapsed" class="nav-badge">{{ item.badge }}</span>
+                </RouterLink>
+              </div>
+            </div>
+          </template>
         </div>
       </nav>
     </aside>
@@ -343,7 +339,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ref, computed, onMounted, onUnmounted, watch } from "vue";
 import { useRoute, RouterLink, RouterView } from "vue-router";
 
 const emit = defineEmits<{
@@ -359,92 +355,138 @@ const isDarkMode = ref(false);
 const showUserDropdown = ref(false);
 const showNotifDropdown = ref(false);
 const searchQuery = ref("");
+const activeGroup = ref<string | null>(null);
 
-
-// Navigation Items
-const mainMenuItems = [
+// =============================================
+// MENU KONFIGURATSIYASI - BU YERDA O'ZGARTIRISH OSON
+// =============================================
+const menuConfig = [
   {
-    name: "dashboard",
-    label: "Dashboard",
-    to: "/",
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>`,
-    badge: null,
+    id: 'main',
+    label: 'Main Menu',
+    type: 'regular', // oddiy menu itemlar
+    items: [
+      {
+        id: 'dashboard',
+        label: 'Dashboard',
+        to: '/',
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>`,
+        badge: null,
+      },
+      {
+        id: 'analytics',
+        label: 'Analytics',
+        to: '/analytics',
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
+        badge: null,
+      },
+    ],
   },
   {
-    name: "analytics",
-    label: "Analytics",
-    to: "/analytics",
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
-    badge: null,
-  },
-];
-
-const workforceItems = [
-  {
-    name: "employees",
-    label: "Employees",
-    to: "/employees",
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`,
-    badge: null,
-  },
-  {
-    name: "attendance",
-    label: "Attendance",
-    to: "/attendance",
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
-    badge: "3",
-  },
-  {
-    name: "leave",
-    label: "Leave Management",
-    to: "/leave",
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
-    badge: "12",
-  },
-];
-
-const financeItems = [
-  {
-    name: "payroll",
-    label: "Payroll",
-    to: "/payroll",
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>`,
-    badge: null,
-  },
-  {
-    name: "benefits",
-    label: "Benefits",
-    to: "/benefits",
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>`,
-    badge: null,
-  },
-];
-
-const systemItems = [
-  {
-    name: "reports",
-    label: "Reports",
-    to: "/reports",
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
-    badge: null,
-  },
-  {
-    name: "settings",
-    label: "Settings",
-    to: "/settings",
-    icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>`,
-    badge: null,
+    id: 'accordionGroups',
+    label: null, // null bo'lsa group label ko'rinmaydi
+    type: 'accordion',
+    items: [
+      {
+        id: 'workforce',
+        label: 'Workforce',
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`,
+        badge: computed(() => {
+          // Badge larni hisoblash
+          const workforceItems = menuConfig
+            .find(g => g.id === 'accordionGroups')?.items
+            .find(a => a.id === 'workforce')?.children || [];
+          const attendance = workforceItems.find(item => item.id === 'attendance')?.badge || '0';
+          const leave = workforceItems.find(item => item.id === 'leave')?.badge || '0';
+          return parseInt(attendance as string) + parseInt(leave as string);
+        }),
+        children: [
+          {
+            id: 'employees',
+            label: 'Employees',
+            to: '/employees',
+            icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`,
+            badge: null,
+          },
+          {
+            id: 'attendance',
+            label: 'Attendance',
+            to: '/attendance',
+            icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+            badge: '3',
+          },
+          {
+            id: 'leave',
+            label: 'Leave Management',
+            to: '/leave',
+            icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+            badge: '12',
+          },
+        ],
+      },
+      {
+        id: 'finance',
+        label: 'Finance',
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>`,
+        badge: null,
+        children: [
+          {
+            id: 'payroll',
+            label: 'Payroll',
+            to: '/payroll',
+            icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>`,
+            badge: null,
+          },
+          {
+            id: 'benefits',
+            label: 'Benefits',
+            to: '/benefits',
+            icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>`,
+            badge: null,
+          },
+        ],
+      },
+      {
+        id: 'system',
+        label: 'System',
+        icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
+        badge: null,
+        children: [
+          {
+            id: 'reports',
+            label: 'Reports',
+            to: '/reports',
+            icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
+            badge: null,
+          },
+          {
+            id: 'settings',
+            label: 'Settings',
+            to: '/settings',
+            icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>`,
+            badge: null,
+          },
+        ],
+      },
+    ],
   },
 ];
 
 // Computed
 const currentPageName = computed(() => {
-  const allItems = [
-    ...mainMenuItems,
-    ...workforceItems,
-    ...financeItems,
-    ...systemItems,
-  ];
+  // Barcha menu itemlarini yig'ish
+  const allItems: Array<{ label: string; to: string }> = [];
+  
+  menuConfig.forEach(group => {
+    if (group.type === 'regular') {
+      allItems.push(...group.items);
+    } else if (group.type === 'accordion') {
+      group.items.forEach(accordion => {
+        allItems.push(...accordion.children);
+      });
+    }
+  });
+  
   const current = allItems.find(
     (item) => route.path === item.to || route.path.startsWith(item.to + "/"),
   );
@@ -455,6 +497,10 @@ const currentPageName = computed(() => {
 function isActive(path: string): boolean {
   if (path === "/") return route.path === "/";
   return route.path.startsWith(path);
+}
+
+function toggleAccordion(groupId: string) {
+  activeGroup.value = activeGroup.value === groupId ? null : groupId;
 }
 
 function toggleSidebar() {
@@ -502,7 +548,31 @@ function handleResize() {
   }
 }
 
-onMounted(() => window.addEventListener("resize", handleResize));
+// Route-based auto-open functionality
+function updateActiveGroup() {
+  // Barcha accordionlarni tekshirish
+  const accordionGroups = menuConfig.find(g => g.type === 'accordion')?.items || [];
+  
+  for (const accordion of accordionGroups) {
+    const hasActiveItem = accordion.children.some((item: any) => isActive(item.to));
+    if (hasActiveItem) {
+      activeGroup.value = accordion.id;
+      return;
+    }
+  }
+  
+  // If no active item found, collapse all
+  activeGroup.value = null;
+}
+
+// Watch route changes
+watch(() => route.path, updateActiveGroup, { immediate: true });
+
+onMounted(() => {
+  window.addEventListener("resize", handleResize);
+  updateActiveGroup();
+});
+
 onUnmounted(() => window.removeEventListener("resize", handleResize));
 </script>
 
@@ -589,6 +659,164 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
 
 .sidebar-collapsed .sidebar {
   width: var(--sidebar-collapsed-width);
+}
+
+/* ═══════════════════════════════════════════
+   ACCORDION STYLES
+═══════════════════════════════════════════ */
+.accordion-group {
+  margin-bottom: 4px;
+}
+
+.accordion-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 10px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  color: var(--sidebar-text);
+  text-decoration: none;
+  transition: all 150ms var(--transition);
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  border-left: 3px solid transparent;
+}
+
+.accordion-header:hover {
+  background: var(--sidebar-hover-bg);
+  color: var(--sidebar-text-hover);
+}
+
+.accordion-header.active {
+  background: var(--sidebar-active-bg);
+  color: #818cf8;
+  border-left-color: var(--primary);
+}
+
+.accordion-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.accordion-icon :deep(svg) {
+  width: 18px;
+  height: 18px;
+  transition: stroke 150ms;
+}
+
+.accordion-header.active .accordion-icon :deep(svg) {
+  stroke: #818cf8;
+}
+
+.accordion-label {
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: opacity 200ms var(--transition);
+  flex: 1;
+  text-align: left;
+}
+
+.sidebar-collapsed .accordion-label {
+  opacity: 0;
+  width: 0;
+}
+
+.accordion-badge {
+  background: var(--warning);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 20px;
+  line-height: 1;
+  flex-shrink: 0;
+  transition: opacity 200ms var(--transition);
+}
+
+.sidebar-collapsed .accordion-badge {
+  opacity: 0;
+}
+
+.accordion-chevron {
+  width: 16px;
+  height: 16px;
+  color: var(--sidebar-text);
+  transition: transform 200ms var(--transition);
+  flex-shrink: 0;
+}
+
+.accordion-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+.accordion-header.active .accordion-chevron {
+  color: #818cf8;
+}
+
+.sidebar-collapsed .accordion-header {
+  justify-content: center;
+  padding: 12px 0;
+  border-left: none;
+  border-radius: 8px;
+}
+
+.sidebar-collapsed .accordion-header.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 24px;
+  background: var(--primary);
+  border-radius: 0 2px 2px 0;
+}
+
+/* Accordion Content */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 300ms cubic-bezier(0.4, 0, 0.2, 1), opacity 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  padding-left: 12px;
+}
+
+.accordion-content.expanded {
+  max-height: 500px;
+  opacity: 1;
+}
+
+/* Child Items */
+.child-item {
+  padding-left: 24px;
+  font-size: 13px;
+  color: var(--sidebar-text);
+  transition: all 150ms var(--transition);
+}
+
+.child-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--sidebar-text-hover);
+}
+
+.child-item.active {
+  background: rgba(79, 70, 229, 0.15);
+  color: #818cf8;
+  border-left-color: var(--primary);
+}
+
+.sidebar-collapsed .child-item {
+  padding-left: 10px;
+  font-size: 13px;
 }
 
 /* ─── Logo ─── */

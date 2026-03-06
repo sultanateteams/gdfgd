@@ -3,9 +3,11 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
+import Antd from 'ant-design-vue'
 
 // Import global styles
 import './style.css'
+import 'ant-design-vue/dist/reset.css'
 
 // Create app instance
 const app = createApp(App)
@@ -14,6 +16,7 @@ const app = createApp(App)
 const pinia = createPinia()
 
 // Install plugins
+app.use(Antd)
 app.use(pinia)
 app.use(router)
 
