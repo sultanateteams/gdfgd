@@ -18,7 +18,7 @@
 
     <!-- O'ng: Amallar -->
     <div class="header-right">
-      <ThemeSwitcher />
+      <!-- <ThemeSwitcher /> -->
       <!-- Dark mode toggle -->
       <button class="icon-btn" @click="toggleDarkMode" :title="isDarkMode ? 'Light mode' : 'Dark mode'">
         <svg v-if="isDarkMode" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

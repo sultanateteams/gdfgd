@@ -52,7 +52,7 @@ body {
   --warning: #f59e0b;
   --danger: #ef4444;
 
-  --sidebar-bg: #0f172a;
+  --sidebar-bg: var(--sidebar-bg);
   --sidebar-text: #94a3b8;
   --sidebar-text-hover: #cbd5e1;
   --sidebar-active-bg: rgba(79, 70, 229, 0.15);
