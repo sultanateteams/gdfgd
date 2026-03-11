@@ -59,9 +59,8 @@ const { searchQuery, currentPageName, isDarkMode, toggleDarkMode } = useLayout()
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 0 24px;
+  padding: 0 20px;
   flex-shrink: 0;
-  box-shadow: var(--shadow-sm);
   z-index: 50;
 }
 .header-left {
@@ -88,20 +87,20 @@ const { searchQuery, currentPageName, isDarkMode, toggleDarkMode } = useLayout()
   flex-shrink: 0;
 }
 .icon-btn {
-  width: 38px;
-  height: 38px;
+  width: 32px;
+  height: 32px;
   border: none;
   background: transparent;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: 6px;
   color: var(--text-secondary);
-  transition: background 150ms, color 150ms;
+  transition: all 0.2s;
 }
-.icon-btn:hover { background: var(--primary-light); color: var(--primary); }
-.icon-btn svg { width: 18px; height: 18px; }
+.icon-btn:hover { background: var(--sidebar-hover-bg); color: var(--text-primary); }
+.icon-btn svg { width: 16px; height: 16px; }
 
 .header-divider {
   width: 1px;

@@ -32,10 +32,10 @@ function makeIcon(svgStr: string) {
   return () => h("span", { class: "menu-icon", innerHTML: svgStr });
 }
 
-function labelBadge(text: string, badge: string) {
+function labelBadge(text: string, badge: string, ml?: number) {
   return h("span", { class: "menu-label-row" }, [
     h("span", text),
-    h("span", { class: "menu-badge" }, badge),
+    h("span", { class: "menu-badge", style: { marginLeft: ml + "px" } }, badge),
   ]);
 }
 
@@ -111,7 +111,7 @@ const menuItems = computed(() => {
     {
       key: "workforce",
       icon: makeIcon(svg.workforce),
-      label: c ? "" : labelBadge("Workforce", "15"),
+      label: c ? "" : labelBadge("Workforce", "15", 55),
       children: [
         { key: "employees", icon: makeIcon(svg.workforce), label: "Employees" },
         {
@@ -178,33 +178,31 @@ function handleMenuClick({ key }: { key: string }) {
 .hrm-menu.ant-menu {
   background: transparent !important;
   border-inline-end: none !important;
-  padding: 8px;
-  font-family: "DM Sans", "Segoe UI", system-ui, sans-serif;
+  padding: 4px 12px;
+  font-family: inherit;
   width: 100% !important;
 }
 
 .hrm-menu .ant-menu-item,
 .hrm-menu .ant-menu-submenu-title {
-  border-radius: 8px !important;
-  margin: 1px 0 !important;
+  border-radius: 6px !important;
+  margin: 4px 0 !important;
   height: 40px !important;
   line-height: 40px !important;
-  color: #94a3b8 !important;
-  transition: all 150ms ease !important;
-  border-left: 3px solid transparent;
+  color: var(--text-primary) !important;
+  transition: all 0.2s ease !important;
   width: 100%;
 }
 
 .hrm-menu .ant-menu-item:hover,
 .hrm-menu .ant-menu-submenu-title:hover {
-  background: rgba(255, 255, 255, 0.05) !important;
-  color: #cbd5e1 !important;
+  background: var(--sidebar-hover-bg) !important;
+  color: var(--primary) !important;
 }
 
 .hrm-menu .ant-menu-item-selected {
-  background: rgba(79, 70, 229, 0.15) !important;
-  color: #818cf8 !important;
-  border-left: 3px solid #4f46e5 !important;
+  background: var(--sidebar-active-bg) !important;
+  color: var(--primary) !important;
 }
 .hrm-menu .ant-menu-item-selected::after {
   display: none !important;
@@ -212,8 +210,7 @@ function handleMenuClick({ key }: { key: string }) {
 
 .hrm-menu .ant-menu-submenu-open > .ant-menu-submenu-title,
 .hrm-menu .ant-menu-submenu-selected > .ant-menu-submenu-title {
-  color: #818cf8 !important;
-  background: rgba(79, 70, 229, 0.1) !important;
+  color: var(--primary) !important;
 }
 
 .hrm-menu .ant-menu-sub.ant-menu-inline {
@@ -221,14 +218,13 @@ function handleMenuClick({ key }: { key: string }) {
 }
 
 .hrm-menu .ant-menu-sub .ant-menu-item {
-  padding-inline-start: 36px !important;
-  height: 36px !important;
-  line-height: 36px !important;
-  font-size: 13px !important;
+  padding-inline-start: 48px !important;
+  height: 40px !important;
+  line-height: 40px !important;
 }
 
 .hrm-menu .ant-menu-submenu-arrow {
-  color: #475569 !important;
+  color: var(--text-secondary) !important;
 }
 
 .hrm-menu.collapsed .ant-menu-submenu-arrow {
@@ -241,7 +237,7 @@ function handleMenuClick({ key }: { key: string }) {
 
 .hrm-menu .ant-menu-submenu-open .ant-menu-submenu-arrow,
 .hrm-menu .ant-menu-submenu-selected .ant-menu-submenu-arrow {
-  color: #818cf8 !important;
+  color: var(--primary) !important;
 }
 
 /* Collapsed */
@@ -264,7 +260,7 @@ function handleMenuClick({ key }: { key: string }) {
   transform: translateY(-50%);
   width: 3px;
   height: 24px;
-  background: #4f46e5;
+  background: var(--primary);
   border-radius: 0 2px 2px 0;
 }
 

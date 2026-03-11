@@ -40,10 +40,10 @@ defineEmits<{
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 20px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border-color);
   flex-shrink: 0;
-  height: 74px;
+  height: var(--header-height);
 }
 .logo-icon {
   width: 36px;
@@ -62,9 +62,9 @@ defineEmits<{
   flex: 1;
 }
 .logo-name {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
-  color: #f1f5f9;
+  color: var(--text-primary);
   letter-spacing: -0.3px;
   line-height: 1.2;
 }

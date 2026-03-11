@@ -40,7 +40,7 @@ const { isCollapsed, isMobileOpen } = storeToRefs(layout)
   transition: width 300ms var(--transition);
   position: relative;
   z-index: 100;
-  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  border-right: 1px solid var(--border-color);
 }
 
 /* Mobile */

@@ -44,37 +44,35 @@ body {
 }
 
 .layout {
-  --primary: #4f46e5;
-  --primary-dark: #3730a3;
-  --primary-light: #eef2ff;
-  --accent: #06b6d4;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #ef4444;
+  --primary: #1677FF;
+  --primary-dark: #0050b3;
+  --primary-light: #e6f4ff;
+  --accent: #1677ff;
+  --success: #52c41a;
+  --warning: #faad14;
+  --danger: #ff4d4f;
 
-  --sidebar-bg: var(--sidebar-bg);
-  --sidebar-text: #94a3b8;
-  --sidebar-text-hover: #cbd5e1;
-  --sidebar-active-bg: rgba(79, 70, 229, 0.15);
-  --sidebar-hover-bg: rgba(255, 255, 255, 0.05);
-  --sidebar-group-label: #475569;
-  --sidebar-width: 260px;
-  --sidebar-collapsed-width: 72px;
+  --sidebar-bg: #ffffff;
+  --sidebar-text: rgba(0, 0, 0, 0.88);
+  --sidebar-text-hover: #1677ff;
+  --sidebar-active-bg: #e6f4ff;
+  --sidebar-hover-bg: rgba(0, 0, 0, 0.04);
+  --sidebar-group-label: rgba(0, 0, 0, 0.45);
+  --sidebar-width: 256px;
+  --sidebar-collapsed-width: 80px;
 
   --header-bg: #ffffff;
-  --header-border: #e2e8f0;
-  --header-height: 74px;
+  --header-border: #f0f0f0;
+  --header-height: 64px;
 
-  --body-bg: #f8fafc;
-  --text-primary: #0f172a;
-  --text-secondary: #64748b;
-  --border-color: #e2e8f0;
+  --body-bg: #fafafa;
+  --text-primary: rgba(0, 0, 0, 0.88);
+  --text-secondary: rgba(0, 0, 0, 0.45);
+  --border-color: #f0f0f0;
   --card-bg: #ffffff;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
-  --radius: 10px;
-  --transition: cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+  --radius: 8px;
+  --transition: cubic-bezier(0.645, 0.045, 0.355, 1);
 
   display: flex;
   height: 100vh;
@@ -84,15 +82,15 @@ body {
 
 /* Dark mode overrides */
 .layout.dark-mode {
-  --header-bg: #1e293b;
-  --header-border: #334155;
-  --body-bg: #0f172a;
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --border-color: #334155;
-  --card-bg: #1e293b;
-  --sidebar-bg: #020617;
-  --sidebar-group-label: #334155;
+  --header-bg: #141414;
+  --header-border: #303030;
+  --body-bg: #000000;
+  --text-primary: rgba(255, 255, 255, 0.85);
+  --text-secondary: rgba(255, 255, 255, 0.45);
+  --border-color: #303030;
+  --card-bg: #141414;
+  --sidebar-bg: #141414;
+  --sidebar-group-label: rgba(255, 255, 255, 0.45);
 }
 
 /* Sidebar collapsed */
