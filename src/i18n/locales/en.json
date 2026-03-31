@@ -1,0 +1,99 @@
+{
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of your HR management system",
+    "refreshData": "Refresh Data",
+    "exportReport": "Export Report",
+    "metrics": {
+      "totalEmployees": "Total Employees",
+      "activeEmployees": "Active Employees",
+      "todayAttendance": "Today's Attendance",
+      "payrollBudget": "Payroll Budget"
+    },
+    "attendance": {
+      "title": "Today's Attendance",
+      "present": "Present",
+      "absent": "Absent",
+      "late": "Late",
+      "onLeave": "On Leave",
+      "remote": "Remote"
+    },
+    "department": {
+      "title": "Department Overview",
+      "employees": "employees",
+      "avgTenure": "Avg Tenure",
+      "turnover": "Turnover"
+    },
+    "payroll": {
+      "title": "Payroll Summary",
+      "totalBudget": "Total Budget",
+      "processed": "Processed",
+      "pending": "Pending",
+      "utilization": "Utilization"
+    },
+    "leave": {
+      "title": "Leave Summary",
+      "totalRequests": "Total Requests",
+      "approved": "Approved",
+      "pending": "Pending",
+      "rejected": "Rejected"
+    },
+    "activity": {
+      "title": "Recent Activity"
+    }
+  },
+  "home": {
+    "title": "HRM System",
+    "subtitle": "Enterprise-grade Human Resource Management Platform",
+    "viewDashboard": "View Dashboard",
+    "manageEmployees": "Manage Employees",
+    "hrmPlatform": "HRM Platform",
+    "modules": {
+      "employeeManagement": "Employee Management",
+      "employeeManagementDesc": "Comprehensive employee records and profiles",
+      "attendanceTracking": "Attendance Tracking",
+      "attendanceTrackingDesc": "Real-time attendance and time management",
+      "payrollProcessing": "Payroll Processing",
+      "payrollProcessingDesc": "Automated salary and benefits management"
+    },
+    "features": {
+      "title": "Core Features",
+      "employeeManagement": "Employee Management",
+      "employeeManagementDesc": "Complete employee lifecycle management from onboarding to offboarding",
+      "attendanceTime": "Attendance & Time",
+      "attendanceTimeDesc": "Advanced time tracking with biometric and mobile app integration",
+      "payrollBenefits": "Payroll & Benefits",
+      "payrollBenefitsDesc": "Automated payroll processing with tax compliance and benefits management",
+      "leaveManagement": "Leave Management",
+      "leaveManagementDesc": "Streamlined leave requests and approval workflows",
+      "performanceTracking": "Performance Tracking",
+      "performanceTrackingDesc": "Goal setting, reviews, and performance analytics",
+      "aiAssistant": "AI Assistant",
+      "aiAssistantDesc": "Intelligent chatbot for HR support and employee assistance"
+    },
+    "techStack": {
+      "title": "Technology Stack",
+      "frontend": "Frontend",
+      "frontendItems": {
+        "vue3": "Vue 3 with Composition API",
+        "typescript": "TypeScript for type safety",
+        "css": "Pure CSS with responsive design",
+        "pinia": "Pinia for state management"
+      },
+      "architecture": "Architecture",
+      "architectureItems": {
+        "featureBased": "Feature-based folder structure",
+        "separation": "Clean separation of concerns",
+        "modular": "Modular route system",
+        "shared": "Shared utilities and types"
+      },
+      "api": "API & Services",
+      "apiItems": {
+        "restful": "RESTful API integration",
+        "auth": "Authentication ready",
+        "websocket": "WebSocket support for real-time",
+        "errorHandling": "Comprehensive error handling"
+      }
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "dashboard": {
+    "title": "Панель управления",
+    "subtitle": "Обзор вашей системы управления персоналом",
+    "refreshData": "Обновить данные",
+    "exportReport": "Экспорт отчета",
+    "metrics": {
+      "totalEmployees": "Всего сотрудников",
+      "activeEmployees": "Активные сотрудники",
+      "todayAttendance": "Посещаемость сегодня",
+      "payrollBudget": "Бюджет на зарплату"
+    },
+    "attendance": {
+      "title": "Посещаемость сегодня",
+      "present": "Присутствуют",
+      "absent": "Отсутствуют",
+      "late": "Опоздали",
+      "onLeave": "В отпуске",
+      "remote": "Удаленно"
+    },
+    "department": {
+      "title": "Обзор отделов",
+      "employees": "сотрудников",
+      "avgTenure": "Ср. стаж",
+      "turnover": "Текучесть"
+    },
+    "payroll": {
+      "title": "Сводка по зарплате",
+      "totalBudget": "Общий бюджет",
+      "processed": "Обработано",
+      "pending": "В ожидании",
+      "utilization": "Использование"
+    },
+    "leave": {
+      "title": "Сводка по отпускам",
+      "totalRequests": "Всего запросов",
+      "approved": "Утверждено",
+      "pending": "В ожидании",
+      "rejected": "Отклонено"
+    },
+    "activity": {
+      "title": "Последняя активность"
+    }
+  },
+  "home": {
+    "title": "HRM Система",
+    "subtitle": "Корпоративная платформа управления человеческими ресурсами",
+    "viewDashboard": "Просмотр панели управления",
+    "manageEmployees": "Управление сотрудниками",
+    "hrmPlatform": "HRM Платформа",
+    "modules": {
+      "employeeManagement": "Управление сотрудниками",
+      "employeeManagementDesc": "Полные записи и профили сотрудников",
+      "attendanceTracking": "Отслеживание посещаемости",
+      "attendanceTrackingDesc": "Учёт посещаемости и времени в реальном времени",
+      "payrollProcessing": "Обработка зарплаты",
+      "payrollProcessingDesc": "Автоматизированное управление зарплатой и льготами"
+    },
+    "features": {
+      "title": "Основные возможности",
+      "employeeManagement": "Управление сотрудниками",
+      "employeeManagementDesc": "Полное управление жизненным циклом сотрудника от приёма на работу до увольнения",
+      "attendanceTime": "Посещаемость и время",
+      "attendanceTimeDesc": "Продвинутое отслеживание времени с биометрической и мобильной интеграцией",
+      "payrollBenefits": "Зарплата и льготы",
+      "payrollBenefitsDesc": "Автоматическая обработка зарплаты с соблюдением налогов и управлением льготами",
+      "leaveManagement": "Управление отпусками",
+      "leaveManagementDesc": "Упрощённые запросы на отпуск и рабочие процессы утверждения",
+      "performanceTracking": "Отслеживание производительности",
+      "performanceTrackingDesc": "Постановка целей, обзоры и аналитика производительности",
+      "aiAssistant": "AI Ассистент",
+      "aiAssistantDesc": "Интеллектуальный чат-бот для HR поддержки и помощи сотрудникам"
+    },
+    "techStack": {
+      "title": "Технологический стек",
+      "frontend": "Frontend",
+      "frontendItems": {
+        "vue3": "Vue 3 с Composition API",
+        "typescript": "TypeScript для типобезопасности",
+        "css": "Pure CSS с адаптивным дизайном",
+        "pinia": "Pinia для управления состоянием"
+      },
+      "architecture": "Архитектура",
+      "architectureItems": {
+        "featureBased": "Структура папок на основе функций",
+        "separation": "Чёткое разделение ответственности",
+        "modular": "Модульная система маршрутов",
+        "shared": "Общие утилиты и типы"
+      },
+      "api": "API и сервисы",
+      "apiItems": {
+        "restful": "Интеграция RESTful API",
+        "auth": "Готовая аутентификация",
+        "websocket": "Поддержка WebSocket для реального времени",
+        "errorHandling": "Комплексная обработка ошибок"
+      }
+    }
+  }
+}

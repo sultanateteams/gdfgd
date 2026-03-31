@@ -1,0 +1,99 @@
+{
+  "dashboard": {
+    "title": "Boshqaruv paneli",
+    "subtitle": "HR boshqaruv tizimingizning umumiy ko'rinishi",
+    "refreshData": "Ma'lumotlarni yangilash",
+    "exportReport": "Hisobotni eksport qilish",
+    "metrics": {
+      "totalEmployees": "Jami xodimlar",
+      "activeEmployees": "Faol xodimlar",
+      "todayAttendance": "Bugungi qatnov",
+      "payrollBudget": "Ish haqi byudjeti"
+    },
+    "attendance": {
+      "title": "Bugungi qatnov",
+      "present": "Hozir",
+      "absent": "Yo'q",
+      "late": "Kechikdi",
+      "onLeave": "Ta'tilda",
+      "remote": "Masofaviy"
+    },
+    "department": {
+      "title": "Bo'limlar",
+      "employees": "xodimlar",
+      "avgTenure": "O'rtacha staj",
+      "turnover": "Aylanma"
+    },
+    "payroll": {
+      "title": "Ish haqi xulosasi",
+      "totalBudget": "Jami byudjet",
+      "processed": "Bajarilgan",
+      "pending": "Kutilmoqda",
+      "utilization": "Foydalanish"
+    },
+    "leave": {
+      "title": "Ta'til xulosasi",
+      "totalRequests": "Jami so'rovlar",
+      "approved": "Tasdiqlangan",
+      "pending": "Kutilmoqda",
+      "rejected": "Rad etilgan"
+    },
+    "activity": {
+      "title": "So'nggi faollik"
+    }
+  },
+  "home": {
+    "title": "HRM Tizim",
+    "subtitle": "Korporativ Inson Resurslari Boshqaruv Platformasi",
+    "viewDashboard": "Boshqaruv Panelini Ko'rish",
+    "manageEmployees": "Xodimlarni Boshqarish",
+    "hrmPlatform": "HRM Platformasi",
+    "modules": {
+      "employeeManagement": "Xodimlarni Boshqarish",
+      "employeeManagementDesc": "Xodimlarning to'liq ma'lumotlari va profillari",
+      "attendanceTracking": "Qatnovni Kuzatish",
+      "attendanceTrackingDesc": "Haqiqiy vaqt rejimida qatnov va vaqt boshqaruvi",
+      "payrollProcessing": "Ish Haqi Hisobi",
+      "payrollProcessingDesc": "Avtomatlashtirilgan oylik va imtiyozlar boshqaruvi"
+    },
+    "features": {
+      "title": "Asosiy Imkoniyatlar",
+      "employeeManagement": "Xodimlarni Boshqarish",
+      "employeeManagementDesc": "Ishga qabul qilishdan ishdan bo'shatishgacha bo'lgan to'liq xodim hayotiy sikli boshqaruvi",
+      "attendanceTime": "Qatnov va Vaqt",
+      "attendanceTimeDesc": "Biometrik va mobil ilova integratsiyasi bilan rivojlangan vaqt kuzatuvi",
+      "payrollBenefits": "Ish Haqi va Imtiyozlar",
+      "payrollBenefitsDesc": "Soliq mosligi va imtiyozlar boshqaruvi bilan avtomatik ish haqi hisobi",
+      "leaveManagement": "Ta'til Boshqaruvi",
+      "leaveManagementDesc": "Soddalashtirilgan ta'til so'rovlari va tasdiqlash jarayonlari",
+      "performanceTracking": "Samaradorlikni Kuzatish",
+      "performanceTrackingDesc": "Maqsad qo'yish, baholash va samaradorlik tahlili",
+      "aiAssistant": "AI Yordamchi",
+      "aiAssistantDesc": "HR qo'llab-quvvatlash va xodimlarga yordam uchun aqlli chatbot"
+    },
+    "techStack": {
+      "title": "Texnologik Stek",
+      "frontend": "Frontend",
+      "frontendItems": {
+        "vue3": "Vue 3 Composition API bilan",
+        "typescript": "Tip xavfsizligi uchun TypeScript",
+        "css": "Responsive dizayn bilan Pure CSS",
+        "pinia": "Holat boshqaruvi uchun Pinia"
+      },
+      "architecture": "Arxitektura",
+      "architectureItems": {
+        "featureBased": "Feature-asosidagi papka tuzilishi",
+        "separation": "Muammolarning aniq ajratilishi",
+        "modular": "Modular marshrut tizimi",
+        "shared": "Umumiy utilitalar va tiplar"
+      },
+      "api": "API va Xizmatlar",
+      "apiItems": {
+        "restful": "RESTful API integratsiyasi",
+        "auth": "Autentifikatsiya tayyor",
+        "websocket": "Haqiqiy vaqt uchun WebSocket qo'llab-quvvatlash",
+        "errorHandling": "Keng qamrovli xatolarni boshqarish"
+      }
+    }
+  }
+}
