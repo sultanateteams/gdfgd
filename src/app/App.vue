@@ -6,6 +6,7 @@
         <router-view />
       </AppLayout>
     </a-config-provider>
+    <TranslationEditorModal />
   </div>
 </template>
 
@@ -14,8 +15,13 @@ import { computed } from "vue";
 import { theme as antdTheme } from "ant-design-vue";
 import { useThemeStore } from "@/stores/themeStore";
 import AppLayout from "@/layouts/AppLayout.vue";
+import TranslationEditorModal from "@/components/TranslationEditorModal.vue";
+import { useTranslationEditMode } from "@/composables/useTranslationEditMode";
 
 const themeStore = useThemeStore();
+
+// Initialize translation edit mode
+useTranslationEditMode();
 
 const primaryColors: Record<string, string> = {
   ocean: "#4f46e5",

@@ -220,6 +220,38 @@ a:hover {
 .p-2 {
   padding: 0.5rem;
 }
+
+/* Translation editor visual indicator */
+.t-edit-mode [data-t-key]:hover {
+  outline: 2px dashed #3b82f6;
+  cursor: pointer;
+}
+
+.t-edit-mode [data-t-key] {
+  position: relative;
+}
+
+.t-edit-mode [data-t-key]::after {
+  content: attr(data-t-key);
+  position: absolute;
+  top: -1.35rem;
+  left: 0;
+  background: rgba(59, 130, 246, 0.9);
+  color: white;
+  font-size: 0.65rem;
+  border-radius: 3px;
+  padding: 1px 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+  white-space: nowrap;
+  z-index: 9999;
+}
+
+.t-edit-mode [data-t-key]:hover::after {
+  opacity: 1;
+}
+
 .p-3 {
   padding: 0.75rem;
 }
@@ -580,6 +612,45 @@ a:hover {
 
 .slide-in-left {
   animation: slideInLeft var(--transition-normal) ease-out;
+}
+
+/* Translation Editor Styles */
+.t-edit-mode [data-t-key] {
+  outline: 2px dashed #3b82f6 !important;
+  outline-offset: 2px;
+  cursor: crosshair !important;
+  position: relative;
+  transition: outline-color 0.15s ease;
+}
+
+.t-edit-mode [data-t-key]:hover {
+  outline-color: #2563eb !important;
+  background-color: rgba(59, 130, 246, 0.05);
+}
+
+/* Translation editor mode indicator badge */
+.t-edit-mode [data-t-key]::after {
+  content: '✏️';
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  font-size: 12px;
+  background: #3b82f6;
+  color: white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.t-edit-mode [data-t-key]:hover::after {
+  opacity: 1;
 }
 
 /* Print Styles */
