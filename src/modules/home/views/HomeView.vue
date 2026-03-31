@@ -2,15 +2,15 @@
   <div class="home-view">
     <div class="hero-section">
       <div class="hero-content">
-        <h1 class="hero-title">HRM System</h1>
-        <p class="hero-subtitle">Enterprise-grade Human Resource Management Platform</p>
+        <h1 class="hero-title">{{ l('HRM System', 'home.title') }}</h1>
+        <p class="hero-subtitle">{{ l('Enterprise-grade Human Resource Management Platform', 'home.subtitle') }}</p>
         
         <div class="hero-actions">
           <router-link to="/dashboard" class="btn btn-primary">
-            View Dashboard
+            {{ l('View Dashboard', 'home.viewDashboard') }}
           </router-link>
           <router-link to="/employees" class="btn btn-secondary">
-            Manage Employees
+            {{ l('Manage Employees', 'home.manageEmployees') }}
           </router-link>
         </div>
       </div>
@@ -20,28 +20,28 @@
           <div class="preview-card">
             <div class="preview-header">
               <div class="status-indicator"></div>
-              <span>HRM Platform</span>
+              <span>{{ l('HRM Platform', 'home.hrmPlatform') }}</span>
             </div>
             <div class="preview-content">
               <div class="module-preview">
                 <div class="module-icon">👥</div>
                 <div class="module-info">
-                  <h4>Employee Management</h4>
-                  <p>Comprehensive employee records and profiles</p>
+                  <h4>{{ l('Employee Management', 'home.modules.employeeManagement') }}</h4>
+                  <p>{{ l('Comprehensive employee records and profiles', 'home.modules.employeeManagementDesc') }}</p>
                 </div>
               </div>
               <div class="module-preview">
                 <div class="module-icon">⏰</div>
                 <div class="module-info">
-                  <h4>Attendance Tracking</h4>
-                  <p>Real-time attendance and time management</p>
+                  <h4>{{ l('Attendance Tracking', 'home.modules.attendanceTracking') }}</h4>
+                  <p>{{ l('Real-time attendance and time management', 'home.modules.attendanceTrackingDesc') }}</p>
                 </div>
               </div>
               <div class="module-preview">
                 <div class="module-icon">💰</div>
                 <div class="module-info">
-                  <h4>Payroll Processing</h4>
-                  <p>Automated salary and benefits management</p>
+                  <h4>{{ l('Payroll Processing', 'home.modules.payrollProcessing') }}</h4>
+                  <p>{{ l('Automated salary and benefits management', 'home.modules.payrollProcessingDesc') }}</p>
                 </div>
               </div>
             </div>
@@ -51,76 +51,76 @@
     </div>
 
     <div class="features-section">
-      <h2 class="section-title">Core Features</h2>
+      <h2 class="section-title">{{ l('Core Features', 'home.features.title') }}</h2>
       <div class="features-grid">
         <div class="feature-card">
           <div class="feature-icon">👥</div>
-          <h3>Employee Management</h3>
-          <p>Complete employee lifecycle management from onboarding to offboarding</p>
+          <h3>{{ l('Employee Management', 'home.features.employeeManagement') }}</h3>
+          <p>{{ l('Complete employee lifecycle management from onboarding to offboarding', 'home.features.employeeManagementDesc') }}</p>
         </div>
         
         <div class="feature-card">
           <div class="feature-icon">⏰</div>
-          <h3>Attendance & Time</h3>
-          <p>Advanced time tracking with biometric and mobile app integration</p>
+          <h3>{{ l('Attendance & Time', 'home.features.attendanceTime') }}</h3>
+          <p>{{ l('Advanced time tracking with biometric and mobile app integration', 'home.features.attendanceTimeDesc') }}</p>
         </div>
         
         <div class="feature-card">
           <div class="feature-icon">💰</div>
-          <h3>Payroll & Benefits</h3>
-          <p>Automated payroll processing with tax compliance and benefits management</p>
+          <h3>{{ l('Payroll & Benefits', 'home.features.payrollBenefits') }}</h3>
+          <p>{{ l('Automated payroll processing with tax compliance and benefits management', 'home.features.payrollBenefitsDesc') }}</p>
         </div>
         
         <div class="feature-card">
           <div class="feature-icon">📅</div>
-          <h3>Leave Management</h3>
-          <p>Streamlined leave requests and approval workflows</p>
+          <h3>{{ l('Leave Management', 'home.features.leaveManagement') }}</h3>
+          <p>{{ l('Streamlined leave requests and approval workflows', 'home.features.leaveManagementDesc') }}</p>
         </div>
         
         <div class="feature-card">
           <div class="feature-icon">📊</div>
-          <h3>Performance Tracking</h3>
-          <p>Goal setting, reviews, and performance analytics</p>
+          <h3>{{ l('Performance Tracking', 'home.features.performanceTracking') }}</h3>
+          <p>{{ l('Goal setting, reviews, and performance analytics', 'home.features.performanceTrackingDesc') }}</p>
         </div>
         
         <div class="feature-card">
           <div class="feature-icon">🤖</div>
-          <h3>AI Assistant</h3>
-          <p>Intelligent chatbot for HR support and employee assistance</p>
+          <h3>{{ l('AI Assistant', 'home.features.aiAssistant') }}</h3>
+          <p>{{ l('Intelligent chatbot for HR support and employee assistance', 'home.features.aiAssistantDesc') }}</p>
         </div>
       </div>
     </div>
 
     <div class="architecture-section">
-      <h2 class="section-title">Technology Stack</h2>
+      <h2 class="section-title">{{ l('Technology Stack', 'home.techStack.title') }}</h2>
       <div class="architecture-grid">
         <div class="arch-item">
-          <h3>Frontend</h3>
+          <h3>{{ l('Frontend', 'home.techStack.frontend') }}</h3>
           <ul>
-            <li>Vue 3 with Composition API</li>
-            <li>TypeScript for type safety</li>
-            <li>Pure CSS with responsive design</li>
-            <li>Pinia for state management</li>
+            <li>{{ l('Vue 3 with Composition API', 'home.techStack.frontendItems.vue3') }}</li>
+            <li>{{ l('TypeScript for type safety', 'home.techStack.frontendItems.typescript') }}</li>
+            <li>{{ l('Pure CSS with responsive design', 'home.techStack.frontendItems.css') }}</li>
+            <li>{{ l('Pinia for state management', 'home.techStack.frontendItems.pinia') }}</li>
           </ul>
         </div>
         
         <div class="arch-item">
-          <h3>Architecture</h3>
+          <h3>{{ l('Architecture', 'home.techStack.architecture') }}</h3>
           <ul>
-            <li>Feature-based folder structure</li>
-            <li>Clean separation of concerns</li>
-            <li>Modular route system</li>
-            <li>Shared utilities and types</li>
+            <li>{{ l('Feature-based folder structure', 'home.techStack.architectureItems.featureBased') }}</li>
+            <li>{{ l('Clean separation of concerns', 'home.techStack.architectureItems.separation') }}</li>
+            <li>{{ l('Modular route system', 'home.techStack.architectureItems.modular') }}</li>
+            <li>{{ l('Shared utilities and types', 'home.techStack.architectureItems.shared') }}</li>
           </ul>
         </div>
         
         <div class="arch-item">
-          <h3>API & Services</h3>
+          <h3>{{ l('API & Services', 'home.techStack.api') }}</h3>
           <ul>
-            <li>RESTful API integration</li>
-            <li>Authentication ready</li>
-            <li>WebSocket support for real-time</li>
-            <li>Comprehensive error handling</li>
+            <li>{{ l('RESTful API integration', 'home.techStack.apiItems.restful') }}</li>
+            <li>{{ l('Authentication ready', 'home.techStack.apiItems.auth') }}</li>
+            <li>{{ l('WebSocket support for real-time', 'home.techStack.apiItems.websocket') }}</li>
+            <li>{{ l('Comprehensive error handling', 'home.techStack.apiItems.errorHandling') }}</li>
           </ul>
         </div>
       </div>
@@ -129,7 +129,9 @@
 </template>
 
 <script setup lang="ts">
-// Home view component
+import { useT } from '@/composables/useT'
+
+const { l } = useT()
 </script>
 
 <style scoped>

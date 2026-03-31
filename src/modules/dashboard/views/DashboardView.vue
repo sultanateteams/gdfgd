@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard-view">
     <div class="dashboard-header">
-      <h1 class="dashboard-title">{{ l('Asosiy oyna', 'dashboard.title') }}</h1>
+      <h1 class="dashboard-title">{{ l('Asosiy oyna', 'dashboard.titlecbxvx') }}</h1>
       <p class="dashboard-subtitle">{{ l('Overview of your HR management system', 'dashboard.subtitle') }}</p>
       
       <div class="dashboard-actions">

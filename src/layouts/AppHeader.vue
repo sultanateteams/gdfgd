@@ -19,6 +19,11 @@
     <!-- O'ng: Amallar -->
     <div class="header-right">
       <!-- <ThemeSwitcher /> -->
+      <!-- Language switcher -->
+      <LanguageSwitcher />
+
+      <div class="header-divider"></div>
+
       <!-- Dark mode toggle -->
       <button class="icon-btn" @click="toggleDarkMode" :title="isDarkMode ? 'Light mode' : 'Dark mode'">
         <svg v-if="isDarkMode" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -45,6 +50,7 @@
 import HeaderSearch from './header/HeaderSearch.vue'
 import HeaderNotifications from './header/HeaderNotifications.vue'
 import HeaderUser from './header/HeaderUser.vue'
+import LanguageSwitcher from './header/LanguageSwitcher.vue'
 import { useLayout } from '@/composables/useLayout'
 import ThemeSwitcher from './header/ThemeSwitcher.vue'
 
