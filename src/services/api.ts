@@ -99,6 +99,11 @@ class ApiService {
   async delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
     return this.request<T>({ ...config, method: 'DELETE', url })
   }
+
+  // PATCH request
+  async patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
+    return this.request<T>({ ...config, method: 'PATCH', url, data })
+  }
 }
 
 export const apiService = new ApiService()

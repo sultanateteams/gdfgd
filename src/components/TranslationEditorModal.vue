@@ -18,7 +18,7 @@
       </div>
 
       <div class="t-modal-body">
-        <div v-for="lang in languages" :key="lang.code" class="t-field">
+        <div v-for="lang in languagesStore.languages" :key="lang.code" class="t-field">
           <label class="t-field-label">
             <span class="t-field-flag">{{ lang.flag }}</span>
             <span class="t-field-name">{{ lang.name }}</span>
@@ -67,19 +67,18 @@
 <script setup lang="ts">
 import { reactive, watch, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { storeToRefs } from 'pinia'
 import { useTranslationEditorStore } from '@/stores/translationEditor'
+import { useLanguagesStore } from '@/stores/languages'
 import { apiService } from '@/services/api'
 
 const store = useTranslationEditorStore()
+const languagesStore = useLanguagesStore()
+const { languages } = storeToRefs(languagesStore)
+
 const { getLocaleMessage, setLocaleMessage } = useI18n({ useScope: 'global' })
 
-const languages = [
-  { code: 'uz', name: "O'zbek", flag: '🇺🇿' },
-  { code: 'en', name: 'English', flag: '🇬🇧' },
-  { code: 'ru', name: 'Русский', flag: '🇷🇺' },
-]
-
-const values = reactive<Record<string, string>>({ uz: '', en: '', ru: '' })
+const values = reactive<Record<string, string>>({})
 const saving = ref(false)
 const copied = ref(false)
 
@@ -88,7 +87,14 @@ watch(
   () => store.activeKey,
   (key) => {
     if (!key) return
-    for (const lang of languages) {
+
+    // Clear previous values
+    for (const code in values) {
+      delete values[code]
+    }
+
+    // Fill values for all languages in the store
+    for (const lang of languages.value) {
       const messages = getLocaleMessage(lang.code) as Record<string, any>
       const parts = key.split('.')
       let val: any = messages
@@ -107,7 +113,7 @@ function copyForAI() {
     defaultText: store.activeDefaultText ?? '',
   }
 
-  for (const lang of languages) {
+  for (const lang of languages.value) {
     payload[lang.code] = values[lang.code] ?? ''
   }
 
@@ -138,8 +144,8 @@ async function submit() {
   saving.value = true
 
   try {
-    for (const lang of languages) {
-      const newValue = values[lang.code]!
+    for (const lang of languages.value) {
+      const newValue = values[lang.code] ?? ''
 
       const messages = JSON.parse(JSON.stringify(getLocaleMessage(lang.code)))
       setNestedValue(messages, key, newValue)

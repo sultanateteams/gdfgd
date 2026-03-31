@@ -6,6 +6,23 @@ import homeRoutes from '@/modules/home/routes'
 
 const routes: RouteRecordRaw[] = [
   ...homeRoutes,
+  // Language management routes
+  {
+    path: '/admin/language/languages',
+    name: 'LanguagesManagement',
+    component: () => import('@/pages/admin/languages/LanguagesPage.vue'),
+    meta: {
+      title: 'Languages Management'
+    }
+  },
+  {
+    path: '/admin/language/translate',
+    name: 'TranslateWords',
+    component: () => import('@/pages/admin/languages/TranslateWordsPage.vue'),
+    meta: {
+      title: 'Translate Words'
+    }
+  },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',

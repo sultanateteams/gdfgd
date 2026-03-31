@@ -20,8 +20,13 @@
 
     <Transition name="dropdown">
       <div class="dropdown language-dropdown" v-if="isOpen" @click.stop>
+        <div v-if="languagesStore.loading && languagesStore.languages.length === 0" class="dropdown-loading">
+          <span class="loading-spinner"></span>
+          Loading...
+        </div>
         <button
-          v-for="lang in languages"
+          v-else
+          v-for="lang in languagesStore.activeLanguages"
           :key="lang.code"
           class="dropdown-item"
           :class="{ active: currentLocale === lang.code }"
@@ -41,17 +46,17 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { storeToRefs } from 'pinia'
+import { useLanguagesStore } from '@/stores/languages'
+import { loadTranslations } from '@/i18n'
+
+const languagesStore = useLanguagesStore()
+const { activeLanguages } = storeToRefs(languagesStore)
 
 const { locale } = useI18n()
 
 const isOpen = ref(false)
 const wrapperRef = ref<HTMLElement>()
-
-const languages = [
-  { code: 'uz', name: 'O\'zbek', flag: '🇺🇿' },
-  { code: 'en', name: 'English', flag: '🇬🇧' },
-  { code: 'ru', name: 'Русский', flag: '🇷🇺' }
-]
 
 const currentLocale = computed(() => locale.value)
 
@@ -59,7 +64,9 @@ function toggle() {
   isOpen.value = !isOpen.value
 }
 
-function changeLocale(code: string) {
+async function changeLocale(code: string) {
+  // Load translations if not already loaded
+  await loadTranslations(code)
   locale.value = code
   isOpen.value = false
   // Save preference to localStorage
@@ -81,7 +88,7 @@ onMounted(() => {
   document.addEventListener('keydown', handleEsc)
   // Restore preference from localStorage
   const saved = localStorage.getItem('preferred-locale')
-  if (saved && languages.some(l => l.code === saved)) {
+  if (saved && languagesStore.codes.includes(saved)) {
     locale.value = saved
   }
 })
@@ -153,6 +160,29 @@ onUnmounted(() => {
 .language-dropdown {
   width: 160px;
   padding: 6px;
+}
+
+.dropdown-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border-color);
+  border-top-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 .dropdown-item {
