@@ -12,6 +12,11 @@
         </button>
       </div>
 
+      <div v-if="store.activeDefaultText" class="t-modal-default">
+        <span class="t-default-label">Default Text:</span>
+        <span class="t-default-value">{{ store.activeDefaultText }}</span>
+      </div>
+
       <div class="t-modal-body">
         <div v-for="lang in languages" :key="lang.code" class="t-field">
           <label class="t-field-label">
@@ -34,12 +39,26 @@
       </div>
 
       <div class="t-modal-footer">
-        <button class="t-btn t-btn-secondary" @click="store.closeModal()">
-          Cancel
+        <!-- Copy for AI — chap tomonda -->
+        <button class="t-btn t-btn-copy" @click="copyForAI" :disabled="saving" title="Nusxalash">
+          <svg v-if="!copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+          </svg>
+          <svg v-else width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          {{ copied ? 'Nusxalandi!' : 'Nusxalash' }}
         </button>
-        <button class="t-btn t-btn-primary" @click="submit" :disabled="saving">
-          {{ saving ? 'Saving...' : 'Save' }}
-        </button>
+
+        <div class="t-footer-right">
+          <button class="t-btn t-btn-secondary" @click="store.closeModal()">
+            Cancel
+          </button>
+          <button class="t-btn t-btn-primary" @click="submit" :disabled="saving">
+            {{ saving ? 'Saving...' : 'Save' }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -62,6 +81,7 @@ const languages = [
 
 const values = reactive<Record<string, string>>({ uz: '', en: '', ru: '' })
 const saving = ref(false)
+const copied = ref(false)
 
 // Pre-fill inputs when modal opens
 watch(
@@ -80,6 +100,22 @@ watch(
   },
   { immediate: true }
 )
+
+function copyForAI() {
+  const payload: Record<string, string> = {
+    key: store.activeKey ?? '',
+    defaultText: store.activeDefaultText ?? '',
+  }
+
+  for (const lang of languages) {
+    payload[lang.code] = values[lang.code] ?? ''
+  }
+
+  navigator.clipboard.writeText(JSON.stringify(payload, null, 2)).then(() => {
+    copied.value = true
+    setTimeout(() => (copied.value = false), 2000)
+  })
+}
 
 function setNestedValue(obj: Record<string, any>, key: string, value: string) {
   const parts = key.split('.')
@@ -105,12 +141,10 @@ async function submit() {
     for (const lang of languages) {
       const newValue = values[lang.code]!
 
-      // Update i18n in-place — Vue reactivity triggers re-render immediately
       const messages = JSON.parse(JSON.stringify(getLocaleMessage(lang.code)))
       setNestedValue(messages, key, newValue)
       setLocaleMessage(lang.code, messages)
 
-      // Send to backend API
       try {
         await apiService.post('/translations/update', {
           locale: lang.code,
@@ -119,7 +153,6 @@ async function submit() {
         })
       } catch (apiError) {
         console.warn(`Failed to save translation to API for ${lang.code}:`, apiError)
-        // Continue even if API fails - the UI is already updated
       }
     }
 
@@ -131,7 +164,6 @@ async function submit() {
 </script>
 
 <style scoped>
-/* Modal Overlay */
 .t-modal-overlay {
   position: fixed;
   top: 0;
@@ -147,15 +179,10 @@ async function submit() {
 }
 
 @keyframes t-fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* Modal Container */
 .t-modal {
   background: var(--bg-primary, #ffffff);
   border-radius: 12px;
@@ -168,17 +195,10 @@ async function submit() {
 }
 
 @keyframes t-slide-up {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Modal Header */
 .t-modal-header {
   display: flex;
   align-items: center;
@@ -186,6 +206,32 @@ async function submit() {
   padding: 16px 20px;
   border-bottom: 1px solid var(--border-color, #e5e7eb);
   flex-wrap: wrap;
+}
+
+.t-modal-default {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--bg-secondary, #f9fafb);
+  border-bottom: 1px solid var(--border-color, #e5e7eb);
+}
+
+.t-default-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.t-default-value {
+  font-size: 0.9375rem;
+  color: var(--text-primary, #1f2937);
+  font-style: italic;
+  word-break: break-word;
 }
 
 .t-modal-header h3 {
@@ -224,7 +270,6 @@ async function submit() {
   color: var(--text-primary, #1f2937);
 }
 
-/* Modal Body */
 .t-modal-body {
   padding: 20px;
   display: flex;
@@ -234,7 +279,6 @@ async function submit() {
   max-height: 60vh;
 }
 
-/* Field */
 .t-field {
   display: flex;
   flex-direction: column;
@@ -250,13 +294,8 @@ async function submit() {
   color: var(--text-primary, #1f2937);
 }
 
-.t-field-flag {
-  font-size: 1.25rem;
-}
-
-.t-field-name {
-  font-weight: 600;
-}
+.t-field-flag { font-size: 1.25rem; }
+.t-field-name { font-weight: 600; }
 
 .t-field-code {
   background: var(--bg-secondary, #f9fafb);
@@ -290,7 +329,6 @@ async function submit() {
   color: var(--text-muted, #9ca3af);
 }
 
-/* Saving Indicator */
 .t-saving-indicator {
   display: flex;
   align-items: center;
@@ -311,23 +349,28 @@ async function submit() {
 }
 
 @keyframes t-spin {
-  to {
-    transform: rotate(360deg);
-  }
+  to { transform: rotate(360deg); }
 }
 
-/* Modal Footer */
 .t-modal-footer {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
   gap: 8px;
   padding: 16px 20px;
   border-top: 1px solid var(--border-color, #e5e7eb);
   background: var(--bg-secondary, #f9fafb);
 }
 
-/* Buttons */
+.t-footer-right {
+  display: flex;
+  gap: 8px;
+}
+
 .t-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   padding: 8px 16px;
   border-radius: 8px;
   font-size: 0.875rem;
@@ -359,5 +402,16 @@ async function submit() {
 
 .t-btn-primary:hover:not(:disabled) {
   background: #2563eb;
+}
+
+.t-btn-copy {
+  background: var(--bg-tertiary, #f3f4f6);
+  color: var(--text-secondary, #6b7280);
+  border: 1px solid var(--border-color, #e5e7eb);
+}
+
+.t-btn-copy:hover:not(:disabled) {
+  background: #e5e7eb;
+  color: var(--text-primary, #1f2937);
 }
 </style>

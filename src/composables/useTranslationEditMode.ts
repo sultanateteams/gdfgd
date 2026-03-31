@@ -1,6 +1,6 @@
 import { onMounted, onUnmounted, watch } from 'vue'
 import { useTranslationEditorStore } from '@/stores/translationEditor'
-import { getTranslationKeyByText } from '@/composables/useT'
+import { getTranslationKeyByText, getTranslationDefaultText } from '@/composables/useT'
 
 // Check if we're in development mode or if user is admin
 const isDev = import.meta.env.DEV
@@ -40,6 +40,7 @@ export function useTranslationEditMode() {
   function annotateTranslationElements() {
     const allElements = Array.from(document.body.querySelectorAll<HTMLElement>('*'))
     allElements.forEach((el) => {
+      // Skip elements that already have data-t-key (from v-t-edit directive)
       if (el.hasAttribute('data-t-key')) return
       if (el.children.length > 0) return
 
@@ -49,6 +50,11 @@ export function useTranslationEditMode() {
       const key = getTranslationKeyByText(text)
       if (key) {
         el.setAttribute('data-t-key', key)
+        // Also set data-t-default from cache
+        const defaultText = getTranslationDefaultText(key)
+        if (defaultText) {
+          el.setAttribute('data-t-default', defaultText)
+        }
       }
     })
   }
@@ -60,16 +66,27 @@ export function useTranslationEditMode() {
     const el = clickedElement.closest('[data-t-key]') as HTMLElement | null
 
     let key = el?.getAttribute('data-t-key') ?? null
+    let defaultText: string | null = null
 
+    // First, try to get defaultText from data-t-default attribute
+    if (el) {
+      defaultText = el.getAttribute('data-t-default')
+    }
+
+    // Fallback: try to find key from text content
     if (!key) {
       const text = clickedElement.textContent?.trim() ?? ''
       key = getTranslationKeyByText(text)
+      // Get defaultText from cache if available
+      if (key) {
+        defaultText = getTranslationDefaultText(key)
+      }
     }
 
     if (key) {
       e.preventDefault()
       e.stopPropagation()
-      store.openModal(key)
+      store.openModal(key, defaultText ?? undefined)
     }
   }
 

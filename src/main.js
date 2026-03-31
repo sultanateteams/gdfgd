@@ -17,10 +17,26 @@ app.use(router)
 
 app.directive('t-edit', {
   mounted(el, binding) {
-    el.setAttribute('data-t-key', binding.value)
+    const value = binding.value
+    if (typeof value === 'string') {
+      el.setAttribute('data-t-key', value)
+    } else if (typeof value === 'object' && value !== null) {
+      if (value.key) el.setAttribute('data-t-key', value.key)
+      if (value.default !== undefined && value.default !== null) {
+        el.setAttribute('data-t-default', String(value.default))
+      }
+    }
   },
   updated(el, binding) {
-    el.setAttribute('data-t-key', binding.value)
+    const value = binding.value
+    if (typeof value === 'string') {
+      el.setAttribute('data-t-key', value)
+    } else if (typeof value === 'object' && value !== null) {
+      if (value.key) el.setAttribute('data-t-key', value.key)
+      if (value.default !== undefined && value.default !== null) {
+        el.setAttribute('data-t-default', String(value.default))
+      }
+    }
   }
 })
 

@@ -4,15 +4,18 @@ import { ref } from 'vue'
 export const useTranslationEditorStore = defineStore('translationEditor', () => {
   const isEditMode = ref(false)
   const activeKey = ref<string | null>(null)
+  const activeDefaultText = ref<string | null>(null)
   const isModalOpen = ref(false)
 
-  function openModal(key: string) {
+  function openModal(key: string, defaultText?: string) {
     activeKey.value = key
+    activeDefaultText.value = defaultText ?? null
     isModalOpen.value = true
   }
 
   function closeModal() {
     activeKey.value = null
+    activeDefaultText.value = null
     isModalOpen.value = false
   }
 
@@ -20,5 +23,5 @@ export const useTranslationEditorStore = defineStore('translationEditor', () => 
     isEditMode.value = enabled
   }
 
-  return { isEditMode, activeKey, isModalOpen, openModal, closeModal, setEditMode }
+  return { isEditMode, activeKey, activeDefaultText, isModalOpen, openModal, closeModal, setEditMode }
 })
