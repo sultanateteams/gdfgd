@@ -176,7 +176,7 @@ async function submit() {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--overlay-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -190,9 +190,9 @@ async function submit() {
 }
 
 .t-modal {
-  background: var(--bg-primary, #ffffff);
+  background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-lg);
   width: 90%;
   max-width: 500px;
   max-height: 90vh;
@@ -210,7 +210,7 @@ async function submit() {
   align-items: center;
   gap: 8px;
   padding: 16px 20px;
-  border-bottom: 1px solid var(--border-color, #e5e7eb);
+  border-bottom: 1px solid var(--border-color);
   flex-wrap: wrap;
 }
 
@@ -219,14 +219,14 @@ async function submit() {
   align-items: flex-start;
   gap: 8px;
   padding: 12px 20px;
-  background: var(--bg-secondary, #f9fafb);
-  border-bottom: 1px solid var(--border-color, #e5e7eb);
+  background: var(--body-bg);
+  border-bottom: 1px solid var(--border-color);
 }
 
 .t-default-label {
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--text-secondary, #6b7280);
+  color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   flex-shrink: 0;
@@ -235,7 +235,7 @@ async function submit() {
 
 .t-default-value {
   font-size: 0.9375rem;
-  color: var(--text-primary, #1f2937);
+  color: var(--text-primary);
   font-style: italic;
   word-break: break-word;
 }
@@ -244,15 +244,15 @@ async function submit() {
   margin: 0;
   font-size: 1.125rem;
   font-weight: 600;
-  color: var(--text-primary, #1f2937);
+  color: var(--text-primary);
 }
 
 .t-modal-key {
-  background: var(--bg-secondary, #f9fafb);
+  background: var(--code-bg);
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 0.875rem;
-  color: var(--text-secondary, #6b7280);
+  color: var(--text-secondary);
   font-family: monospace;
   word-break: break-all;
 }
@@ -264,7 +264,7 @@ async function submit() {
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
-  color: var(--text-secondary, #6b7280);
+  color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -272,8 +272,8 @@ async function submit() {
 }
 
 .t-modal-close:hover {
-  background: var(--bg-tertiary, #f3f4f6);
-  color: var(--text-primary, #1f2937);
+  background: var(--body-bg);
+  color: var(--text-primary);
 }
 
 .t-modal-body {
@@ -297,42 +297,42 @@ async function submit() {
   gap: 8px;
   font-size: 0.875rem;
   font-weight: 500;
-  color: var(--text-primary, #1f2937);
+  color: var(--text-primary);
 }
 
 .t-field-flag { font-size: 1.25rem; }
 .t-field-name { font-weight: 600; }
 
 .t-field-code {
-  background: var(--bg-secondary, #f9fafb);
+  background: var(--code-bg);
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.75rem;
-  color: var(--text-secondary, #6b7280);
+  color: var(--text-secondary);
   font-family: monospace;
 }
 
 .t-field-input {
   width: 100%;
   padding: 10px 12px;
-  border: 1px solid var(--border-color, #e5e7eb);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   font-size: 0.9375rem;
   font-family: inherit;
   resize: vertical;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  background: var(--bg-primary, #ffffff);
-  color: var(--text-primary, #1f2937);
+  background: var(--input-bg);
+  color: var(--text-primary);
 }
 
 .t-field-input:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
 }
 
 .t-field-input::placeholder {
-  color: var(--text-muted, #9ca3af);
+  color: var(--text-muted);
 }
 
 .t-saving-indicator {
@@ -342,14 +342,14 @@ async function submit() {
   gap: 8px;
   padding: 12px 20px;
   font-size: 0.875rem;
-  color: var(--text-secondary, #6b7280);
+  color: var(--text-secondary);
 }
 
 .t-saving-spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid var(--border-color, #e5e7eb);
-  border-top-color: #3b82f6;
+  border: 2px solid var(--border-color);
+  border-top-color: var(--primary);
   border-radius: 50%;
   animation: t-spin 0.6s linear infinite;
 }
@@ -364,8 +364,8 @@ async function submit() {
   justify-content: space-between;
   gap: 8px;
   padding: 16px 20px;
-  border-top: 1px solid var(--border-color, #e5e7eb);
-  background: var(--bg-secondary, #f9fafb);
+  border-top: 1px solid var(--border-color);
+  background: var(--body-bg);
 }
 
 .t-footer-right {
@@ -393,31 +393,32 @@ async function submit() {
 }
 
 .t-btn-secondary {
-  background: var(--bg-tertiary, #f3f4f6);
-  color: var(--text-primary, #1f2937);
+  background: var(--body-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
 }
 
 .t-btn-secondary:hover:not(:disabled) {
-  background: #e5e7eb;
+  background: var(--border-color);
 }
 
 .t-btn-primary {
-  background: #3b82f6;
+  background: var(--primary);
   color: white;
 }
 
 .t-btn-primary:hover:not(:disabled) {
-  background: #2563eb;
+  opacity: 0.9;
 }
 
 .t-btn-copy {
-  background: var(--bg-tertiary, #f3f4f6);
-  color: var(--text-secondary, #6b7280);
-  border: 1px solid var(--border-color, #e5e7eb);
+  background: var(--body-bg);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
 }
 
 .t-btn-copy:hover:not(:disabled) {
-  background: #e5e7eb;
-  color: var(--text-primary, #1f2937);
+  background: var(--border-color);
+  color: var(--text-primary);
 }
 </style>

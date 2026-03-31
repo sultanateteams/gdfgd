@@ -2,21 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import theme CSS variables (must come after Tailwind to override) */
+@import '@/assets/themes.css';
+
 /* CSS Reset and Base Styles */
+/* Note: Theme-specific variables are defined in themes.css based on data-theme and data-mode attributes */
 :root {
-  --primary-color: #3b82f6;
-  --primary-hover: #2563eb;
+  /* Fallback values - these will be overridden by themes.css */
+  --primary-color: var(--primary, #4f46e5);
+  --primary-hover: var(--primary-dark, #3730a3);
   --secondary-color: #64748b;
-  --text-primary: #1f2937;
-  --text-secondary: #6b7280;
-  --text-muted: #9ca3af;
-  --bg-primary: #ffffff;
-  --bg-secondary: #f9fafb;
-  --bg-tertiary: #f3f4f6;
-  --border-color: #e5e7eb;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --radius-sm: 6px;
   --radius-md: 8px;
   --radius-lg: 12px;

@@ -629,7 +629,7 @@ async function saveModal() {
 }
 
 .missing-count {
-  color: #ef4444;
+  color: var(--danger);
   font-weight: 600;
 }
 
@@ -656,9 +656,9 @@ async function saveModal() {
   align-items: center;
   gap: 6px;
   padding: 8px 16px;
-  background: var(--ai-btn-bg, #f0fdf4);
-  color: var(--ai-btn-color, #16a34a);
-  border: 1px solid var(--ai-btn-border, #bbf7d0);
+  background: var(--success-light);
+  color: var(--success);
+  border: 1px solid var(--success-light);
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
@@ -668,9 +668,9 @@ async function saveModal() {
 }
 
 .btn-copy-ai.copied {
-  background: #16a34a;
+  background: var(--success);
   color: #fff;
-  border-color: #16a34a;
+  border-color: var(--success);
 }
 
 /* ── Filter bar ── */
@@ -679,7 +679,7 @@ async function saveModal() {
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
-  background: var(--filter-bg, #f8f9fa);
+  background: var(--body-bg);
   border: 1px solid var(--border-color);
   border-radius: 8px;
   margin-bottom: 16px;
@@ -714,9 +714,9 @@ async function saveModal() {
 }
 
 .filter-checkbox.active {
-  background: rgba(239, 68, 68, 0.1);
-  border-color: #ef4444;
-  color: #ef4444;
+  background: var(--danger-light);
+  border-color: var(--danger);
+  color: var(--danger);
 }
 
 .filter-count {
@@ -750,7 +750,7 @@ async function saveModal() {
 
 .keys-table th {
   padding: 10px 14px;
-  background: var(--table-header-bg, #f8f9fa);
+  background: var(--body-bg);
   color: var(--text-secondary);
   font-weight: 600;
   text-align: left;
@@ -769,12 +769,12 @@ async function saveModal() {
 }
 
 .col-key code {
-  background: var(--code-bg, #f1f5f9);
+  background: var(--code-bg);
   padding: 2px 6px;
   border-radius: 4px;
   font-family: monospace;
   font-size: 12px;
-  color: var(--primary, #6366f1);
+  color: var(--primary);
 }
 
 .col-default {
@@ -799,7 +799,7 @@ async function saveModal() {
 .source-badge {
   display: inline-block;
   padding: 1px 6px;
-  background: var(--code-bg, #f1f5f9);
+  background: var(--code-bg);
   color: var(--text-secondary);
   border-radius: 4px;
   font-size: 11px;
@@ -819,12 +819,12 @@ async function saveModal() {
 }
 
 .row-missing {
-  background: rgba(239, 68, 68, 0.04);
+  background: var(--danger-light);
 }
 
 .row-editing {
-  background: rgba(99, 102, 241, 0.05);
-  outline: 2px solid var(--primary, #6366f1);
+  background: var(--primary-light);
+  outline: 2px solid var(--primary);
   outline-offset: -1px;
 }
 
@@ -843,8 +843,8 @@ async function saveModal() {
 .missing-badge {
   display: inline-block;
   padding: 2px 8px;
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
+  background: var(--danger-light);
+  color: var(--danger);
   border-radius: 4px;
   font-size: 11px;
   font-weight: 600;
@@ -857,14 +857,15 @@ async function saveModal() {
   border: 1px solid var(--border-color);
   border-radius: 6px;
   font-size: 13px;
-  background: var(--input-bg, #fff);
+  background: var(--input-bg);
   color: var(--text-primary);
   outline: none;
   transition: border-color 0.2s;
 }
 
 .inline-input:focus {
-  border-color: var(--primary, #6366f1);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
 }
 
 .btn-action {
@@ -885,23 +886,23 @@ async function saveModal() {
 }
 
 .btn-edit {
-  background: var(--primary-light, #eef2ff);
-  color: var(--primary, #6366f1);
+  background: var(--primary-light);
+  color: var(--primary);
 }
 
 .btn-modal {
-  background: var(--border-color, #e5e7eb);
+  background: var(--border-color);
   color: var(--text-secondary);
   font-size: 14px;
 }
 
 .btn-save {
-  background: #22c55e;
+  background: var(--success);
   color: #fff;
 }
 
 .btn-cancel {
-  background: var(--border-color, #e5e7eb);
+  background: var(--border-color);
   color: var(--text-secondary);
 }
 
@@ -916,7 +917,7 @@ async function saveModal() {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: var(--overlay-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -925,11 +926,11 @@ async function saveModal() {
 }
 
 .modal {
-  background: var(--card-bg, #fff);
+  background: var(--card-bg);
   border-radius: 14px;
   width: 100%;
   max-width: 540px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-lg);
   display: flex;
   flex-direction: column;
   max-height: 90vh;
@@ -953,10 +954,10 @@ async function saveModal() {
 
 .modal-key {
   font-size: 12px;
-  background: var(--code-bg, #f1f5f9);
+  background: var(--code-bg);
   padding: 2px 8px;
   border-radius: 4px;
-  color: var(--primary, #6366f1);
+  color: var(--primary);
   font-family: monospace;
 }
 
@@ -996,8 +997,8 @@ async function saveModal() {
 }
 
 .label-missing {
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
+  background: var(--danger-light);
+  color: var(--danger);
   padding: 1px 6px;
   border-radius: 4px;
   font-size: 10px;
@@ -1007,7 +1008,7 @@ async function saveModal() {
 
 .field-default {
   padding: 10px 12px;
-  background: var(--code-bg, #f1f5f9);
+  background: var(--code-bg);
   border-radius: 8px;
   font-size: 14px;
   color: var(--text-secondary);
@@ -1030,14 +1031,15 @@ async function saveModal() {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   font-size: 14px;
-  background: var(--input-bg, #fff);
+  background: var(--input-bg);
   color: var(--text-primary);
   outline: none;
   transition: border-color 0.2s;
 }
 
 .modal-input:focus {
-  border-color: var(--primary, #6366f1);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
 }
 
 .modal-footer {
@@ -1051,7 +1053,7 @@ async function saveModal() {
 
 .save-error {
   font-size: 12px;
-  color: #ef4444;
+  color: var(--danger);
   flex: 1;
 }
 
@@ -1068,7 +1070,7 @@ async function saveModal() {
 
 .btn-save-modal {
   padding: 9px 20px;
-  background: var(--primary, #6366f1);
+  background: var(--primary);
   color: #fff;
   border: none;
   border-radius: 8px;

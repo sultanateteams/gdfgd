@@ -132,11 +132,11 @@ function onLightboxKeydown(e: KeyboardEvent) {
 
 .avatar-btn:hover {
   transform: scale(1.06);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.35);
+  box-shadow: 0 0 0 3px var(--primary-light);
 }
 
 .avatar-btn:focus-visible {
-  outline: 2px solid #6366f1;
+  outline: 2px solid var(--primary);
   outline-offset: 3px;
 }
 
@@ -145,9 +145,9 @@ function onLightboxKeydown(e: KeyboardEvent) {
   height: 44px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid rgba(99, 102, 241, 0.5);
+  border: 2px solid var(--primary);
   position: relative;
-  background: #e0e7ff;
+  background: var(--primary-light);
 }
 
 .avatar-img {
@@ -179,7 +179,7 @@ function onLightboxKeydown(e: KeyboardEvent) {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(8, 8, 18, 0.92);
+  background: var(--overlay-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   display: flex;
@@ -212,9 +212,9 @@ function onLightboxKeydown(e: KeyboardEvent) {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -227,7 +227,7 @@ function onLightboxKeydown(e: KeyboardEvent) {
 }
 
 .lb-close:hover {
-  background: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.2);
   color: #fff;
   transform: rotate(90deg);
 }
@@ -237,12 +237,12 @@ function onLightboxKeydown(e: KeyboardEvent) {
   width: min(70vw, 70vh);
   height: min(70vw, 70vh);
   overflow: hidden;
-  border: 3px solid rgba(99, 102, 241, 0.55);
+  border: 3px solid var(--primary);
   box-shadow:
-    0 0 0 8px rgba(99, 102, 241, 0.12),
-    0 24px 80px rgba(0, 0, 0, 0.6);
+    0 0 0 8px var(--primary-light),
+    var(--shadow-lg);
   position: relative;
-  background: #1e1b4b;
+  background: var(--card-bg);
   flex-shrink: 0;
 }
 
@@ -273,11 +273,11 @@ function onLightboxKeydown(e: KeyboardEvent) {
   font-family: "Segoe UI", system-ui, sans-serif;
   font-size: clamp(18px, 2.5vw, 26px);
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--text-primary);
   letter-spacing: 0.02em;
   text-align: center;
   word-break: break-word;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* ── Transitions ────────────────────────────────── */

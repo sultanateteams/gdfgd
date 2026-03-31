@@ -386,11 +386,11 @@ const getActivityIcon = (type: string): string => {
   flex-shrink: 0;
 }
 
-.status-dot.present { background: #10b981; }
-.status-dot.absent { background: #ef4444; }
-.status-dot.late { background: #f59e0b; }
-.status-dot['on-leave'] { background: #3b82f6; }
-.status-dot.remote { background: #8b5cf6; }
+.status-dot.present { background: var(--success); }
+.status-dot.absent { background: var(--danger); }
+.status-dot.late { background: var(--warning); }
+.status-dot.on-leave { background: var(--info); }
+.status-dot.remote { background: var(--accent); }
 
 .status-label {
   flex: 1;
@@ -477,9 +477,9 @@ const getActivityIcon = (type: string): string => {
   color: var(--text-primary);
 }
 
-.leave-value.approved { color: #10b981; }
-.leave-value.pending { color: #f59e0b; }
-.leave-value.rejected { color: #ef4444; }
+.leave-value.approved { color: var(--success); }
+.leave-value.pending { color: var(--warning); }
+.leave-value.rejected { color: var(--danger); }
 
 .activity-section {
   margin-top: 24px;

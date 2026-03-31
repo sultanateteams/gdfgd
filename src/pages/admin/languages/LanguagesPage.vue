@@ -397,8 +397,8 @@ async function handleDelete() {
 
 .form-input:focus {
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
 }
 
 .inline-input {
@@ -413,7 +413,7 @@ async function handleDelete() {
 }
 
 .form-error {
-  color: #ef4444;
+  color: var(--danger);
   font-size: 13px;
   text-align: center;
 }
@@ -438,17 +438,18 @@ async function handleDelete() {
 }
 
 .btn-primary {
-  background: var(--primary-color);
+  background: var(--primary);
   color: white;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: var(--primary-hover);
+  opacity: 0.9;
 }
 
 .btn-secondary {
-  background: var(--bg-tertiary);
+  background: var(--body-bg);
   color: var(--text-primary);
+  border: 1px solid var(--border-color);
 }
 
 .btn-secondary:hover:not(:disabled) {
@@ -456,12 +457,12 @@ async function handleDelete() {
 }
 
 .btn-danger {
-  background: #ef4444;
+  background: var(--danger);
   color: white;
 }
 
 .btn-danger:hover:not(:disabled) {
-  background: #dc2626;
+  opacity: 0.9;
 }
 
 .loading-state,
@@ -478,7 +479,7 @@ async function handleDelete() {
   width: 20px;
   height: 20px;
   border: 2px solid var(--border-color);
-  border-top-color: var(--primary-color);
+  border-top-color: var(--primary);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
   margin-right: 12px;
@@ -531,7 +532,7 @@ async function handleDelete() {
 }
 
 .lang-code {
-  background: var(--bg-secondary);
+  background: var(--code-bg);
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 13px;
@@ -549,13 +550,13 @@ async function handleDelete() {
 }
 
 .status-active {
-  background: #dcfce7;
-  color: #16a34a;
+  background: var(--success-light);
+  color: var(--success);
 }
 
 .status-inactive {
-  background: #fee2e2;
-  color: #dc2626;
+  background: var(--danger-light);
+  color: var(--danger);
 }
 
 .default-badge {
@@ -567,7 +568,7 @@ async function handleDelete() {
   font-size: 12px;
   font-weight: 500;
   background: var(--primary-light);
-  color: var(--primary-color);
+  color: var(--primary);
 }
 
 .not-default {
@@ -586,7 +587,7 @@ async function handleDelete() {
   width: 32px;
   height: 32px;
   border: none;
-  background: var(--bg-tertiary);
+  background: var(--body-bg);
   border-radius: 6px;
   cursor: pointer;
   color: var(--text-secondary);
@@ -599,48 +600,48 @@ async function handleDelete() {
 }
 
 .action-save {
-  background: #dbeafe;
-  color: #2563eb;
+  background: var(--info-light);
+  color: var(--info);
 }
 
 .action-save:hover {
-  background: #bfdbfe;
+  opacity: 0.8;
 }
 
 .action-default {
-  background: #fef3c7;
-  color: #d97706;
+  background: var(--warning-light);
+  color: var(--warning);
 }
 
 .action-default:hover {
-  background: #fde68a;
+  opacity: 0.8;
 }
 
 .action-warning {
-  background: #fee2e2;
-  color: #dc2626;
+  background: var(--danger-light);
+  color: var(--danger);
 }
 
 .action-warning:hover {
-  background: #fecaca;
+  opacity: 0.8;
 }
 
 .action-success {
-  background: #dcfce7;
-  color: #16a34a;
+  background: var(--success-light);
+  color: var(--success);
 }
 
 .action-success:hover {
-  background: #bbf7d0;
+  opacity: 0.8;
 }
 
 .action-danger {
-  background: #fee2e2;
-  color: #dc2626;
+  background: var(--danger-light);
+  color: var(--danger);
 }
 
 .action-danger:hover {
-  background: #fecaca;
+  opacity: 0.8;
 }
 
 /* Modal */
@@ -650,7 +651,7 @@ async function handleDelete() {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--overlay-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -662,7 +663,7 @@ async function handleDelete() {
   border-radius: 12px;
   width: 90%;
   max-width: 400px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-lg);
 }
 
 .modal-header {
@@ -715,7 +716,7 @@ async function handleDelete() {
   gap: 12px;
   padding: 16px 20px;
   border-top: 1px solid var(--border-color);
-  background: var(--bg-secondary);
+  background: var(--body-bg);
   border-radius: 0 0 12px 12px;
 }
 

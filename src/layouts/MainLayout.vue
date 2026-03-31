@@ -16,7 +16,7 @@
       <div class="sidebar-logo">
         <div class="logo-icon" v-if="!isCollapsed">
           <svg viewBox="0 0 32 32" fill="none">
-            <rect width="32" height="32" rx="8" fill="#4F46E5" />
+            <rect width="32" height="32" rx="8" fill="var(--primary)" />
             <path
               d="M8 22L16 10L24 22"
               stroke="white"
@@ -24,7 +24,7 @@
               stroke-linecap="round"
               stroke-linejoin="round"
             />
-            <circle cx="16" cy="10" r="2" fill="#06B6D4" />
+            <circle cx="16" cy="10" r="2" fill="var(--accent)" />
           </svg>
         </div>
         <div class="logo-text" v-if="!isCollapsed">
@@ -581,37 +581,9 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
    CSS CUSTOM PROPERTIES
 ═══════════════════════════════════════════ */
 .layout {
-  --primary: #4f46e5;
-  --primary-dark: #3730a3;
-  --primary-light: #eef2ff;
-  --accent: #06b6d4;
-  --success: #10b981;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-
-  --sidebar-bg: #0f172a;
-  --sidebar-text: #94a3b8;
-  --sidebar-text-hover: #cbd5e1;
-  --sidebar-active-bg: rgba(79, 70, 229, 0.15);
-  --sidebar-hover-bg: rgba(255, 255, 255, 0.05);
-  --sidebar-group-label: #475569;
   --sidebar-width: 260px;
   --sidebar-collapsed-width: 72px;
-
-  --header-bg: #ffffff;
-  --header-border: #e2e8f0;
   --header-height: 64px;
-
-  --body-bg: #f8fafc;
-  --text-primary: #0f172a;
-  --text-secondary: #64748b;
-  --border-color: #e2e8f0;
-  --card-bg: #ffffff;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-md:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --radius: 10px;
   --transition: cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -627,18 +599,7 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
     sans-serif;
 }
 
-/* Dark Mode */
-.layout.dark-mode {
-  --header-bg: #1e293b;
-  --header-border: #334155;
-  --body-bg: #0f172a;
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --border-color: #334155;
-  --card-bg: #1e293b;
-  --sidebar-bg: #020617;
-  --sidebar-group-label: #334155;
-}
+/* Dark Mode - CSS variables are now defined in themes.css based on data-theme and data-mode attributes */
 
 /* ═══════════════════════════════════════════
    SIDEBAR
@@ -694,7 +655,7 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
 
 .accordion-header.active {
   background: var(--sidebar-active-bg);
-  color: #818cf8;
+  color: var(--primary);
   border-left-color: var(--primary);
 }
 
@@ -714,7 +675,7 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
 }
 
 .accordion-header.active .accordion-icon :deep(svg) {
-  stroke: #818cf8;
+  stroke: var(--primary);
 }
 
 .accordion-label {
@@ -759,7 +720,7 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
 }
 
 .accordion-header.active .accordion-chevron {
-  color: #818cf8;
+  color: var(--primary);
 }
 
 .sidebar-collapsed .accordion-header {
@@ -809,8 +770,8 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
 }
 
 .child-item.active {
-  background: rgba(79, 70, 229, 0.15);
-  color: #818cf8;
+  background: var(--sidebar-active-bg);
+  color: var(--primary);
   border-left-color: var(--primary);
 }
 
@@ -864,7 +825,7 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
 .logo-name {
   font-size: 15px;
   font-weight: 700;
-  color: #f1f5f9;
+  color: var(--text-primary);
   letter-spacing: -0.3px;
   line-height: 1.2;
 }
@@ -947,7 +908,7 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
 
 .nav-item.active {
   background: var(--sidebar-active-bg);
-  color: #818cf8;
+  color: var(--primary);
   border-left-color: var(--primary);
 }
 
@@ -967,7 +928,7 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
 }
 
 .nav-item.active .nav-icon :deep(svg) {
-  stroke: #818cf8;
+  stroke: var(--primary);
 }
 
 .nav-label {
@@ -1013,7 +974,8 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
   margin-left: 0;
 }
 
-.sidebar-collapsed .nav-item.active::before {
+.sidebar-collapsed .nav-item.active::before,
+.sidebar-collapsed .accordion-header.active::before {
   content: "";
   position: absolute;
   left: 0;
@@ -1063,13 +1025,13 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
   width: 32px;
   height: 32px;
   border: none;
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--sidebar-hover-bg);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 7px;
-  color: #94a3b8;
+  color: var(--sidebar-text);
   transition:
     background 150ms,
     color 150ms;
@@ -1078,8 +1040,8 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
 }
 
 .hamburger-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #f1f5f9;
+  background: var(--sidebar-active-bg);
+  color: var(--text-primary);
 }
 
 .hamburger-btn svg {
@@ -1388,7 +1350,7 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
   background: var(--body-bg);
 }
 .notif-item.unread {
-  background: rgba(79, 70, 229, 0.03);
+  background: var(--primary-light);
 }
 
 .notif-dot {
@@ -1462,7 +1424,7 @@ onUnmounted(() => window.removeEventListener("resize", handleResize));
 }
 
 .dropdown-item.danger:hover {
-  background: rgba(239, 68, 68, 0.06);
+  background: var(--danger-light);
 }
 
 .dropdown-item svg {
