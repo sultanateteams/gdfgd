@@ -10,14 +10,7 @@
       "todayAttendance": "Today's Attendance",
       "payrollBudget": "Payroll Budget"
     },
-    "attendance": {
-      "title": "Today's Attendance",
-      "present": "Present",
-      "absent": "Absent",
-      "late": "Late",
-      "onLeave": "On Leave",
-      "remote": "Remote"
-    },
+   
     "department": {
       "title": "Department Overview",
       "employees": "employees",
