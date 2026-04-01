@@ -1,45 +1,56 @@
-// src/stores/themeStore.ts
-import { defineStore } from 'pinia'
-import { ref, watch } from 'vue'
+import { defineStore } from "pinia";
+import { ref, watchEffect } from "vue";
 
-export type ThemeName = 'ocean' | 'forest' | 'sunset' | 'slate'
-export type ThemeMode = 'light' | 'dark'
+export type ThemeName = "ocean" | "forest" | "sunset" | "slate";
+export type ThemeMode = "light" | "dark";
 
-export const useThemeStore = defineStore('theme', () => {
-  // localStorage dan oldingi sozlamalarni yuklash
+const VALID_THEMES: ThemeName[] = ["ocean", "forest", "sunset", "slate"];
+const VALID_MODES: ThemeMode[] = ["light", "dark"];
+
+function getSaved<T extends string>(key: string, fallback: T, valid: T[]): T {
+  const val = localStorage.getItem(key) as T;
+  return valid.includes(val) ? val : fallback;
+}
+
+export const useThemeStore = defineStore("theme", () => {
   const currentTheme = ref<ThemeName>(
-    (localStorage.getItem('hrm-theme') as ThemeName) || 'ocean'
-  )
+    getSaved("hrm-theme", "ocean", VALID_THEMES)
+  );
   const mode = ref<ThemeMode>(
-    (localStorage.getItem('hrm-mode') as ThemeMode) || 'dark'
-  )
+    getSaved("hrm-mode", "dark", VALID_MODES)
+  );
 
-  // Har safar o'zgarganda DOM va localStorage yangilanadi
-  function applyTheme() {
-    const root = document.documentElement
-    root.setAttribute('data-theme', currentTheme.value)
-    root.setAttribute('data-mode', mode.value)
-    localStorage.setItem('hrm-theme', currentTheme.value)
-    localStorage.setItem('hrm-mode', mode.value)
-  }
+  // watchEffect — barcha dependencylar o'zgarganda avtomatik ishlaydi
+  watchEffect(() => {
+    const root = document.documentElement;
+    
+    root.setAttribute("data-theme", currentTheme.value);
+    root.setAttribute("data-mode", mode.value);
+    root.classList.toggle("dark", mode.value === "dark");
+
+    localStorage.setItem("hrm-theme", currentTheme.value);
+    localStorage.setItem("hrm-mode", mode.value);
+    
+    // Debug: haqiqatan o'zgarayaptimi?
+    console.log(
+      "Applied →",
+      "theme:", root.getAttribute("data-theme"),
+      "mode:", root.getAttribute("data-mode"),
+      "dark class:", root.classList.contains("dark")
+    );
+  });
 
   function setTheme(theme: ThemeName) {
-    currentTheme.value = theme
-    applyTheme()
+    currentTheme.value = theme; // watchEffect avtomatik ishlaydi
   }
 
   function toggleMode() {
-    mode.value = mode.value === 'dark' ? 'light' : 'dark'
-    applyTheme()
+    mode.value = mode.value === "dark" ? "light" : "dark"; // watchEffect avtomatik ishlaydi
   }
 
   function setMode(m: ThemeMode) {
-    mode.value = m
-    applyTheme()
+    mode.value = m;
   }
 
-  // App yuklanganida darhol qo'llash
-  applyTheme()
-
-  return { currentTheme, mode, setTheme, toggleMode, setMode, applyTheme }
-})
+  return { currentTheme, mode, setTheme, toggleMode, setMode };
+});

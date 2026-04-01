@@ -72,8 +72,8 @@ defineEmits<{
   font-size: 10px;
   font-weight: 600;
   color: var(--accent);
-  background: rgba(6, 182, 212, 0.12);
-  border: 1px solid rgba(6, 182, 212, 0.2);
+  background: var(--primary-light);
+  border: 1px solid var(--border-color);
   padding: 1px 6px;
   border-radius: 20px;
   display: inline-block;
@@ -84,20 +84,20 @@ defineEmits<{
   width: 32px;
   height: 32px;
   border: none;
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--sidebar-hover-bg);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 7px;
-  color: #94a3b8;
+  color: var(--sidebar-text);
   transition: background 150ms, color 150ms;
   flex-shrink: 0;
   margin-left: auto;
 }
 .hamburger-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #f1f5f9;
+  background: var(--sidebar-active-bg);
+  color: var(--sidebar-text-hover);
 }
 .hamburger-btn svg {
   width: 16px;

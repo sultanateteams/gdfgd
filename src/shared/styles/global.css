@@ -1,9 +1,6 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Import theme CSS variables (must come after Tailwind to override) */
+@import "tailwindcss";
 @import '@/assets/themes.css';
+@config "../../../tailwind.config.js";
 
 /* CSS Reset and Base Styles */
 /* Note: Theme-specific variables are defined in themes.css based on data-theme and data-mode attributes */
@@ -22,8 +19,10 @@
 }
 
 /* CSS Reset */
-* {
-  box-sizing: border-box;
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
 }
 
 html {
@@ -218,7 +217,7 @@ a:hover {
 
 /* Translation editor visual indicator */
 .t-edit-mode [data-t-key]:hover {
-  outline: 2px dashed #3b82f6;
+  outline: 2px dashed var(--info, #3b82f6);
   cursor: pointer;
 }
 
@@ -231,7 +230,7 @@ a:hover {
   position: absolute;
   top: -1.35rem;
   left: 0;
-  background: rgba(59, 130, 246, 0.9);
+  background: var(--info, #3b82f6);
   color: white;
   font-size: 0.65rem;
   border-radius: 3px;
@@ -611,7 +610,7 @@ a:hover {
 
 /* Translation Editor Styles */
 .t-edit-mode [data-t-key] {
-  outline: 2px dashed #3b82f6 !important;
+  outline: 2px dashed var(--info, #3b82f6) !important;
   outline-offset: 2px;
   cursor: crosshair !important;
   position: relative;
@@ -619,7 +618,7 @@ a:hover {
 }
 
 .t-edit-mode [data-t-key]:hover {
-  outline-color: #2563eb !important;
+  outline-color: var(--primary-dark, #2563eb) !important;
   background-color: rgba(59, 130, 246, 0.05);
 }
 
@@ -630,7 +629,7 @@ a:hover {
   top: -8px;
   right: -8px;
   font-size: 12px;
-  background: #3b82f6;
+  background: var(--info, #3b82f6);
   color: white;
   border-radius: 50%;
   width: 16px;

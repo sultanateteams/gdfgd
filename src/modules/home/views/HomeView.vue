@@ -311,8 +311,8 @@ const { l } = useT();
 <style scoped>
 .home-view {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: #fff;
 }
 
 .hero-section {
@@ -360,25 +360,26 @@ const { l } = useT();
 }
 
 .btn-primary {
-  background: white;
-  color: #667eea;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--primary);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: #fff;
 }
 
 .btn-secondary {
   background: transparent;
-  border: 2px solid white;
-  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  color: #fff;
 }
 
 .btn-secondary:hover {
-  background: white;
-  color: #667eea;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--primary);
 }
 
 .hero-image {
@@ -457,9 +458,9 @@ const { l } = useT();
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #eff6ff;
+  background: var(--primary-light, #eff6ff);
   border-radius: 8px;
-  color: #3b82f6;
+  color: var(--primary);
 }
 
 .module-info h4 {
@@ -477,8 +478,8 @@ const { l } = useT();
 
 .features-section {
   padding: 80px 40px;
-  background: white;
-  color: #333;
+  background: var(--card-bg);
+  color: var(--text-primary);
 }
 
 .section-title {
@@ -486,7 +487,7 @@ const { l } = useT();
   font-size: 36px;
   font-weight: 700;
   margin-bottom: 48px;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .features-grid {
@@ -498,17 +499,17 @@ const { l } = useT();
 }
 
 .feature-card {
-  background: #f8fafc;
+  background: var(--body-bg);
   padding: 32px;
   border-radius: 12px;
   text-align: center;
-  transition: transform 0.3s ease;
-  border: 1px solid #e2e8f0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid var(--border-color);
 }
 
 .feature-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-lg, 0 10px 25px rgba(0, 0, 0, 0.1));
 }
 
 .feature-icon {
@@ -520,20 +521,20 @@ const { l } = useT();
   font-size: 20px;
   font-weight: 700;
   margin: 0 0 12px 0;
-  color: #1e293b;
+  color: var(--text-primary);
 }
 
 .feature-card p {
   font-size: 14px;
   line-height: 1.6;
-  color: #64748b;
+  color: var(--text-secondary);
   margin: 0;
 }
 
 .architecture-section {
   padding: 80px 40px;
-  background: #1e293b;
-  color: white;
+  background: var(--body-bg);
+  color: var(--text-primary);
 }
 
 .architecture-grid {
@@ -545,17 +546,18 @@ const { l } = useT();
 }
 
 .arch-item {
-  background: #334155;
+  background: var(--card-bg);
   padding: 32px;
   border-radius: 12px;
-  border: 1px solid #475569;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
 }
 
 .arch-item h3 {
   font-size: 20px;
   font-weight: 700;
   margin: 0 0 16px 0;
-  color: #f1f5f9;
+  color: var(--text-primary);
 }
 
 .arch-item ul {
@@ -566,9 +568,9 @@ const { l } = useT();
 
 .arch-item li {
   padding: 8px 0;
-  border-bottom: 1px solid #475569;
+  border-bottom: 1px solid var(--border-color);
   font-size: 14px;
-  color: #cbd5e1;
+  color: var(--text-secondary);
 }
 
 .arch-item li:last-child {

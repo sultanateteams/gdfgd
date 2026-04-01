@@ -49,7 +49,7 @@ const { isActive } = useSidebar()
 }
 .nav-item.active {
   background: var(--sidebar-active-bg);
-  color: #818cf8;
+  color: var(--primary);
   border-left-color: var(--primary);
 }
 .nav-icon {
@@ -66,7 +66,7 @@ const { isActive } = useSidebar()
   transition: stroke 150ms;
 }
 .nav-item.active .nav-icon :deep(svg) {
-  stroke: #818cf8;
+  stroke: var(--primary);
 }
 .nav-label {
   font-size: 13.5px;
@@ -110,12 +110,12 @@ const { isActive } = useSidebar()
   font-size: 13px;
 }
 .child-item:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--sidebar-hover-bg);
   color: var(--sidebar-text-hover);
 }
 .child-item.active {
-  background: rgba(79, 70, 229, 0.15);
-  color: #818cf8;
+  background: var(--sidebar-active-bg);
+  color: var(--primary);
   border-left-color: var(--primary);
 }
 </style>

@@ -1,4 +1,15 @@
 /* src/assets/themes.css */
+/* ═══════════════════════════════════════
+   SEMANTIC BACKGROUND ALIASES
+   Resolved dynamically from active theme
+═══════════════════════════════════════ */
+:root {
+  --bg-primary:   var(--card-bg, #ffffff);
+  --bg-secondary: var(--body-bg, #f8fafc);
+  --bg-tertiary:  var(--body-bg, #f1f5f9);
+  --primary-color: var(--primary, #4f46e5);
+  --primary-hover: var(--primary-dark, #3730a3);
+}
 
 /* ═══════════════════════════════════════
    OCEAN theme (default)

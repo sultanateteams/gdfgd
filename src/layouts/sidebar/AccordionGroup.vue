@@ -75,7 +75,7 @@ defineEmits<{
 }
 .accordion-header.active {
   background: var(--sidebar-active-bg);
-  color: #818cf8;
+  color: var(--primary);
   border-left-color: var(--primary);
 }
 
@@ -94,7 +94,7 @@ defineEmits<{
   transition: stroke 150ms;
 }
 .accordion-header.active .accordion-icon :deep(svg) {
-  stroke: #818cf8;
+  stroke: var(--primary);
 }
 
 /* Label */
@@ -130,7 +130,7 @@ defineEmits<{
   transform: rotate(180deg);
 }
 .accordion-header.active .accordion-chevron {
-  color: #818cf8;
+  color: var(--primary);
 }
 
 /* Content */

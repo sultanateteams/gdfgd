@@ -44,33 +44,10 @@ body {
 }
 
 .layout {
-  --primary: #1677FF;
-  --primary-dark: #0050b3;
-  --primary-light: #e6f4ff;
-  --accent: #1677ff;
-  --success: #52c41a;
-  --warning: #faad14;
-  --danger: #ff4d4f;
-
-  --sidebar-bg: #ffffff;
-  --sidebar-text: rgba(0, 0, 0, 0.88);
-  --sidebar-text-hover: #1677ff;
-  --sidebar-active-bg: #e6f4ff;
-  --sidebar-hover-bg: rgba(0, 0, 0, 0.04);
-  --sidebar-group-label: rgba(0, 0, 0, 0.45);
+  /* Structural layout variables only — colors come from themes.css */
   --sidebar-width: 256px;
   --sidebar-collapsed-width: 80px;
-
-  --header-bg: #ffffff;
-  --header-border: #f0f0f0;
   --header-height: 64px;
-
-  --body-bg: #fafafa;
-  --text-primary: rgba(0, 0, 0, 0.88);
-  --text-secondary: rgba(0, 0, 0, 0.45);
-  --border-color: #f0f0f0;
-  --card-bg: #ffffff;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02);
   --radius: 8px;
   --transition: cubic-bezier(0.645, 0.045, 0.355, 1);
 
@@ -78,19 +55,6 @@ body {
   height: 100vh;
   overflow: hidden;
   background: var(--body-bg);
-}
-
-/* Dark mode overrides */
-.layout.dark-mode {
-  --header-bg: #141414;
-  --header-border: #303030;
-  --body-bg: #000000;
-  --text-primary: rgba(255, 255, 255, 0.85);
-  --text-secondary: rgba(255, 255, 255, 0.45);
-  --border-color: #303030;
-  --card-bg: #141414;
-  --sidebar-bg: #141414;
-  --sidebar-group-label: rgba(255, 255, 255, 0.45);
 }
 
 /* Sidebar collapsed */

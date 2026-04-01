@@ -41,9 +41,6 @@ const antTheme = computed(() => ({
 }));
 </script>
 <style>
-/* Import global styles */
-@import "../shared/styles/global.css";
-
 #app {
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,

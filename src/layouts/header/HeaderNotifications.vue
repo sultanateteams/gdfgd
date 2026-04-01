@@ -173,7 +173,7 @@ defineExpose({ close: () => { isOpen.value = false } })
 }
 .notif-item:last-child { border-bottom: none; }
 .notif-item:hover { background: var(--body-bg); }
-.notif-item.unread { background: rgba(79, 70, 229, 0.03); }
+.notif-item.unread { background: var(--primary-light); }
 
 .notif-dot {
   width: 8px;

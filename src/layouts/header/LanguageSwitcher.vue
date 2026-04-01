@@ -176,7 +176,7 @@ onUnmounted(() => {
   width: 16px;
   height: 16px;
   border: 2px solid var(--border-color);
-  border-top-color: var(--primary-color);
+  border-top-color: var(--primary);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
 }
@@ -208,7 +208,7 @@ onUnmounted(() => {
 
 .dropdown-item.active {
   background: var(--primary-light);
-  color: var(--primary-color);
+  color: var(--primary);
   font-weight: 600;
 }
 
@@ -223,7 +223,7 @@ onUnmounted(() => {
 .check-icon {
   width: 16px;
   height: 16px;
-  color: var(--primary-color);
+  color: var(--primary);
 }
 
 .dropdown-enter-active,
