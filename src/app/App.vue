@@ -11,14 +11,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from "vue"; // ← onMounted qo'shildi
+import { computed } from "vue";
 import { theme as antdTheme } from "ant-design-vue";
 import { useThemeStore } from "@/stores/themeStore";
 import AppLayout from "@/layouts/AppLayout.vue";
 import TranslationEditorModal from "@/components/TranslationEditorModal.vue";
 import { useTranslationEditMode } from "@/composables/useTranslationEditMode";
+import { useCommandPalette } from "@/composables/useCommandPalette";
 
 const themeStore = useThemeStore();
+
+// Initialize global Ctrl+K keyboard shortcut
+useCommandPalette();
 
 // localStorage dan yuklash — ENG MUHIM
 themeStore.initialize(); // ← bu qo'shildi (onMounted emas, darhol)

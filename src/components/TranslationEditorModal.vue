@@ -1,67 +1,85 @@
 <template>
-  <div v-if="store.isModalOpen" class="t-modal-overlay" @click.self="store.closeModal()">
-    <div class="t-modal">
-      <div class="t-modal-header">
-        <h3>Edit Translation</h3>
-        <code class="t-modal-key">{{ store.activeKey }}</code>
-        <button class="t-modal-close" @click="store.closeModal()" aria-label="Close">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"></line>
-            <line x1="6" y1="6" x2="18" y2="18"></line>
-          </svg>
-        </button>
-      </div>
+  <AppModal
+    :open="store.isModalOpen"
+    :title="'Edit Translation'"
+    :width="520"
+    :closable="true"
+    :mask-closable="true"
+    :confirm-loading="saving"
+    :ok-text="saving ? 'Saving...' : 'Save'"
+    cancel-text="Cancel"
+    :show-ok-btn="false"
+    @cancel="store.closeModal()"
+  >
+    <!-- Header with key badge -->
+    <div class="translation-modal-header">
+      <code class="translation-key-badge">{{ store.activeKey }}</code>
+    </div>
 
-      <div v-if="store.activeDefaultText" class="t-modal-default">
-        <span class="t-default-label">Default Text:</span>
-        <span class="t-default-value">{{ store.activeDefaultText }}</span>
-      </div>
+    <!-- Default text display -->
+    <div v-if="store.activeDefaultText" class="translation-default-section">
+      <span class="translation-default-label">Default Text:</span>
+      <span class="translation-default-value">{{ store.activeDefaultText }}</span>
+    </div>
 
-      <div class="t-modal-body">
-        <div v-for="lang in languagesStore.languages" :key="lang.code" class="t-field">
-          <label class="t-field-label">
-            <span class="t-field-flag">{{ lang.flag }}</span>
-            <span class="t-field-name">{{ lang.name }}</span>
-            <span class="t-field-code">{{ lang.code }}</span>
-          </label>
-          <textarea
-            v-model="values[lang.code]"
-            class="t-field-input"
-            :placeholder="lang.name + ' translation'"
-            rows="2"
-          />
+    <!-- Language fields -->
+    <div class="translation-fields">
+      <div v-for="lang in languagesStore.languages" :key="lang.code" class="translation-field">
+        <div class="translation-field-header">
+          <span class="translation-field-flag">{{ lang.flag }}</span>
+          <span class="translation-field-name">{{ lang.name }}</span>
+          <span class="translation-field-code">{{ lang.code }}</span>
         </div>
-      </div>
-
-      <div v-if="saving" class="t-saving-indicator">
-        <span class="t-saving-spinner"></span>
-        Saving...
-      </div>
-
-      <div class="t-modal-footer">
-        <!-- Copy for AI — chap tomonda -->
-        <button class="t-btn t-btn-copy" @click="copyForAI" :disabled="saving" title="Nusxalash">
-          <svg v-if="!copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
-          </svg>
-          <svg v-else width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="20 6 9 17 4 12"></polyline>
-          </svg>
-          {{ copied ? 'Nusxalandi!' : 'Nusxalash' }}
-        </button>
-
-        <div class="t-footer-right">
-          <button class="t-btn t-btn-secondary" @click="store.closeModal()">
-            Cancel
-          </button>
-          <button class="t-btn t-btn-primary" @click="submit" :disabled="saving">
-            {{ saving ? 'Saving...' : 'Save' }}
-          </button>
-        </div>
+        <AppTextArea
+          :model-value="values[lang.code] ?? ''"
+          :placeholder="lang.name + ' translation'"
+          :rows="2"
+          size="sm"
+          @update:model-value="(val) => values[lang.code] = val"
+        />
       </div>
     </div>
-  </div>
+
+    <!-- Footer with buttons -->
+    <template #footer>
+      <div class="translation-modal-footer">
+        <!-- Copy for AI button -->
+        <AppButton
+          type="secondary"
+          size="sm"
+          @click="copyForAI"
+          :disabled="saving"
+          :title="'Nusxalash'"
+        >
+          <template #icon>
+            <svg v-if="!copied" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path>
+            </svg>
+            <svg v-else width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </template>
+          {{ copied ? 'Nusxalandi!' : 'Nusxalash' }}
+        </AppButton>
+
+        <div class="translation-footer-actions">
+          <AppButton type="secondary" size="sm" @click="store.closeModal()">
+            Cancel
+          </AppButton>
+          <AppButton
+            type="primary"
+            size="sm"
+            @click="submit"
+            :loading="saving"
+            :disabled="saving"
+          >
+            {{ saving ? 'Saving...' : 'Save' }}
+          </AppButton>
+        </div>
+      </div>
+    </template>
+  </AppModal>
 </template>
 
 <script setup lang="ts">
@@ -71,6 +89,9 @@ import { storeToRefs } from 'pinia'
 import { useTranslationEditorStore } from '@/stores/translationEditor'
 import { useLanguagesStore } from '@/stores/languages'
 import { apiService } from '@/services/api'
+import AppModal from '@/shared/components/ui/AppModal.vue'
+import AppButton from '@/shared/components/ui/AppButton.vue'
+import AppTextArea from '@/shared/components/ui/AppTextArea.vue'
 
 const store = useTranslationEditorStore()
 const languagesStore = useLanguagesStore()
@@ -170,60 +191,33 @@ async function submit() {
 </script>
 
 <style scoped>
-.t-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--overlay-bg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  animation: t-fade-in 0.2s ease;
+.translation-modal-header {
+  margin-bottom: 12px;
 }
 
-@keyframes t-fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.translation-key-badge {
+  background: var(--code-bg);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+  font-family: monospace;
+  word-break: break-all;
+  display: inline-block;
 }
 
-.t-modal {
-  background: var(--card-bg);
-  border-radius: 12px;
-  box-shadow: var(--shadow-lg);
-  width: 90%;
-  max-width: 500px;
-  max-height: 90vh;
-  overflow: hidden;
-  animation: t-slide-up 0.2s ease;
-}
-
-@keyframes t-slide-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.t-modal-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border-color);
-  flex-wrap: wrap;
-}
-
-.t-modal-default {
+.translation-default-section {
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  padding: 12px 20px;
+  padding: 10px 12px;
   background: var(--body-bg);
-  border-bottom: 1px solid var(--border-color);
+  border-radius: 8px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border-color);
 }
 
-.t-default-label {
+.translation-default-label {
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--text-secondary);
@@ -233,192 +227,60 @@ async function submit() {
   padding-top: 2px;
 }
 
-.t-default-value {
-  font-size: 0.9375rem;
+.translation-default-value {
+  font-size: 0.875rem;
   color: var(--text-primary);
   font-style: italic;
   word-break: break-word;
 }
 
-.t-modal-header h3 {
-  margin: 0;
+.translation-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.translation-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.translation-field-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.translation-field-flag {
   font-size: 1.125rem;
+}
+
+.translation-field-name {
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--text-primary);
 }
 
-.t-modal-key {
-  background: var(--code-bg);
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-  font-family: monospace;
-  word-break: break-all;
-}
-
-.t-modal-close {
-  margin-left: auto;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.15s ease;
-}
-
-.t-modal-close:hover {
-  background: var(--body-bg);
-  color: var(--text-primary);
-}
-
-.t-modal-body {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  overflow-y: auto;
-  max-height: 60vh;
-}
-
-.t-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.t-field-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.t-field-flag { font-size: 1.25rem; }
-.t-field-name { font-weight: 600; }
-
-.t-field-code {
+.translation-field-code {
   background: var(--code-bg);
   padding: 2px 6px;
   border-radius: 4px;
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   color: var(--text-secondary);
   font-family: monospace;
 }
 
-.t-field-input {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 0.9375rem;
-  font-family: inherit;
-  resize: vertical;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  background: var(--input-bg);
-  color: var(--text-primary);
-}
-
-.t-field-input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-light);
-}
-
-.t-field-input::placeholder {
-  color: var(--text-muted);
-}
-
-.t-saving-indicator {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 12px 20px;
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-}
-
-.t-saving-spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--border-color);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  animation: t-spin 0.6s linear infinite;
-}
-
-@keyframes t-spin {
-  to { transform: rotate(360deg); }
-}
-
-.t-modal-footer {
+.translation-modal-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  padding: 16px 20px;
-  border-top: 1px solid var(--border-color);
-  background: var(--body-bg);
+  width: 100%;
 }
 
-.t-footer-right {
+.translation-footer-actions {
   display: flex;
   gap: 8px;
-}
-
-.t-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: 8px;
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  border: none;
-  font-family: inherit;
-}
-
-.t-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.t-btn-secondary {
-  background: var(--body-bg);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-}
-
-.t-btn-secondary:hover:not(:disabled) {
-  background: var(--border-color);
-}
-
-.t-btn-primary {
-  background: var(--primary);
-  color: white;
-}
-
-.t-btn-primary:hover:not(:disabled) {
-  opacity: 0.9;
-}
-
-.t-btn-copy {
-  background: var(--body-bg);
-  color: var(--text-secondary);
-  border: 1px solid var(--border-color);
-}
-
-.t-btn-copy:hover:not(:disabled) {
-  background: var(--border-color);
-  color: var(--text-primary);
 }
 </style>

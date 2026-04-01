@@ -25,7 +25,29 @@
 
     <!-- O'ng: Amallar -->
     <div class="header-right">
-      <!-- <ThemeSwitcher /> -->
+      <!-- Command Palette Trigger -->
+      <button
+        class="search-trigger"
+        @click="openCommandPalette"
+        :title="'Search pages and actions (Ctrl+K)'"
+      >
+        <svg
+          class="search-trigger-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <path d="M21 21l-4.35-4.35" />
+        </svg>
+        <span class="search-trigger-text">Search...</span>
+        <kbd class="search-trigger-kbd">
+          <span v-if="isMac">⌘</span>
+          <span v-else>Ctrl</span>K
+        </kbd>
+      </button>
+
       <!-- Language switcher -->
       <LanguageSwitcher />
 
@@ -52,19 +74,36 @@
       <!-- User menu -->
       <HeaderUser />
     </div>
+
+    <!-- Command Palette Component -->
+    <CommandPalette />
   </header>
 </template>
 
 <script setup lang="ts">
-import HeaderSearch from "./header/HeaderSearch.vue";
-import HeaderNotifications from "./header/HeaderNotifications.vue";
-import HeaderUser from "./header/HeaderUser.vue";
-import LanguageSwitcher from "./header/LanguageSwitcher.vue";
-import { useLayout } from "@/composables/useLayout";
-import ThemeSwitcher from "./header/ThemeSwitcher.vue";
+import { computed } from 'vue'
+import HeaderNotifications from "./header/HeaderNotifications.vue"
+import HeaderUser from "./header/HeaderUser.vue"
+import LanguageSwitcher from "./header/LanguageSwitcher.vue"
+import CommandPalette from "@/components/CommandPalette.vue"
+import { useLayout } from "@/composables/useLayout"
+import ThemeSwitcher from "./header/ThemeSwitcher.vue"
+import { useCommandPaletteStore } from "@/stores/commandPaletteStore"
 
-const { searchQuery, currentPageName, isDarkMode, toggleDarkMode } =
-  useLayout();
+const { currentPageName } =
+  useLayout()
+
+const commandPaletteStore = useCommandPaletteStore()
+
+// Detect if running on Mac
+const isMac = computed(() => {
+  return navigator.platform.toUpperCase().indexOf('MAC') >= 0
+})
+
+// Open command palette
+function openCommandPalette() {
+  commandPaletteStore.open()
+}
 </script>
 
 <style scoped>
@@ -139,5 +178,69 @@ const { searchQuery, currentPageName, isDarkMode, toggleDarkMode } =
   height: 28px;
   background: var(--border-color);
   margin: 0 4px;
+}
+
+/* Command Palette Search Trigger */
+.search-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 200px;
+  height: 34px;
+}
+
+.search-trigger:hover {
+  border-color: var(--text-muted);
+  background: var(--hover-bg);
+}
+
+.search-trigger:active {
+  transform: scale(0.98);
+}
+
+.search-trigger-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.search-trigger-text {
+  flex: 1;
+  text-align: left;
+  font-size: 13px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.search-trigger-kbd {
+  font-size: 11px;
+  padding: 2px 5px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--bg-secondary);
+  color: var(--text-muted);
+  font-family: inherit;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .search-trigger {
+    width: 34px;
+    padding: 6px;
+  }
+
+  .search-trigger-text,
+  .search-trigger-kbd {
+    display: none;
+  }
 }
 </style>
