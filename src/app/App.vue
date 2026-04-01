@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, onMounted } from "vue"; // ← onMounted qo'shildi
 import { theme as antdTheme } from "ant-design-vue";
 import { useThemeStore } from "@/stores/themeStore";
 import AppLayout from "@/layouts/AppLayout.vue";
@@ -20,23 +20,18 @@ import { useTranslationEditMode } from "@/composables/useTranslationEditMode";
 
 const themeStore = useThemeStore();
 
-// Initialize translation edit mode
-useTranslationEditMode();
+// localStorage dan yuklash — ENG MUHIM
+themeStore.initialize(); // ← bu qo'shildi (onMounted emas, darhol)
 
-const primaryColors: Record<string, string> = {
-  ocean: "#4f46e5",
-  forest: "#16a34a",
-  sunset: "#f97316",
-  slate: "#8b5cf6",
-};
+useTranslationEditMode();
 
 const antTheme = computed(() => ({
   algorithm:
-    themeStore.mode === "dark"
+    themeStore.currentMode === "dark"
       ? antdTheme.darkAlgorithm
       : antdTheme.defaultAlgorithm,
   token: {
-    colorPrimary: primaryColors[themeStore.currentTheme],
+    colorPrimary: themeStore.currentTheme?.colors.accentPrimary ?? "#4f46e5",
   },
 }));
 </script>

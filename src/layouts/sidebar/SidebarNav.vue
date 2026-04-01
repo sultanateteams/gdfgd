@@ -50,11 +50,7 @@
 
           <Transition name="expand">
             <div
-              v-if="
-                item.children &&
-                isGroupOpen(item.key) &&
-                isEffectivelyOpen
-              "
+              v-if="item.children && isGroupOpen(item.key) && isEffectivelyOpen"
               class="nav-children"
             >
               <div
@@ -87,16 +83,20 @@ const isAsideOpen = ref(true);
 const openGroups = ref<string[]>([]);
 let hoverLeaveTimer: any = null;
 
-
-
 const svg = {
-  dashboard: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>`,
-  analytics: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>`,
+  dashboard: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>`,
+  analytics: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`,
   workforce: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`,
-  finance: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 100 4h4a2 2 0 110 4H8"/></svg>`,
-  system: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>`,
-  language: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>`,
-  translate: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2v3"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg>`,
+  employees: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`,
+  attendance: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  leave: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+  finance: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>`,
+  payroll: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>`,
+  benefits: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><path d="M12 22V7M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg>`,
+  system: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
+  reports: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>`,
+  settings: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>`,
+  themes: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0110 10 10 10 0 01-10 10 10 10 0 00-10-10 10 10 0 0010-10z"/><path d="M12 2v20"/><path d="M2 12h20"/></svg>`,
 };
 
 const menuItems = [
@@ -128,8 +128,16 @@ const menuItems = [
     label: "Language",
     icon: svg.language,
     children: [
-      { key: "languages", label: "Languages", route: "/admin/language/languages" },
-      { key: "translate", label: "Translate Words", route: "/admin/language/translate" },
+      {
+        key: "languages",
+        label: "Languages",
+        route: "/admin/language/languages",
+      },
+      {
+        key: "translate",
+        label: "Translate Words",
+        route: "/admin/language/translate",
+      },
     ],
   },
   {
@@ -138,8 +146,13 @@ const menuItems = [
     icon: svg.system,
     children: [{ key: "settings", label: "Settings", route: "/settings" }],
   },
+  {
+    key: "theme",
+    label: "Theme Management",
+    icon: svg.system,
+    route: "/settings/themes",
+  },
 ];
-
 
 const isEffectivelyOpen = computed(() => {
   if (props.collapsed !== undefined)
@@ -162,7 +175,7 @@ const onAsideLeave = () => {
 const isItemActive = (item: any) => {
   // Agar itemning o'z route'i bor bo'lsa
   if (item.route) {
-    return route.path === item.route || route.path.startsWith(item.route + '/');
+    return route.path === item.route || route.path.startsWith(item.route + "/");
   }
   return false;
 };
@@ -170,9 +183,10 @@ const isItemActive = (item: any) => {
 // Itemning childrenlaridan biri active bo'lsa
 const isChildActive = (item: any) => {
   if (!item.children) return false;
-  
-  return item.children.some((child: any) => 
-    route.path === child.route || route.path.startsWith(child.route + '/')
+
+  return item.children.some(
+    (child: any) =>
+      route.path === child.route || route.path.startsWith(child.route + "/"),
   );
 };
 
@@ -183,7 +197,7 @@ const isGroupOpen = (key: string) => {
 const toggleGroup = (key: string) => {
   // Sidebar yopiq bo'lsa submenu ochilmasin
   if (!isEffectivelyOpen.value) return;
-  
+
   const index = openGroups.value.indexOf(key);
   if (index > -1) {
     openGroups.value.splice(index, 1);
@@ -208,12 +222,13 @@ watch(
   () => route.path,
   (newPath) => {
     // Active bo'lgan itemning parent groupini ochish
-    const parentItem = menuItems.find(item => 
-      item.children?.some((child: any) => 
-        newPath === child.route || newPath.startsWith(child.route + '/')
-      )
+    const parentItem = menuItems.find((item) =>
+      item.children?.some(
+        (child: any) =>
+          newPath === child.route || newPath.startsWith(child.route + "/"),
+      ),
     );
-    
+
     if (parentItem) {
       openGroups.value = [parentItem.key];
     } else {
@@ -221,9 +236,8 @@ watch(
       openGroups.value = [];
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
-
 </script>
 
 <style scoped>
@@ -244,7 +258,10 @@ watch(
   background: var(--aside-bg);
   display: flex;
   flex-direction: column;
-  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, border-color 0.3s ease;
+  transition:
+    width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.3s ease,
+    border-color 0.3s ease;
   border-right: 1px solid var(--border-color);
   position: relative;
   z-index: 1000;
@@ -336,7 +353,9 @@ watch(
   display: flex;
   align-items: center;
   color: var(--arrow-color);
-  transition: transform 0.2s, color 0.3s ease;
+  transition:
+    transform 0.2s,
+    color 0.3s ease;
 }
 
 .nav-arrow svg {

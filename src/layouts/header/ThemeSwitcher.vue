@@ -1,10 +1,10 @@
-<!-- src/components/layout/header/ThemeSwitcher.vue -->
+<!-- src/layouts/header/ThemeSwitcher.vue -->
 <template>
   <div class="theme-switcher flex items-center gap-2">
     <!-- Dark/Light toggle -->
-    <button class="mode-btn w-[25px] h-[25px]" @click="themeStore.toggleMode()">
+    <button class="mode-btn w-[25px] h-[25px]" @click="handleToggleMode">
       <svg
-        v-if="themeStore.mode === 'dark'"
+        v-if="themeStore.currentMode === 'dark'"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -39,9 +39,8 @@
       >
         <span
           class="w-3.5 h-3.5 rounded-full inline-block"
-          :style="{ background: activeTheme.color }"
+          :style="{ background: activeThemeColor }"
         />
-        <!-- <span class="text-sm font-medium">{{ activeTheme.label }}</span> -->
         <svg
           class="w-3 h-3 opacity-60"
           viewBox="0 0 24 24"
@@ -57,17 +56,17 @@
       <template #overlay>
         <div class="theme-dropdown">
           <div
-            v-for="theme in themes"
+            v-for="theme in legacyThemes"
             :key="theme.name"
             class="theme-option"
-            :class="{ active: themeStore.currentTheme === theme.name }"
-            @click="themeStore.setTheme(theme.name)"
+            :class="{ active: themeStore.legacyThemeName === theme.name }"
+            @click="handleSetTheme(theme.name)"
           >
             <span class="theme-dot" :style="{ background: theme.color }" />
             <span class="theme-name">{{ theme.label }}</span>
             <!-- Active check icon -->
             <svg
-              v-if="themeStore.currentTheme === theme.name"
+              v-if="themeStore.legacyThemeName === theme.name"
               class="check-icon"
               viewBox="0 0 24 24"
               fill="none"
@@ -87,19 +86,32 @@
 import { computed } from "vue";
 import { Dropdown } from "ant-design-vue";
 import { useThemeStore } from "@/stores/themeStore";
+import type { LegacyThemeName } from "@/stores/themeStore";
 
 const themeStore = useThemeStore();
 
-const themes = [
-  { name: "ocean", label: "Ocean", color: "#4f46e5" },
-  { name: "forest", label: "Forest", color: "#16a34a" },
-  { name: "sunset", label: "Sunset", color: "#f97316" },
-  { name: "slate", label: "Slate", color: "#8b5cf6" },
+const legacyThemes = [
+  { name: "ocean" as LegacyThemeName, label: "Ocean", color: "#4f46e5" },
+  { name: "forest" as LegacyThemeName, label: "Forest", color: "#16a34a" },
+  { name: "sunset" as LegacyThemeName, label: "Sunset", color: "#f97316" },
+  { name: "slate" as LegacyThemeName, label: "Slate", color: "#8b5cf6" },
 ];
 
-const activeTheme = computed(
-  () => themes.find((t) => t.name === themeStore.currentTheme) ?? themes[0],
-);
+const activeThemeColor = computed(() => {
+  const currentLegacyName = themeStore.legacyThemeName;
+  const theme = legacyThemes.find((t) => t.name === currentLegacyName);
+  return theme?.color ?? legacyThemes[0].color;
+});
+
+function handleToggleMode() {
+  themeStore.toggleMode();
+}
+
+function handleSetTheme(name: LegacyThemeName) {
+  if (name) {
+    themeStore.setThemeByName(name);
+  }
+}
 </script>
 
 <style scoped>

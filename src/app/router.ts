@@ -23,6 +23,15 @@ const routes: RouteRecordRaw[] = [
       title: 'Translate Words'
     }
   },
+  // Theme management route
+  {
+    path: '/settings/themes',
+    name: 'ThemeManagement',
+    component: () => import('@/pages/settings/ThemesPage.vue'),
+    meta: {
+      title: 'Theme Management'
+    }
+  },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',

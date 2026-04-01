@@ -15,7 +15,8 @@ async function bootstrap() {
 
   // Initialize theme store early
   const { useThemeStore } = await import("@/stores/themeStore");
-  useThemeStore();
+  const themeStore = useThemeStore();
+  themeStore.initialize();
 
   // Import and use languages store
   const { useLanguagesStore } = await import("@/stores/languages");
