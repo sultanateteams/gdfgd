@@ -2,22 +2,11 @@
   <header class="header">
     <!-- Chap: Breadcrumb -->
     <div class="header-left">
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <span class="breadcrumb-home">
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            width="14"
-            height="14"
-          >
-            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
-          </svg>
-        </span>
-        <span class="breadcrumb-sep">›</span>
-        <span class="breadcrumb-current">{{ currentPageName }}</span>
-      </nav>
+      <AppBreadcrumb
+        :items="breadcrumbItems"
+        separator="›"
+        show-home
+      />
     </div>
 
     <!-- O'rta: Search -->
@@ -89,11 +78,15 @@ import CommandPalette from "@/components/CommandPalette.vue"
 import { useLayout } from "@/composables/useLayout"
 import ThemeSwitcher from "./header/ThemeSwitcher.vue"
 import { useCommandPaletteStore } from "@/stores/commandPaletteStore"
+import AppBreadcrumb from '@/shared/components/ui/AppBreadcrumb.vue'
 
-const { currentPageName } =
-  useLayout()
+const { currentPageName } = useLayout()
 
 const commandPaletteStore = useCommandPaletteStore()
+
+const breadcrumbItems = computed(() => [
+  { title: currentPageName.value }
+])
 
 // Detect if running on Mac
 const isMac = computed(() => {
@@ -123,25 +116,6 @@ function openCommandPalette() {
   align-items: center;
   gap: 14px;
   flex-shrink: 0;
-}
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-}
-.breadcrumb-home {
-  color: var(--text-secondary);
-  display: flex;
-  align-items: center;
-}
-.breadcrumb-sep {
-  color: var(--border-color);
-  font-size: 16px;
-}
-.breadcrumb-current {
-  font-weight: 600;
-  color: var(--text-primary);
 }
 
 .header-right {

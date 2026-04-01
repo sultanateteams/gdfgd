@@ -4,21 +4,16 @@
       <div class="hero-content">
         <h1 class="hero-title">{{ l("HRM System", "home.title") }}</h1>
         <p class="hero-subtitle">
-          {{
-            l(
-              "Enterprise-grade Human Resource Management Platform",
-              "home.subtitle",
-            )
-          }}
+          {{ l("Enterprise-grade Human Resource Management Platform", "home.subtitle") }}
         </p>
 
         <div class="hero-actions">
-          <router-link to="/dashboard" class="btn btn-primary">
+          <AppButton type="primary" size="lg" as="router-link" to="/dashboard">
             {{ l("View Dashboard", "home.viewDashboard") }}
-          </router-link>
-          <router-link to="/employees" class="btn btn-secondary">
+          </AppButton>
+          <AppButton type="secondary" size="lg" as="router-link" to="/employees">
             {{ l("Manage Employees", "home.manageEmployees") }}
-          </router-link>
+          </AppButton>
         </div>
       </div>
 
@@ -30,64 +25,11 @@
               <span>{{ l("HRM Platform", "home.hrmPlatform") }}</span>
             </div>
             <div class="preview-content">
-              <div class="module-preview">
-                <div class="module-icon">👥</div>
+              <div v-for="module in platformModules" :key="module.icon" class="module-preview">
+                <div class="module-icon">{{ module.icon }}</div>
                 <div class="module-info">
-                  <h4>
-                    {{
-                      l(
-                        "Employee Management",
-                        "home.modules.employeeManagement",
-                      )
-                    }}
-                  </h4>
-                  <p>
-                    {{
-                      l(
-                        "Comprehensive employee records and profiles",
-                        "home.modules.employeeManagementDesc",
-                      )
-                    }}
-                  </p>
-                </div>
-              </div>
-              <div class="module-preview">
-                <div class="module-icon">⏰</div>
-                <div class="module-info">
-                  <h4>
-                    {{
-                      l(
-                        "Attendance Tracking",
-                        "home.modules.attendanceTracking",
-                      )
-                    }}
-                  </h4>
-                  <p>
-                    {{
-                      l(
-                        "Real-time attendance and time management",
-                        "home.modules.attendanceTrackingDesc",
-                      )
-                    }}
-                  </p>
-                </div>
-              </div>
-              <div class="module-preview">
-                <div class="module-icon">💰</div>
-                <div class="module-info">
-                  <h4>
-                    {{
-                      l("Payroll Processing", "home.modules.payrollProcessing")
-                    }}
-                  </h4>
-                  <p>
-                    {{
-                      l(
-                        "Automated salary and benefits management",
-                        "home.modules.payrollProcessingDesc",
-                      )
-                    }}
-                  </p>
+                  <h4>{{ module.title }}</h4>
+                  <p>{{ module.description }}</p>
                 </div>
               </div>
             </div>
@@ -97,222 +39,129 @@
     </div>
 
     <div class="features-section">
-      <h2 class="section-title">
+      <h2 class="section-title" style="color: var(--text-primary);">
         {{ l("Core Features", "home.features.title") }}
       </h2>
       <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">👥</div>
-          <h3>
-            {{ l("Employee Management", "home.features.employeeManagement") }}
-          </h3>
-          <p>
-            {{
-              l(
-                "Complete employee lifecycle management from onboarding to offboarding",
-                "home.features.employeeManagementDesc",
-              )
-            }}
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">⏰</div>
-          <h3>{{ l("Attendance & Time", "home.features.attendanceTime") }}</h3>
-          <p>
-            {{
-              l(
-                "Advanced time tracking with biometric and mobile app integration",
-                "home.features.attendanceTimeDesc",
-              )
-            }}
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">💰</div>
-          <h3>
-            {{ l("Payroll & Benefits", "home.features.payrollBenefits") }}
-          </h3>
-          <p>
-            {{
-              l(
-                "Automated payroll processing with tax compliance and benefits management",
-                "home.features.payrollBenefitsDesc",
-              )
-            }}
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">📅</div>
-          <h3>{{ l("Leave Management", "home.features.leaveManagement") }}</h3>
-          <p>
-            {{
-              l(
-                "Streamlined leave requests and approval workflows",
-                "home.features.leaveManagementDesc",
-              )
-            }}
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">📊</div>
-          <h3>
-            {{ l("Performance Tracking", "home.features.performanceTracking") }}
-          </h3>
-          <p>
-            {{
-              l(
-                "Goal setting, reviews, and performance analytics",
-                "home.features.performanceTrackingDesc",
-              )
-            }}
-          </p>
-        </div>
-
-        <div class="feature-card">
-          <div class="feature-icon">🤖</div>
-          <h3>{{ l("AI Assistant", "home.features.aiAssistant") }}</h3>
-          <p>
-            {{
-              l(
-                "Intelligent chatbot for HR support and employee assistance",
-                "home.features.aiAssistantDesc",
-              )
-            }}
-          </p>
-        </div>
+        <AppCard v-for="feature in features" :key="feature.icon" class="feature-card">
+          <div class="feature-icon">{{ feature.icon }}</div>
+          <h3 style="color: var(--text-primary);">{{ feature.title }}</h3>
+          <p style="color: var(--text-secondary);">{{ feature.description }}</p>
+        </AppCard>
       </div>
     </div>
 
     <div class="architecture-section">
-      <h2 class="section-title">
+      <h2 class="section-title" style="color: var(--text-primary);">
         {{ l("Technology Stack", "home.techStack.title") }}
       </h2>
       <div class="architecture-grid">
-        <div class="arch-item">
-          <h3>{{ l("Frontend", "home.techStack.frontend") }}</h3>
+        <AppCard v-for="arch in architecture" :key="arch.title">
+          <h3 style="color: var(--text-primary);">{{ arch.title }}</h3>
           <ul>
-            <li>
-              {{
-                l(
-                  "Vue 3 with Composition API",
-                  "home.techStack.frontendItems.vue3",
-                )
-              }}
-            </li>
-            <li>
-              {{
-                l(
-                  "TypeScript for type safety",
-                  "home.techStack.frontendItems.typescript",
-                )
-              }}
-            </li>
-            <li>
-              {{
-                l(
-                  "Pure CSS with responsive design",
-                  "home.techStack.frontendItems.css",
-                )
-              }}
-            </li>
-            <li>
-              {{
-                l(
-                  "Pinia for state management",
-                  "home.techStack.frontendItems.pinia",
-                )
-              }}
+            <li v-for="item in arch.items" :key="item" style="color: var(--text-secondary);">
+              {{ item }}
             </li>
           </ul>
-        </div>
-
-        <div class="arch-item">
-          <h3>{{ l("Architecture", "home.techStack.architecture") }}</h3>
-          <ul>
-            <li>
-              {{
-                l(
-                  "Feature-based folder structure",
-                  "home.techStack.architectureItems.featureBased",
-                )
-              }}
-            </li>
-            <li>
-              {{
-                l(
-                  "Clean separation of concerns",
-                  "home.techStack.architectureItems.separation",
-                )
-              }}
-            </li>
-            <li>
-              {{
-                l(
-                  "Modular route system",
-                  "home.techStack.architectureItems.modular",
-                )
-              }}
-            </li>
-            <li>
-              {{
-                l(
-                  "Shared utilities and types",
-                  "home.techStack.architectureItems.shared",
-                )
-              }}
-            </li>
-          </ul>
-        </div>
-
-        <div class="arch-item">
-          <h3>{{ l("API & Services", "home.techStack.api") }}</h3>
-          <ul>
-            <li>
-              {{
-                l("RESTful API integration", "home.techStack.apiItems.restful")
-              }}
-            </li>
-            <li>
-              {{ l("Authentication ready", "home.techStack.apiItems.auth") }}
-            </li>
-            <li>
-              {{
-                l(
-                  "WebSocket support for real-time",
-                  "home.techStack.apiItems.websocket",
-                )
-              }}
-            </li>
-            <li>
-              {{
-                l(
-                  "Comprehensive error handling",
-                  "home.techStack.apiItems.errorHandling",
-                )
-              }}
-            </li>
-          </ul>
-        </div>
+        </AppCard>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useT } from "@/composables/useT";
+import { computed } from 'vue'
+import { useT } from '@/composables/useT'
+import AppButton from '@/shared/components/ui/AppButton.vue'
+import AppCard from '@/shared/components/ui/AppCard.vue'
 
-const { l } = useT();
+const { l } = useT()
+
+const platformModules = computed(() => [
+  {
+    icon: '👥',
+    title: l('Employee Management', 'home.modules.employeeManagement'),
+    description: l('Comprehensive employee records and profiles', 'home.modules.employeeManagementDesc'),
+  },
+  {
+    icon: '⏰',
+    title: l('Attendance Tracking', 'home.modules.attendanceTracking'),
+    description: l('Real-time attendance and time management', 'home.modules.attendanceTrackingDesc'),
+  },
+  {
+    icon: '💰',
+    title: l('Payroll Processing', 'home.modules.payrollProcessing'),
+    description: l('Automated salary and benefits management', 'home.modules.payrollProcessingDesc'),
+  },
+])
+
+const features = computed(() => [
+  {
+    icon: '👥',
+    title: l('Employee Management', 'home.features.employeeManagement'),
+    description: l('Complete employee lifecycle management from onboarding to offboarding', 'home.features.employeeManagementDesc'),
+  },
+  {
+    icon: '⏰',
+    title: l('Attendance & Time', 'home.features.attendanceTime'),
+    description: l('Advanced time tracking with biometric and mobile app integration', 'home.features.attendanceTimeDesc'),
+  },
+  {
+    icon: '💰',
+    title: l('Payroll & Benefits', 'home.features.payrollBenefits'),
+    description: l('Automated payroll processing with tax compliance and benefits management', 'home.features.payrollBenefitsDesc'),
+  },
+  {
+    icon: '📅',
+    title: l('Leave Management', 'home.features.leaveManagement'),
+    description: l('Streamlined leave requests and approval workflows', 'home.features.leaveManagementDesc'),
+  },
+  {
+    icon: '📊',
+    title: l('Performance Tracking', 'home.features.performanceTracking'),
+    description: l('Goal setting, reviews, and performance analytics', 'home.features.performanceTrackingDesc'),
+  },
+  {
+    icon: '🤖',
+    title: l('AI Assistant', 'home.features.aiAssistant'),
+    description: l('Intelligent chatbot for HR support and employee assistance', 'home.features.aiAssistantDesc'),
+  },
+])
+
+const architecture = computed(() => [
+  {
+    title: l('Frontend', 'home.techStack.frontend'),
+    items: [
+      l('Vue 3 with Composition API', 'home.techStack.frontendItems.vue3'),
+      l('TypeScript for type safety', 'home.techStack.frontendItems.typescript'),
+      l('Pure CSS with responsive design', 'home.techStack.frontendItems.css'),
+      l('Pinia for state management', 'home.techStack.frontendItems.pinia'),
+    ],
+  },
+  {
+    title: l('Architecture', 'home.techStack.architecture'),
+    items: [
+      l('Feature-based folder structure', 'home.techStack.architectureItems.featureBased'),
+      l('Clean separation of concerns', 'home.techStack.architectureItems.separation'),
+      l('Modular route system', 'home.techStack.architectureItems.modular'),
+      l('Shared utilities and types', 'home.techStack.architectureItems.shared'),
+    ],
+  },
+  {
+    title: l('API & Services', 'home.techStack.api'),
+    items: [
+      l('RESTful API integration', 'home.techStack.apiItems.restful'),
+      l('Authentication ready', 'home.techStack.apiItems.auth'),
+      l('WebSocket support for real-time', 'home.techStack.apiItems.websocket'),
+      l('Comprehensive error handling', 'home.techStack.apiItems.errorHandling'),
+    ],
+  },
+])
 </script>
 
 <style scoped>
 .home-view {
   min-height: 100vh;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: #fff;
 }
 
 .hero-section {
@@ -322,6 +171,9 @@ const { l } = useT();
   padding: 80px 40px;
   max-width: 1200px;
   margin: 0 auto;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border-radius: 0 0 24px 24px;
+  color: #fff;
 }
 
 .hero-content {
@@ -348,40 +200,6 @@ const { l } = useT();
   gap: 16px;
 }
 
-.btn {
-  padding: 12px 24px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.btn-primary {
-  background: rgba(255, 255, 255, 0.95);
-  color: var(--primary);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-  background: #fff;
-}
-
-.btn-secondary {
-  background: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.85);
-  color: #fff;
-}
-
-.btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.95);
-  color: var(--primary);
-}
-
 .hero-image {
   flex: 1;
   display: flex;
@@ -399,7 +217,6 @@ const { l } = useT();
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
 }
 
 .preview-card {
@@ -479,7 +296,6 @@ const { l } = useT();
 .features-section {
   padding: 80px 40px;
   background: var(--card-bg);
-  color: var(--text-primary);
 }
 
 .section-title {
@@ -487,7 +303,6 @@ const { l } = useT();
   font-size: 36px;
   font-weight: 700;
   margin-bottom: 48px;
-  color: var(--text-primary);
 }
 
 .features-grid {
@@ -499,17 +314,12 @@ const { l } = useT();
 }
 
 .feature-card {
-  background: var(--body-bg);
-  padding: 32px;
-  border-radius: 12px;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border: 1px solid var(--border-color);
 }
 
 .feature-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg, 0 10px 25px rgba(0, 0, 0, 0.1));
 }
 
 .feature-icon {
@@ -521,20 +331,17 @@ const { l } = useT();
   font-size: 20px;
   font-weight: 700;
   margin: 0 0 12px 0;
-  color: var(--text-primary);
 }
 
 .feature-card p {
   font-size: 14px;
   line-height: 1.6;
-  color: var(--text-secondary);
   margin: 0;
 }
 
 .architecture-section {
   padding: 80px 40px;
   background: var(--body-bg);
-  color: var(--text-primary);
 }
 
 .architecture-grid {
@@ -545,19 +352,10 @@ const { l } = useT();
   margin: 0 auto;
 }
 
-.arch-item {
-  background: var(--card-bg);
-  padding: 32px;
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-sm);
-}
-
 .arch-item h3 {
   font-size: 20px;
   font-weight: 700;
   margin: 0 0 16px 0;
-  color: var(--text-primary);
 }
 
 .arch-item ul {
@@ -570,7 +368,6 @@ const { l } = useT();
   padding: 8px 0;
   border-bottom: 1px solid var(--border-color);
   font-size: 14px;
-  color: var(--text-secondary);
 }
 
 .arch-item li:last-child {

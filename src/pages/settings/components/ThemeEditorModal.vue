@@ -1,152 +1,119 @@
 <!-- src/pages/settings/components/ThemeEditorModal.vue -->
 <template>
-  <div class="modal-overlay" @click="$emit('close')">
-    <div class="modal-content" @click.stop>
-      <!-- Header -->
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-xl font-semibold" style="color: var(--text-primary);">
-          {{ isEditing ? 'Edit Theme' : 'Create New Theme' }}
-        </h2>
-        <button class="p-1 rounded-md hover:bg-black/10 transition-colors" @click="$emit('close')">
-          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"/>
-            <line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
+  <AppModal
+    :open="true"
+    :title="isEditing ? 'Edit Theme' : 'Create New Theme'"
+    :width="900"
+    :closable="true"
+    :mask-closable="false"
+    :show-ok-btn="false"
+    :show-cancel-btn="false"
+    @cancel="$emit('close')"
+  >
+    <!-- Basic Info -->
+    <div class="mb-6">
+      <h3 class="text-sm font-medium mb-3" style="color: var(--text-primary);">Basic Information</h3>
+      <div class="grid grid-cols-2 gap-4">
+        <AppInput
+          :model-value="form.name"
+          @update:model-value="form.name = $event"
+          label="Theme Name *"
+          placeholder="My Custom Theme"
+          required
+        />
+        <AppSelect
+          :value="form.type"
+          @update:value="form.type = $event as ThemeMode"
+          label="Mode *"
+          :options="[
+            { label: 'Light', value: 'light' },
+            { label: 'Dark', value: 'dark' }
+          ]"
+          required
+        />
       </div>
-
-      <!-- Basic Info -->
-      <div class="mb-6">
-        <h3 class="text-sm font-medium mb-3" style="color: var(--text-primary);">Basic Information</h3>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm mb-1" style="color: var(--text-secondary);">Theme Name *</label>
-            <input
-              v-model="form.name"
-              type="text"
-              class="w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-primary"
-              :style="{
-                background: 'var(--input-bg)',
-                border: '1px solid var(--input-border)',
-                color: 'var(--input-text)'
-              }"
-              placeholder="My Custom Theme"
-            />
-          </div>
-          <div>
-            <label class="block text-sm mb-1" style="color: var(--text-secondary);">Mode *</label>
-            <select
-              v-model="form.type"
-              class="w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-primary"
-              :style="{
-                background: 'var(--input-bg)',
-                border: '1px solid var(--input-border)',
-                color: 'var(--input-text)'
-              }"
-            >
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
-            </select>
-          </div>
-        </div>
-        <div class="mt-4">
-          <label class="block text-sm mb-1" style="color: var(--text-secondary);">Description</label>
-          <input
-            v-model="form.description"
-            type="text"
-            class="w-full px-3 py-2 rounded-md border focus:outline-none focus:ring-2 focus:ring-primary"
-            :style="{
-              background: 'var(--input-bg)',
-              border: '1px solid var(--input-border)',
-              color: 'var(--input-text)'
-            }"
-            placeholder="A brief description of your theme"
-          />
-        </div>
-      </div>
-
-      <!-- Color Picker Tabs -->
-      <div class="mb-6">
-        <h3 class="text-sm font-medium mb-3" style="color: var(--text-primary);">Color Palette</h3>
-        
-        <!-- Tab Headers -->
-        <div class="flex flex-wrap gap-1 mb-4 border-b" style="border-color: var(--border-primary);">
-          <button
-            v-for="category in colorCategories"
-            :key="category.id"
-            class="px-3 py-2 text-sm rounded-t-md transition-colors"
-            :class="activeTab === category.id ? 'btn-primary text-white' : 'text-secondary hover:bg-black/5'"
-            :style="activeTab !== category.id ? { color: 'var(--text-secondary)' } : {}"
-            @click="activeTab = category.id"
-          >
-            {{ category.label }}
-          </button>
-        </div>
-
-        <!-- Tab Content -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          <div v-for="color in currentCategoryColors" :key="color.key" class="color-picker-group">
-            <label class="block text-xs mb-1 truncate" style="color: var(--text-secondary);" :title="color.label">
-              {{ color.label }}
-            </label>
-            <div class="flex items-center gap-2">
-              <div class="relative">
-                <input
-                  type="color"
-                  :value="form.colors[color.key]"
-                  @input="updateColor(color.key, ($event.target as HTMLInputElement).value)"
-                  class="w-10 h-10 rounded-md cursor-pointer border-0 p-0"
-                />
-              </div>
-              <input
-                type="text"
-                :value="form.colors[color.key]"
-                @input="updateColor(color.key, ($event.target as HTMLInputElement).value)"
-                class="flex-1 px-2 py-2 text-sm rounded-md border focus:outline-none focus:ring-2 focus:ring-primary"
-                :style="{
-                  background: 'var(--input-bg)',
-                  border: '1px solid var(--input-border)',
-                  color: 'var(--input-text)'
-                }"
-                placeholder="#000000"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Live Preview -->
-      <div class="mb-6 p-4 rounded-lg border" style="background: var(--bg-tertiary); border-color: var(--border-primary);">
-        <h3 class="text-sm font-medium mb-3" style="color: var(--text-primary);">Live Preview</h3>
-        <div 
-          class="preview-box rounded-lg p-4"
-          :style="previewStyles"
-        >
-          <div class="preview-text-primary mb-2">Primary Text Sample</div>
-          <div class="preview-text-secondary mb-2">Secondary Text Sample</div>
-          <div class="preview-text-muted">Muted Text Sample</div>
-          <div class="flex gap-2 mt-4">
-            <button class="preview-btn-primary px-3 py-1.5 rounded text-sm text-white">Primary Button</button>
-            <button class="preview-btn-secondary px-3 py-1.5 rounded text-sm">Secondary Button</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Actions -->
-      <div class="flex justify-end gap-3">
-        <button class="btn-secondary" @click="$emit('close')">Cancel</button>
-        <button class="btn-primary" @click="handleSave" :disabled="!isValid">
-          {{ isEditing ? 'Save Changes' : 'Create Theme' }}
-        </button>
+      <div class="mt-4">
+        <AppInput
+          :model-value="form.description ?? ''"
+          @update:model-value="form.description = $event"
+          label="Description"
+          placeholder="A brief description of your theme"
+        />
       </div>
     </div>
-  </div>
+
+    <!-- Color Picker Tabs -->
+    <div class="mb-6">
+      <h3 class="text-sm font-medium mb-3" style="color: var(--text-primary);">Color Palette</h3>
+      
+      <!-- Tab Headers -->
+      <AppTabs v-model:active-key="activeTab" :items="tabItems" />
+
+      <!-- Tab Content -->
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+        <div v-for="color in currentCategoryColors" :key="color.key" class="color-picker-group">
+          <label class="block text-xs mb-1 truncate" style="color: var(--text-secondary);" :title="color.label">
+            {{ color.label }}
+          </label>
+          <div class="flex items-center gap-2">
+            <div class="relative">
+              <input
+                type="color"
+                :value="form.colors[color.key]"
+                @input="updateColor(color.key, ($event.target as HTMLInputElement).value)"
+                class="w-10 h-10 rounded-md cursor-pointer border-0 p-0"
+              />
+            </div>
+            <AppInput
+              :model-value="colorValue(color.key)"
+              @update:model-value="updateColor(color.key, $event)"
+              placeholder="#000000"
+              size="sm"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Preview -->
+    <AppCard class="mb-6">
+      <h3 class="text-sm font-medium mb-3" style="color: var(--text-primary);">Live Preview</h3>
+      <div 
+        class="preview-box rounded-lg p-4"
+        :style="previewStyles"
+      >
+        <div class="preview-text-primary mb-2">Primary Text Sample</div>
+        <div class="preview-text-secondary mb-2">Secondary Text Sample</div>
+        <div class="preview-text-muted">Muted Text Sample</div>
+        <div class="flex gap-2 mt-4">
+          <AppButton type="primary" size="sm">Primary Button</AppButton>
+          <AppButton type="secondary" size="sm">Secondary Button</AppButton>
+        </div>
+      </div>
+    </AppCard>
+
+    <!-- Actions -->
+    <template #footer>
+      <div class="flex justify-end gap-3">
+        <AppButton type="secondary" @click="$emit('close')">Cancel</AppButton>
+        <AppButton type="primary" @click="handleSave" :disabled="!isValid">
+          {{ isEditing ? 'Save Changes' : 'Create Theme' }}
+        </AppButton>
+      </div>
+    </template>
+  </AppModal>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, reactive, onMounted } from 'vue';
 import type { Theme, ThemeColors, ThemeMode } from '@/types/theme';
 import { COLOR_CATEGORIES } from '@/types/theme';
+import AppModal from '@/shared/components/ui/AppModal.vue';
+import AppButton from '@/shared/components/ui/AppButton.vue';
+import AppInput from '@/shared/components/ui/AppInput.vue';
+import AppSelect from '@/shared/components/ui/AppSelect.vue';
+import AppTabs from '@/shared/components/ui/AppTabs.vue';
+import AppCard from '@/shared/components/ui/AppCard.vue';
 
 const props = defineProps<{
   theme: Theme | null;
@@ -227,6 +194,10 @@ const currentCategoryColors = computed(() => {
   return category?.colors ?? [];
 });
 
+const colorValue = (key: keyof ThemeColors) => form.colors[key] ?? '';
+
+const tabItems = computed(() => colorCategories.value.map(c => ({ key: c.id, label: c.label })));
+
 const isValid = computed(() => {
   return form.name.trim().length > 0;
 });
@@ -259,65 +230,6 @@ function handleSave() {
 </script>
 
 <style scoped>
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 2rem;
-  overflow-y: auto;
-}
-
-.modal-content {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-primary);
-  border-radius: 12px;
-  padding: 24px;
-  width: 100%;
-  max-width: 900px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-}
-
-.btn-primary {
-  background: var(--accent-primary, #4f46e5);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-weight: 500;
-  transition: opacity 0.2s;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-primary:hover:not(:disabled) {
-  opacity: 0.9;
-}
-
-.btn-primary:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.btn-secondary {
-  background: var(--bg-tertiary, #f1f5f9);
-  color: var(--text-primary, #0f172a);
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-weight: 500;
-  border: 1px solid var(--border-primary, #e2e8f0);
-  transition: background 0.2s;
-  cursor: pointer;
-}
-
-.btn-secondary:hover {
-  background: var(--hover-bg, #e2e8f0);
-}
-
 .text-secondary {
   color: var(--text-secondary);
 }
@@ -343,15 +255,5 @@ function handleSave() {
 .preview-text-muted {
   color: var(--text-muted);
   font-size: 0.875rem;
-}
-
-.preview-btn-primary {
-  background: var(--accent-primary);
-}
-
-.preview-btn-secondary {
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-primary);
 }
 </style>
