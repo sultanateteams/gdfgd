@@ -32,6 +32,15 @@ const routes: RouteRecordRaw[] = [
       title: 'Theme Management'
     }
   },
+  // UI Showcase route
+  {
+    path: '/ui-showcase',
+    name: 'UiShowcase',
+    component: () => import('@/pages/ui-showcase/UiShowcasePage.vue'),
+    meta: {
+      title: 'UI Component Showcase'
+    }
+  },
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
