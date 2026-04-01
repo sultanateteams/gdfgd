@@ -24,6 +24,7 @@ export function useTranslationEditMode() {
   }
 
   function onKeyDown(e: KeyboardEvent) {
+    if (!e.key) return
     pressedKeys.add(e.key.toLowerCase())
     if (pressedKeys.has('l') && pressedKeys.has('k')) {
       store.setEditMode(true)
@@ -31,6 +32,7 @@ export function useTranslationEditMode() {
   }
 
   function onKeyUp(e: KeyboardEvent) {
+    if (!e.key) return
     pressedKeys.delete(e.key.toLowerCase())
     if (!pressedKeys.has('l') || !pressedKeys.has('k')) {
       store.setEditMode(false)

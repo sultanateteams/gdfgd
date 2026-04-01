@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Tabs } from 'ant-design-vue'
+import { Tabs, Tabs as TabPane } from 'ant-design-vue'
 import type { TabPaneProps, TabsProps } from 'ant-design-vue'
 
 interface AppTabPane {
@@ -53,8 +53,7 @@ const handleChange = (key: string) => {
     >
       <!-- Render tabs from prop -->
       <template v-if="tabs && tabs.length > 0">
-        <!-- @vue-ignore -->
-        <TabPane
+        <Tabs.TabPane
           v-for="tab in tabs"
           :key="tab.key"
           :tab="tab.tab"
@@ -63,7 +62,7 @@ const handleChange = (key: string) => {
           <slot :name="`tab-${tab.key}`">
             <slot name="content" :key="tab.key" />
           </slot>
-        </TabPane>
+        </Tabs.TabPane>
       </template>
 
       <!-- Or use slots directly -->

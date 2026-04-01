@@ -7,6 +7,7 @@ import {
   CloseCircleOutlined,
   InfoCircleOutlined,
 } from '@ant-design/icons-vue'
+import AppButton from './AppButton.vue'
 
 type ConfirmType = 'info' | 'success' | 'warning' | 'error'
 

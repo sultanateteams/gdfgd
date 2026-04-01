@@ -327,7 +327,7 @@ function TrendingUpOutlined() {
             placeholder="Enter a longer text..."
             :rows="4"
             show-count
-            maxlength="200"
+            :maxlength="200"
           />
 
           <AppSelect
