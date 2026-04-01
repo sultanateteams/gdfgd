@@ -1,0 +1,1069 @@
+/* ═══════════════════════════════════════════════════════════
+   CUSTOM UI COMPONENTS STYLES
+   Ant Design Vue Override Styles
+   ═══════════════════════════════════════════════════════════ */
+
+/* ============================================
+   CSS Variables for Component Styling
+   These use the theme store's CSS variables
+   ============================================ */
+:root {
+  /* Primary Colors */
+  --app-primary: var(--accent-primary, #4f46e5);
+  --app-primary-hover: color-mix(in srgb, var(--accent-primary, #4f46e5) 85%, black);
+  --app-primary-light: color-mix(in srgb, var(--accent-primary, #4f46e5) 10%, transparent);
+
+  /* Status Colors */
+  --app-success: var(--accent-success, #10b981);
+  --app-warning: var(--accent-warning, #f59e0b);
+  --app-error: var(--accent-error, #ef4444);
+  --app-info: var(--accent-info, #3b82f6);
+
+  /* Backgrounds */
+  --app-bg-base: var(--bg-primary, #ffffff);
+  --app-bg-secondary: var(--bg-secondary, #f8fafc);
+  --app-bg-tertiary: var(--bg-tertiary, #f1f5f9);
+  --app-bg-hover: var(--hover-bg, #f1f5f9);
+  --app-bg-active: var(--active-bg, #eef2ff);
+
+  /* Text */
+  --app-text-primary: var(--text-primary, #0f172a);
+  --app-text-secondary: var(--text-secondary, #64748b);
+  --app-text-muted: var(--text-muted, #94a3b8);
+  --app-text-disabled: var(--text-muted, #94a3b8);
+
+  /* Borders */
+  --app-border-color: var(--border-primary, #e2e8f0);
+  --app-border-light: var(--border-secondary, #f1f5f9);
+  --app-border-focus: var(--border-focus, #4f46e5);
+
+  /* Sizing */
+  --app-radius-sm: 4px;
+  --app-radius-md: 6px;
+  --app-radius-lg: 8px;
+  --app-radius-xl: 12px;
+
+  /* Shadows */
+  --app-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --app-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --app-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+
+  /* Transitions */
+  --app-transition-fast: 150ms ease;
+  --app-transition-normal: 250ms ease;
+}
+
+/* ============================================
+   FORM ELEMENTS - Base Styles
+   ============================================ */
+
+/* App Input Styles */
+.app-input-wrapper {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.app-input-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--app-text-primary);
+  line-height: 1.5;
+}
+
+.app-input-label.required::after {
+  content: '*';
+  margin-left: 4px;
+  color: var(--app-error);
+}
+
+.app-input-wrapper .ant-input {
+  border-radius: var(--app-radius-md);
+  border: 1px solid var(--app-border-color);
+  background-color: var(--app-bg-base);
+  color: var(--app-text-primary);
+  font-size: 14px;
+  transition: all var(--app-transition-fast);
+}
+
+.app-input-wrapper .ant-input:hover {
+  border-color: var(--app-primary);
+}
+
+.app-input-wrapper .ant-input:focus {
+  border-color: var(--app-border-focus);
+  box-shadow: 0 0 0 3px var(--app-primary-light);
+  outline: none;
+}
+
+.app-input-wrapper .ant-input::placeholder {
+  color: var(--app-text-muted);
+}
+
+.app-input-wrapper .ant-input-disabled,
+.app-input-wrapper .ant-input[disabled] {
+  background-color: var(--app-bg-secondary);
+  color: var(--app-text-disabled);
+  cursor: not-allowed;
+}
+
+.app-input-wrapper.has-error .ant-input {
+  border-color: var(--app-error);
+}
+
+.app-input-wrapper.has-error .ant-input:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--app-error) 10%, transparent);
+}
+
+.app-input-error {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--app-error);
+}
+
+.app-input-hint {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--app-text-muted);
+}
+
+/* App TextArea */
+.app-textarea .ant-input {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* App Select */
+.app-select-wrapper .ant-select {
+  width: 100%;
+}
+
+.app-select-wrapper .ant-select-selector {
+  border-radius: var(--app-radius-md) !important;
+  border: 1px solid var(--app-border-color) !important;
+  background-color: var(--app-bg-base) !important;
+  transition: all var(--app-transition-fast);
+}
+
+.app-select-wrapper .ant-select-focused .ant-select-selector {
+  border-color: var(--app-border-focus) !important;
+  box-shadow: 0 0 0 3px var(--app-primary-light) !important;
+}
+
+.app-select-wrapper .ant-select:hover .ant-select-selector {
+  border-color: var(--app-primary);
+}
+
+/* App Checkbox */
+.app-checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.app-checkbox-wrapper .ant-checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-checkbox-wrapper .ant-checkbox-inner {
+  border-radius: var(--app-radius-sm);
+  border: 1px solid var(--app-border-color);
+  transition: all var(--app-transition-fast);
+}
+
+.app-checkbox-wrapper .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--app-primary);
+  border-color: var(--app-primary);
+}
+
+/* App Radio */
+.app-radio-group .ant-radio-button-wrapper {
+  border-radius: var(--app-radius-md);
+  border: 1px solid var(--app-border-color);
+  color: var(--app-text-primary);
+  background-color: var(--app-bg-base);
+  transition: all var(--app-transition-fast);
+}
+
+.app-radio-group .ant-radio-button-wrapper:hover {
+  color: var(--app-primary);
+}
+
+.app-radio-group .ant-radio-button-wrapper-checked {
+  background-color: var(--app-primary);
+  border-color: var(--app-primary);
+  color: white;
+}
+
+/* App Switch */
+.app-switch-wrapper .ant-switch {
+  background-color: var(--app-border-color);
+  transition: all var(--app-transition-fast);
+}
+
+.app-switch-wrapper .ant-switch-checked {
+  background-color: var(--app-primary);
+}
+
+/* ============================================
+   BUTTON STYLES
+   ============================================ */
+
+.app-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--app-radius-md);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: all var(--app-transition-fast);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  white-space: nowrap;
+}
+
+.app-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Primary Button */
+.app-btn--primary {
+  background-color: var(--app-primary);
+  color: white;
+}
+
+.app-btn--primary:hover:not(:disabled) {
+  background-color: var(--app-primary-hover);
+}
+
+.app-btn--primary:active:not(:disabled) {
+  background-color: var(--app-primary);
+  transform: scale(0.98);
+}
+
+/* Secondary Button */
+.app-btn--secondary {
+  background-color: var(--app-bg-secondary);
+  color: var(--app-text-primary);
+  border: 1px solid var(--app-border-color);
+}
+
+.app-btn--secondary:hover:not(:disabled) {
+  background-color: var(--app-bg-hover);
+  border-color: var(--app-primary);
+  color: var(--app-primary);
+}
+
+/* Ghost Button */
+.app-btn--ghost {
+  background-color: transparent;
+  color: var(--app-primary);
+}
+
+.app-btn--ghost:hover:not(:disabled) {
+  background-color: var(--app-primary-light);
+}
+
+/* Danger Button */
+.app-btn--danger {
+  background-color: var(--app-error);
+  color: white;
+}
+
+.app-btn--danger:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--app-error) 85%, black);
+}
+
+/* Button Sizes */
+.app-btn--sm {
+  height: 28px;
+  padding: 4px 12px;
+  font-size: 12px;
+}
+
+.app-btn--md {
+  height: 36px;
+  padding: 6px 16px;
+  font-size: 14px;
+}
+
+.app-btn--lg {
+  height: 44px;
+  padding: 10px 24px;
+  font-size: 16px;
+}
+
+/* Icon Button */
+.app-btn--icon {
+  padding: 0;
+  width: 36px;
+  height: 36px;
+}
+
+.app-btn--icon.app-btn--sm {
+  width: 28px;
+  height: 28px;
+}
+
+.app-btn--icon.app-btn--lg {
+  width: 44px;
+  height: 44px;
+}
+
+/* Button Loading */
+.app-btn--loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.app-btn--loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: inherit;
+}
+
+/* ============================================
+   TABLE STYLES
+   ============================================ */
+
+.app-table-wrapper {
+  background-color: var(--app-bg-base);
+  border-radius: var(--app-radius-lg);
+  border: 1px solid var(--app-border-color);
+  overflow: hidden;
+}
+
+.app-table-wrapper .ant-table {
+  background-color: transparent;
+}
+
+.app-table-wrapper .ant-table-thead > tr > th {
+  background-color: var(--app-bg-secondary);
+  color: var(--app-text-primary);
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  border-bottom: 1px solid var(--app-border-color);
+  padding: 12px 16px;
+}
+
+.app-table-wrapper .ant-table-tbody > tr > td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--app-border-light);
+  color: var(--app-text-primary);
+  font-size: 14px;
+}
+
+.app-table-wrapper .ant-table-tbody > tr:hover > td {
+  background-color: var(--app-bg-hover);
+}
+
+.app-table-wrapper .ant-table-tbody > tr:nth-child(even) > td {
+  background-color: var(--app-bg-secondary);
+}
+
+.app-table-wrapper .ant-table-tbody > tr:nth-child(even):hover > td {
+  background-color: var(--app-bg-hover);
+}
+
+/* Table Actions */
+.app-table-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.app-table-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--app-radius-md);
+  border: none;
+  background-color: transparent;
+  color: var(--app-text-secondary);
+  cursor: pointer;
+  transition: all var(--app-transition-fast);
+}
+
+.app-table-action-btn:hover {
+  background-color: var(--app-bg-hover);
+  color: var(--app-primary);
+}
+
+.app-table-action-btn--danger:hover {
+  background-color: color-mix(in srgb, var(--app-error) 10%, transparent);
+  color: var(--app-error);
+}
+
+/* Empty State */
+.app-table-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  color: var(--app-text-muted);
+}
+
+.app-table-empty-icon {
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.app-table-empty-text {
+  font-size: 14px;
+}
+
+/* Loading Skeleton */
+.app-table-skeleton {
+  padding: 16px;
+}
+
+.app-table-skeleton-row {
+  display: flex;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--app-border-light);
+}
+
+.app-table-skeleton-cell {
+  height: 20px;
+  background: linear-gradient(90deg, var(--app-bg-secondary) 25%, var(--app-bg-tertiary) 50%, var(--app-bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--app-radius-sm);
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ============================================
+   STATUS BADGE
+   ============================================ */
+
+.app-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--app-radius-full);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.app-badge--success {
+  background-color: color-mix(in srgb, var(--app-success) 10%, transparent);
+  color: var(--app-success);
+}
+
+.app-badge--warning {
+  background-color: color-mix(in srgb, var(--app-warning) 10%, transparent);
+  color: var(--app-warning);
+}
+
+.app-badge--error {
+  background-color: color-mix(in srgb, var(--app-error) 10%, transparent);
+  color: var(--app-error);
+}
+
+.app-badge--info {
+  background-color: color-mix(in srgb, var(--app-info) 10%, transparent);
+  color: var(--app-info);
+}
+
+.app-badge--neutral {
+  background-color: var(--app-bg-secondary);
+  color: var(--app-text-secondary);
+}
+
+.app-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.app-badge--success .app-badge-dot {
+  background-color: var(--app-success);
+}
+
+.app-badge--warning .app-badge-dot {
+  background-color: var(--app-warning);
+}
+
+.app-badge--error .app-badge-dot {
+  background-color: var(--app-error);
+}
+
+.app-badge--info .app-badge-dot {
+  background-color: var(--app-info);
+}
+
+.app-badge--neutral .app-badge-dot {
+  background-color: var(--app-text-muted);
+}
+
+/* ============================================
+   CARD STYLES
+   ============================================ */
+
+.app-card {
+  background-color: var(--app-bg-base);
+  border-radius: var(--app-radius-lg);
+  border: 1px solid var(--app-border-color);
+  box-shadow: var(--app-shadow-sm);
+  overflow: hidden;
+  transition: box-shadow var(--app-transition-fast);
+}
+
+.app-card:hover {
+  box-shadow: var(--app-shadow-md);
+}
+
+.app-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--app-border-light);
+}
+
+.app-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--app-text-primary);
+  margin: 0;
+}
+
+.app-card-body {
+  padding: 20px;
+}
+
+.app-card-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--app-border-light);
+  background-color: var(--app-bg-secondary);
+}
+
+/* Statistic Card */
+.app-statistic-card {
+  background-color: var(--app-bg-base);
+  border-radius: var(--app-radius-lg);
+  border: 1px solid var(--app-border-color);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.app-statistic-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--app-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.app-statistic-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--app-text-primary);
+  line-height: 1.2;
+}
+
+.app-statistic-change {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.app-statistic-change--positive {
+  color: var(--app-success);
+}
+
+.app-statistic-change--negative {
+  color: var(--app-error);
+}
+
+/* ============================================
+   MODAL STYLES
+   ============================================ */
+
+.app-modal-wrapper .ant-modal {
+  border-radius: var(--app-radius-lg);
+  overflow: hidden;
+}
+
+.app-modal-wrapper .ant-modal-header {
+  background-color: var(--app-bg-secondary);
+  border-bottom: 1px solid var(--app-border-color);
+  padding: 16px 24px;
+  margin: 0;
+  border-radius: var(--app-radius-lg) var(--app-radius-lg) 0 0;
+}
+
+.app-modal-wrapper .ant-modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--app-text-primary);
+}
+
+.app-modal-wrapper .ant-modal-body {
+  padding: 24px;
+  color: var(--app-text-primary);
+}
+
+.app-modal-wrapper .ant-modal-footer {
+  border-top: 1px solid var(--app-border-color);
+  padding: 16px 24px;
+  background-color: var(--app-bg-secondary);
+}
+
+/* Confirmation Modal */
+.app-confirm-modal {
+  text-align: center;
+}
+
+.app-confirm-modal-icon {
+  margin-bottom: 16px;
+}
+
+.app-confirm-modal-icon--success {
+  color: var(--app-success);
+}
+
+.app-confirm-modal-icon--warning {
+  color: var(--app-warning);
+}
+
+.app-confirm-modal-icon--error {
+  color: var(--app-error);
+}
+
+.app-confirm-modal-icon--info {
+  color: var(--app-info);
+}
+
+.app-confirm-modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--app-text-primary);
+  margin-bottom: 8px;
+}
+
+.app-confirm-modal-description {
+  font-size: 14px;
+  color: var(--app-text-secondary);
+  line-height: 1.5;
+}
+
+/* ============================================
+   DRAWER STYLES
+   ============================================ */
+
+.app-drawer-wrapper .ant-drawer-content-wrapper {
+  box-shadow: var(--app-shadow-lg);
+}
+
+.app-drawer-wrapper .ant-drawer-header {
+  background-color: var(--app-bg-secondary);
+  border-bottom: 1px solid var(--app-border-color);
+  padding: 16px 24px;
+}
+
+.app-drawer-wrapper .ant-drawer-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--app-text-primary);
+}
+
+.app-drawer-wrapper .ant-drawer-body {
+  padding: 24px;
+  color: var(--app-text-primary);
+}
+
+.app-drawer-wrapper .ant-drawer-footer {
+  border-top: 1px solid var(--app-border-color);
+  padding: 16px 24px;
+  background-color: var(--app-bg-secondary);
+}
+
+/* ============================================
+   ALERT / NOTIFICATION STYLES
+   ============================================ */
+
+.app-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--app-radius-md);
+  border: 1px solid transparent;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.app-alert--success {
+  background-color: color-mix(in srgb, var(--app-success) 10%, transparent);
+  border-color: color-mix(in srgb, var(--app-success) 20%, transparent);
+  color: var(--app-success);
+}
+
+.app-alert--warning {
+  background-color: color-mix(in srgb, var(--app-warning) 10%, transparent);
+  border-color: color-mix(in srgb, var(--app-warning) 20%, transparent);
+  color: var(--app-warning);
+}
+
+.app-alert--error {
+  background-color: color-mix(in srgb, var(--app-error) 10%, transparent);
+  border-color: color-mix(in srgb, var(--app-error) 20%, transparent);
+  color: var(--app-error);
+}
+
+.app-alert--info {
+  background-color: color-mix(in srgb, var(--app-info) 10%, transparent);
+  border-color: color-mix(in srgb, var(--app-info) 20%, transparent);
+  color: var(--app-info);
+}
+
+.app-alert-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.app-alert-content {
+  flex: 1;
+}
+
+.app-alert-title {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.app-alert-description {
+  opacity: 0.9;
+}
+
+/* Toast / Notification */
+.app-toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.app-toast-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: var(--app-bg-base);
+  border-radius: var(--app-radius-md);
+  box-shadow: var(--app-shadow-lg);
+  border: 1px solid var(--app-border-color);
+  animation: toast-slide-in 0.3s ease;
+  min-width: 300px;
+  max-width: 400px;
+}
+
+@keyframes toast-slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.app-toast-item.leaving {
+  animation: toast-slide-out 0.3s ease forwards;
+}
+
+@keyframes toast-slide-out {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   TABS STYLES
+   ============================================ */
+
+.app-tabs-wrapper .ant-tabs-nav {
+  margin-bottom: 0;
+}
+
+.app-tabs-wrapper .ant-tabs-tab {
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--app-text-secondary);
+  transition: all var(--app-transition-fast);
+  border-radius: var(--app-radius-md) var(--app-radius-md) 0 0;
+}
+
+.app-tabs-wrapper .ant-tabs-tab:hover {
+  color: var(--app-primary);
+}
+
+.app-tabs-wrapper .ant-tabs-tab-active {
+  color: var(--app-primary);
+  font-weight: 600;
+}
+
+.app-tabs-wrapper .ant-tabs-ink-bar {
+  background-color: var(--app-primary);
+  height: 2px;
+}
+
+.app-tabs-wrapper .ant-tabs-content {
+  padding: 20px 0;
+}
+
+/* ============================================
+   BREADCRUMB STYLES
+   ============================================ */
+
+.app-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.app-breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--app-text-secondary);
+}
+
+.app-breadcrumb-item a {
+  color: var(--app-text-secondary);
+  transition: color var(--app-transition-fast);
+}
+
+.app-breadcrumb-item a:hover {
+  color: var(--app-primary);
+}
+
+.app-breadcrumb-item:last-child {
+  color: var(--app-text-primary);
+  font-weight: 500;
+}
+
+.app-breadcrumb-item:last-child a {
+  color: inherit;
+  pointer-events: none;
+}
+
+.app-breadcrumb-separator {
+  color: var(--app-text-muted);
+}
+
+/* ============================================
+   DROPDOWN STYLES
+   ============================================ */
+
+.app-dropdown-overlay .ant-dropdown-menu {
+  border-radius: var(--app-radius-md);
+  border: 1px solid var(--app-border-color);
+  box-shadow: var(--app-shadow-lg);
+  padding: 4px;
+}
+
+.app-dropdown-overlay .ant-dropdown-menu-item {
+  padding: 10px 16px;
+  font-size: 14px;
+  color: var(--app-text-primary);
+  border-radius: var(--app-radius-sm);
+  transition: all var(--app-transition-fast);
+}
+
+.app-dropdown-overlay .ant-dropdown-menu-item:hover {
+  background-color: var(--app-bg-hover);
+  color: var(--app-primary);
+}
+
+.app-dropdown-overlay .ant-dropdown-menu-item-danger {
+  color: var(--app-error);
+}
+
+.app-dropdown-overlay .ant-dropdown-menu-item-danger:hover {
+  background-color: color-mix(in srgb, var(--app-error) 10%, transparent);
+}
+
+.app-dropdown-divider {
+  margin: 4px 0;
+  border-top: 1px solid var(--app-border-light);
+}
+
+/* ============================================
+   PAGINATION STYLES
+   ============================================ */
+
+.app-pagination .ant-pagination-item {
+  border-radius: var(--app-radius-md);
+  border: 1px solid var(--app-border-color);
+  transition: all var(--app-transition-fast);
+}
+
+.app-pagination .ant-pagination-item:hover {
+  border-color: var(--app-primary);
+}
+
+.app-pagination .ant-pagination-item:hover a {
+  color: var(--app-primary);
+}
+
+.app-pagination .ant-pagination-item-active {
+  background-color: var(--app-primary);
+  border-color: var(--app-primary);
+}
+
+.app-pagination .ant-pagination-item-active a {
+  color: white;
+}
+
+.app-pagination .ant-pagination-item-active:hover a {
+  color: white;
+}
+
+/* ============================================
+   SIDEBAR MENU STYLES
+   ============================================ */
+
+.app-sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+}
+
+.app-sidebar-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--app-radius-md);
+  color: var(--app-text-secondary);
+  text-decoration: none;
+  transition: all var(--app-transition-fast);
+  cursor: pointer;
+}
+
+.app-sidebar-menu-item:hover {
+  background-color: var(--app-bg-hover);
+  color: var(--app-text-primary);
+}
+
+.app-sidebar-menu-item.active {
+  background-color: var(--app-primary-light);
+  color: var(--app-primary);
+}
+
+.app-sidebar-menu-item-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.app-sidebar-menu-item-label {
+  font-size: 14px;
+  font-weight: 500;
+  flex: 1;
+}
+
+.app-sidebar-menu-item-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: var(--app-radius-full);
+  font-size: 11px;
+  font-weight: 600;
+  background-color: var(--app-error);
+  color: white;
+}
+
+/* Collapsed Sidebar */
+.app-sidebar-menu--collapsed .app-sidebar-menu-item-label,
+.app-sidebar-menu--collapsed .app-sidebar-menu-item-badge {
+  display: none;
+}
+
+.app-sidebar-menu--collapsed .app-sidebar-menu-item {
+  justify-content: center;
+  padding: 12px;
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.app-divider {
+  height: 1px;
+  background-color: var(--app-border-light);
+  margin: 16px 0;
+}
+
+.app-divider--vertical {
+  width: 1px;
+  height: 24px;
+  margin: 0 16px;
+}
+
+.app-skeleton {
+  background: linear-gradient(90deg, var(--app-bg-secondary) 25%, var(--app-bg-tertiary) 50%, var(--app-bg-secondary) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: var(--app-radius-sm);
+}
+
+.app-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
