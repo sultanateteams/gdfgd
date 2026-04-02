@@ -11,7 +11,13 @@ async function bootstrap() {
 
   app.use(pinia);
   app.use(router);
-  app.use(i18n);
+  app.use(i18n)
+
+  // Register custom directives
+  const { setupPermissionDirective } = await import("@/directives/permission");
+  const { setupRoleDirective } = await import("@/directives/role");
+  setupPermissionDirective(app);
+  setupRoleDirective(app);
 
   // Initialize theme store early
   const { useThemeStore } = await import("@/stores/themeStore");

@@ -1,13 +1,22 @@
 import axios from 'axios'
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
-import type { ApiResponse } from '@/types/api'
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
+import { appConfig } from '@/config/app'
 
+/**
+ * API Service - Markazlashtirilgan HTTP so'rovlar xizmati
+ * 
+ * Features:
+ * - Config dan baseURL ni oladi
+ * - Timeout: 10000ms
+ * - Request interceptor: localStorage dan 'access_token' o'qib, Authorization header qo'shadi
+ * - Response interceptor: 401 da token o'chirib, /login ga yo'naltiradi
+ */
 class ApiService {
   private api: AxiosInstance
 
   constructor() {
     this.api = axios.create({
-      baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+      baseURL: appConfig.apiBaseUrl,
       timeout: 10000,
       headers: {
         'Content-Type': 'application/json'
@@ -20,90 +29,119 @@ class ApiService {
   private setupInterceptors(): void {
     // Request interceptor
     this.api.interceptors.request.use(
-      (config) => {
-        // Add auth token if exists
-        const token = localStorage.getItem('auth_token')
-        if (token) {
+      (config: InternalAxiosRequestConfig) => {
+        // localStorage dan access_token ni o'qish
+        const token = localStorage.getItem('access_token')
+        
+        if (token && config.headers) {
           config.headers.Authorization = `Bearer ${token}`
         }
+        
         return config
       },
       (error) => {
-        return Promise.reject(this.handleError(error))
+        console.error('API request error:', error)
+        return Promise.reject(error)
       }
     )
 
     // Response interceptor
     this.api.interceptors.response.use(
-      (response: AxiosResponse<ApiResponse>) => {
-        if (!response.data.success) {
-          return Promise.reject(new Error(response.data.error?.message || 'Request failed'))
-        }
+      (response: AxiosResponse) => {
         return response
       },
       (error) => {
-        return Promise.reject(this.handleError(error))
+        // 401 Unauthorized - token yaroqsiz yoki muddati tugagan
+        if (error.response && error.response.status === 401) {
+          // Token ni o'chirish
+          localStorage.removeItem('access_token')
+          
+          // Login sahifasiga yo'naltirish
+          // Hozircha console ga chiqaramiz, keyinchalik router orqali amalga oshiriladi
+          console.warn('Unauthorized access detected. Redirecting to login...')
+          
+          // Agar router import qilingan bo'lsa:
+          // import router from '@/app/router'
+          // router.push('/login')
+        }
+        
+        // Boshqa xatolar uchun console.error
+        if (error.response) {
+          // Server javob qaytardi, lekin error status bilan
+          const status = error.response.status
+          const message = error.response.data?.message || error.response.data?.error || 'Server error'
+          console.error(`API Error ${status}:`, message)
+        } else if (error.request) {
+          // So'rov yuborildi, lekin javob kelmadi (tarmoq xatosi)
+          console.error('API Network Error: No response received')
+        } else {
+          // Boshqa xatolar
+          console.error('API Error:', error.message)
+        }
+        
+        return Promise.reject(error)
       }
     )
   }
 
-  private handleError(error: any): Error {
-    if (error.response) {
-      // Server responded with error status
-      const status = error.response.status
-      const message = error.response.data?.error?.message || 'Server error'
-      
-      if (status === 401) {
-        // Handle unauthorized access
-        localStorage.removeItem('auth_token')
-        window.location.href = '/login'
-      }
-      
-      return new Error(`${status}: ${message}`)
-    } else if (error.request) {
-      // Network error
-      return new Error('Network error: Please check your connection')
-    } else {
-      // Other error
-      return new Error(error.message || 'An unexpected error occurred')
-    }
-  }
-
-  // Generic request method
+  /**
+   * Generic request method
+   */
   async request<T = any>(config: AxiosRequestConfig): Promise<T> {
     try {
-      const response = await this.api.request<ApiResponse<T>>(config)
-      return response.data.data as T
+      const response = await this.api.request<T>(config)
+      return response.data
     } catch (error) {
       console.error('API request failed:', error)
       throw error
     }
   }
 
-  // GET request
+  /**
+   * GET request
+   */
   async get<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
     return this.request<T>({ ...config, method: 'GET', url })
   }
 
-  // POST request
+  /**
+   * POST request
+   */
   async post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
     return this.request<T>({ ...config, method: 'POST', url, data })
   }
 
-  // PUT request
+  /**
+   * PUT request
+   */
   async put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
     return this.request<T>({ ...config, method: 'PUT', url, data })
   }
 
-  // DELETE request
+  /**
+   * DELETE request
+   */
   async delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<T> {
     return this.request<T>({ ...config, method: 'DELETE', url })
   }
 
-  // PATCH request
+  /**
+   * PATCH request
+   */
   async patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
     return this.request<T>({ ...config, method: 'PATCH', url, data })
   }
+
+  /**
+   * Axios instance ni o'zi (to'g'ridan-to'g'ri foydalanish uchun)
+   */
+  getInstance(): AxiosInstance {
+    return this.api
+  }
 }
 
+// Singleton instance
 export const apiService = new ApiService()
+
+// Default export
+export default apiService
