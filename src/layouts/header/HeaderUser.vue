@@ -1,7 +1,7 @@
 <template>
   <div class="user-menu-wrapper" ref="wrapperRef">
     <div class="user-trigger" @click="toggle">
-      <Avatar name="Ali Valiyev Xo'ja" />
+      <Avatar :name="user.name" />
       <div class="user-meta">
         <span class="user-name">{{ user.name }}</span>
         <span class="user-role">{{ user.role }}</span>
@@ -68,25 +68,18 @@
 <script setup lang="ts">
 import Avatar from "@/components/Avatar.vue";
 import { ref, computed, onMounted, onUnmounted } from "vue";
-import { RouterLink, useRouter } from "vue-router";
+import { RouterLink } from "vue-router";
+import { useAuthStore } from "@/stores/authStore";
 
-const user = {
-  name: "John Doe",
-  role: "Administrator",
-};
+const authStore = useAuthStore();
 
-const initials = computed(() =>
-  user.name
-    .split(" ")
-    .map((w: string) => w[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2),
-);
+const user = computed(() => ({
+  name: authStore.fullName,
+  role: authStore.userRole || "",
+}));
 
 const isOpen = ref(false);
 const wrapperRef = ref<HTMLElement>();
-const router = useRouter();
 
 function toggle() {
   isOpen.value = !isOpen.value;
@@ -94,7 +87,7 @@ function toggle() {
 
 function handleLogout() {
   isOpen.value = false;
-  router.push("/login");
+  authStore.logout();
 }
 
 function handleClickOutside(e: MouseEvent) {
