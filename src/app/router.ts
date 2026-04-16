@@ -56,6 +56,7 @@ import dashboardRoutes from '@/modules/dashboard/routes'
 import employeeRoutes from '@/modules/employees/routes'
 import attendanceRoutes from '@/modules/attendance/routes'
 import payrollRoutes from '@/modules/payroll/routes'
+import accountSettingsRoutes from '@/modules/account-settings/routes'
 
 const routes: RouteRecordRaw[] = [
   // Home routes
@@ -63,6 +64,9 @@ const routes: RouteRecordRaw[] = [
   
   // Dashboard routes
   ...dashboardRoutes,
+  
+  // Account Settings routes
+  ...accountSettingsRoutes,
   
   // Employee routes
   ...employeeRoutes,

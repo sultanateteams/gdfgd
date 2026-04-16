@@ -3,14 +3,15 @@
     class="layout"
     :class="{
       'sidebar-collapsed': isCollapsed,
-      'dark-mode': isDarkMode
+      'dark-mode': isDarkMode,
+      'full-page': route.meta.hideMainLayout
     }"
   >
-    <AppSidebar />
+    <AppSidebar v-if="!route.meta.hideMainLayout" />
 
     <div class="main-area">
-      <AppHeader />
-      <main class="page-content">
+      <AppHeader v-if="!route.meta.hideMainLayout" />
+      <main class="page-content" :class="{ 'no-padding': route.meta.hideMainLayout }">
         <RouterView />
       </main>
     </div>
@@ -20,11 +21,12 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
 import { storeToRefs } from 'pinia'
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 import AppSidebar from './AppSidebar.vue'
 import AppHeader from './AppHeader.vue'
 import { useLayoutStore } from '@/stores/layoutStore'
 
+const route = useRoute()
 const layout = useLayoutStore()
 const { isCollapsed, isDarkMode } = storeToRefs(layout)
 
@@ -77,7 +79,12 @@ body {
   color: var(--text-primary);
 }
 
+.page-content.no-padding {
+  padding: 0;
+}
+
 @media (max-width: 768px) {
   .page-content { padding: 16px; }
+  .page-content.no-padding { padding: 0; }
 }
 </style>

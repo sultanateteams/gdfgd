@@ -20,7 +20,7 @@
 
     <Transition name="dropdown">
       <div class="dropdown user-dropdown" v-if="isOpen" @click.stop>
-        <RouterLink to="/profile" class="dropdown-item">
+        <RouterLink to="/settings/account/company-information" class="dropdown-item">
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -32,7 +32,7 @@
           </svg>
           Profile
         </RouterLink>
-        <RouterLink to="/settings" class="dropdown-item">
+        <RouterLink to="/settings/account/general" class="dropdown-item">
           <svg
             viewBox="0 0 24 24"
             fill="none"
